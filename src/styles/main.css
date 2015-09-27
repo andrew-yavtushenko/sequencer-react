@@ -1,0 +1,291 @@
+/* Stiziles */
+
+input[type='number'] {
+  -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+@font-face {
+  font-family: 'open_sans_condensedbold';
+  src: url('/fonts/OpenSans-CondBold-webfont.eot');
+  src: url('/fonts/OpenSans-CondBold-webfont.eot?#iefix') format('embedded-opentype'),
+  url('/fonts/OpenSans-CondBold-webfont.woff') format('woff'),
+  url('/fonts/OpenSans-CondBold-webfont.ttf') format('truetype'),
+  url('/fonts/OpenSans-CondBold-webfont.svg#open_sans_condensedbold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+}
+html, body, #content{
+  font-family: 'open_sans_condensedbold';
+  height: 100%;
+}
+
+html, body {
+  background: #dae2e6;
+}
+
+/* main */
+.main {
+  min-height: 100%;
+  height: auto !important; /* This line and the next line are not necessary unless you need IE6 support */
+  height: 100%;
+  background: #dae2e6;
+  color: #000;
+}
+
+/* transitions */
+
+.fade-enter {
+  opacity: 0.01;
+  transition: opacity .5s ease-in;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+}
+
+.fade-leave {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+
+.fade-leave.fade-leave-active {
+  opacity: 0.01;
+}
+
+#PatternListWrapper {
+  max-width: 100%;
+  overflow-y: auto;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 10px;
+}
+
+#PatternListWrapper.with-form {
+  width: calc(100% - 335px);
+}
+
+.PatternList {
+  list-style: none;
+  padding: 0;
+  white-space: nowrap;
+  margin-left: 10px;
+}
+
+.PatternList li {
+  white-space: normal;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 9px 9px 0;
+  width: 320px;
+  padding: 12px;
+  border-radius: 4px;
+  box-shadow: 0 0 2px 0 rgba(0,0,0,0.5);
+  background-color: #fff;
+}
+
+#SequencerHeader {
+  height: 40px;
+  background-color: #000;
+  color: #fff;
+}
+
+#SequencerHeader h1 {
+  display: inline-block;
+  margin: 0;
+  line-height: 40px;
+  vertical-align: middle;
+  font-weight: normal;
+  font-size: 18px;
+  padding-left: 20px;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+#SequencerHeader .nav li,
+#SequencerHeader .nav {
+  display: inline-block;
+  height: 40px;
+  vertical-align: middle;
+}
+
+#SequencerHeader .nav li a {
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+#SequencerHeader .nav li a {
+  display: block;
+  height: 40px;
+  line-height: 40px;
+  vertical-align: middle;
+}
+
+#SequencerHeader .nav-right {
+  float: right;
+  margin-right: 10px;
+}
+#SequencerHeader .nav-left li a{
+  padding: 0 20px;
+}
+#SequencerHeader .nav-left li a:hover {
+  background-color: #ff5722;
+}
+#SequencerHeader .nav-right li a{
+  padding: 0 10px;
+}
+.clear {
+  clear: both;
+}
+
+.TrackTitle {
+  font-size: 28px;
+  text-transform: uppercase;
+  background-color: #fff;
+  height: 60px;
+  padding: 0 20px;
+  line-height: 60px;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+.title-label {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.TrackTitle .title {
+  color: #ff5722;
+}
+
+.TrackTitle .trackName {
+  display: inline-block;
+  width: 320px;
+}
+
+.TrackTitle .trackName input {
+  text-transform: uppercase;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #999999;
+  color: #999999;
+  margin: 0;
+  padding: 0;
+}
+
+.TrackTitle input:focus {
+  outline: none;
+}
+
+.TrackTitle .controls {
+  float: right;
+  display: inline-block;
+  list-style: none;
+  padding: 0;
+  height: 60px;
+  line-height: 60px;
+  margin: 0;
+}
+
+.TrackTitle .controls li {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 20px;
+  height: 60px;
+  line-height: 60px;
+  margin-top: -6px;
+}
+
+.TrackTitle .Tempo * {
+  display: inline-block;
+  height: 34px;
+  line-height: 34px;
+  vertical-align: middle;
+  font-size: 14px;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-weight: bold;
+}
+.TrackTitle .Tempo .button {
+  width: 35px;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  left: 34px;
+  background-color: #515b60;
+  color: #fff;
+  border: 1px solid #434d51;
+  border-radius: 4px;
+}
+.TrackTitle .Tempo .button.minus {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+.TrackTitle .Tempo .button.plus {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+.TrackTitle .Tempo input{
+  line-height: 34px;
+  height: 32px;
+  width: 50px;
+  font-size: 14px;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-top: 1px solid #434d51;
+  border-bottom: 1px solid #434d51;
+}
+
+.TrackTitle .tempo-label {
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  margin-right: 10px;
+}
+
+#PatternFormWrapper {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 10px;
+}
+
+#PatternFormWrapper.hidden{
+  display: none;
+}
+
+.create-pattern {
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #fff;
+  background-color: #515b60;
+  line-height: 35px;
+  height: 35px;
+  padding: 0 15px;
+  border-radius: 4px;
+  display: inline-block;
+  text-transform: none;
+  text-decoration: none;
+  position: relative;
+  top: -3px;
+}
+
+.PatternForm {
+  width: 296px;
+  padding: 8px 12px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+
+}
+
+.PatternForm .lines ul{
+  list-style: none;
+  padding: 0;
+}
