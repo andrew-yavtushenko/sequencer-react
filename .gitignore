@@ -1,6 +1,8 @@
 ### SublimeText ###
 *.sublime-workspace
 
+.idea
+
 ### OSX ###
 .DS_Store
 .AppleDouble
