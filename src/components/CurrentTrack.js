@@ -65,7 +65,7 @@ var CurrentTrack = React.createClass({
             <span className='title-label'>Track Title:</span>
             {this.state.showNameInput ?
               <form className='trackName' onSubmit={this.handleNewTrackName}>
-                <input type="text" ref='newTrackName'/>
+                <input type="text" onBlur={this.handleNewTrackName} ref='newTrackName'/>
               </form> :
               <span className='title' onClick={this.handleNameClick.bind(this)}>{this.props.data.name}</span>
             }

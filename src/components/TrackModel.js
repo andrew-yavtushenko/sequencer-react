@@ -3,6 +3,7 @@ var uuid = require('./uuid');
 var settings = require('./Settings');
 
 var defaultTrackName = 'New track';
+var defaultPatternName = 'Untitled Pattern';
 var trackCounter = 0;
 
 function Track (name) {
@@ -55,7 +56,8 @@ Track.prototype.createPattern = function (beat, noteValue) {
       beat: beat,
       noteValue: noteValue,
       id: uuid.create().hex,
-      tempo: this.tempo
+      tempo: this.tempo,
+      name: defaultPatternName + ' ' + parseInt(this.patterns.length + 1)
     });
 
     this.patterns.push(newPattern);

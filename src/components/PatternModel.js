@@ -2,6 +2,7 @@ var utils = require('./Utils');
 var Line = require('./LineModel');
 
 function Pattern (properties) {
+  this.name = properties.name;
   this.beat = properties.beat;
   this.noteValue = properties.noteValue;
   this.lines = [];
@@ -52,7 +53,7 @@ Pattern.prototype.stop = function() {
 
 Pattern.prototype.addLine = function(bufferIdx, subDivision) {
   var notes = utils.buildLineNotes(this, bufferIdx, subDivision);
-  var newLine = new Line(notes);
+  var newLine = new Line(notes, bufferIdx, subDivision);
   this.lines.push(newLine);
 };
 

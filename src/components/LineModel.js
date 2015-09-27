@@ -1,4 +1,7 @@
-function Line (notes) {
+function Line (notes, bufferIdx, subDivision) {
+  console.log(bufferIdx, subDivision);
+  this.bufferIdx = bufferIdx;
+  this.subDivision = subDivision;
   this._threshold = 0.200;
   this.notes = notes;
   this._noteTime = 0.0;
