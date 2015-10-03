@@ -16,6 +16,14 @@ var PatternForm = React.createClass({
         lines: [],
         defaultName: 'Untitled Pattern',
         name: '',
+        customTempo: false,
+        tempo: {
+          min: 40,
+          max: 300,
+          val: 120,
+          label: 'BPM:',
+          name: 'Tempo'
+        },
         loop: {
           min: 1,
           max: 1000000,
@@ -31,11 +39,7 @@ var PatternForm = React.createClass({
     e.preventDefault();
     var newPatternData = this.state.data;
     this.updateLines();
-    //this.state.data.lines.map(function (line) {
-    //  console.log(line);
-    //});
     this.props.onSubmit(newPatternData);
-    console.log(this.state.data.defaultName);
     this.state.data.name = '';
     this.state.data.defaultName = 'Untitled Pattern';
     this.setState(this.state);
@@ -149,10 +153,17 @@ var PatternForm = React.createClass({
   handleLoopsChange: function (loops) {
     console.log(loops);
   },
+  handleTempoChange: function (newTempo) {
+    console.log(newTempo);
+  },
   render: function () {
     return (
       <form className='PatternForm' onSubmit={this.handleSubmit}>
-        <NameInput onNameChange={this.handleNameChange} val={this.state.data.defaultName}/>
+        <div className="head-wrapper">
+          <NameInput onNameChange={this.handleNameChange} val={this.state.data.defaultName}/>
+          <CounterComponent onValueChange={this.handleTempoChange} data={this.state.data.tempo}/>
+          <div className="clear"></div>
+        </div>
         <div className="time-signature">
           <label>Time signature</label>
           <select ref='beat' value={this.state.data.beat} onChange={this.updateBeat}>

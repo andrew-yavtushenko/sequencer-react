@@ -292,28 +292,38 @@ html, body {
   line-height: 24px;
   font-size: 14px;
 }
+.PatternForm .Tempo.Counter,
 .Loops.Counter {
   float: right;
   display: inline-block;
   vertical-align: top;
   margin-top: -1px;
 }
+
+.PatternForm .Tempo.Counter *,
 .Loops.Counter *{
   height: 22px;
   line-height: 22px;
 }
+.PatternForm .Tempo.Counter input,
 .Loops.Counter input{
   width: 34px;
   height: 20px;
   line-height: 22px;
 }
 
+.PatternForm .Tempo.Counter .button,
 .Loops.Counter .button{
   width: 23px;
 }
+.PatternForm .Tempo.Counter .label,
 .Loops.Counter .label{
   font-size: 14px;
   font-family: 'open_sans_condensedbold';
+}
+
+.head-wrapper .NameInput{
+  float: left;
 }
 
 #PatternFormWrapper {

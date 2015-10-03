@@ -48,6 +48,14 @@ function trackWrapper () {
     });
   }
 
+  function duplicatePattern (pattern) {
+    currentTrack.duplicatePattern(pattern);
+    dispatcher.setTrack(currentTrack, function () {
+      console.log('track updated successfully');
+    });
+    return currentTrack;
+  }
+
   function createPattern (beat, noteValue, name) {
     var newPattern = currentTrack.createPattern(beat, noteValue, name);
     dispatcher.setTrack(currentTrack, function () {
@@ -103,7 +111,17 @@ function trackWrapper () {
     return currentTrack;
   }
 
+  function movePattern (oldIndex, newIndex) {
+    currentTrack.movePattern(oldIndex, newIndex);
+    dispatcher.setTrack(currentTrack, function () {
+      console.log('track updated successfully');
+    });
+    return currentTrack;
+  }
+
   return {
+    movePattern: movePattern,
+    duplicatePattern: duplicatePattern,
     changeTrackName: changeTrackName,
     getTracks: getTracks,
     isValidToPlay: isValidToPlay,

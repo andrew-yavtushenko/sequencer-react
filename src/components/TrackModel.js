@@ -1,6 +1,7 @@
 var Pattern = require('./PatternModel');
 var uuid = require('./uuid');
 var settings = require('./Settings');
+var _ = require('lodash');
 
 var defaultTrackName = 'New track';
 var defaultPatternName = 'Untitled Pattern';
@@ -16,6 +17,17 @@ function Track (name) {
 
   return this;
 }
+
+Track.prototype.movePattern = function (oldIndex, newIndex) {
+  if (newIndex >= this.patterns.length) {
+    var k = newIndex - this.patterns.length;
+    while ((k--) + 1) {
+      this.patterns.push(undefined);
+    }
+  }
+  this.patterns.splice(newIndex, 0, this.patterns.splice(oldIndex, 1)[0]);
+  return this; // for testing purposes
+};
 
 Track.prototype.editName = function (newName) {
   this.name = newName;
@@ -36,6 +48,14 @@ Track.prototype.setTempo = function(tempo) {
       this.patterns[i].setTempo(tempo);
     }
   }
+};
+
+Track.prototype.duplicatePattern = function (pattern) {
+  var position = this.patterns.indexOf(pattern);
+  var newPattern = _.extend(pattern, {});
+  newPattern.id = uuid.create().hex;
+  this.patterns.splice(position + 1, 0, newPattern);
+  return this;
 };
 
 Track.prototype.createPattern = function (beat, noteValue, name) {

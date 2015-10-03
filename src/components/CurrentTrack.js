@@ -43,6 +43,9 @@ var CurrentTrack = React.createClass({
     this.state.showForm = false;
     this.setState(this.state);
   },
+  duplicatePattern: function (pattern) {
+    this.props.handlePatternDuplicate(pattern);
+  },
   render: function () {
     if (this.props.data === null) {
       return (
@@ -65,7 +68,10 @@ var CurrentTrack = React.createClass({
             <div className="clear"></div>
           </div>
           <div id='PatternListWrapper' className={this.state.showForm ? 'with-form' : ''}>
-            <PatternList patterns={this.state.data.patterns}/>
+            <PatternList
+              patterns={this.state.data.patterns}
+              handlePatternSort={this.props.handlePatternSort}
+              handlePatternDuplicate={this.duplicatePattern}/>
           </div>
           <div id="PatternFormWrapper" className={this.state.showForm ? '' : 'hidden'}>
             <PatternForm onSubmit={this.handlePatternsUpdate} hideForm={this.hideForm}/>

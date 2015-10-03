@@ -2,13 +2,22 @@ var _ = require('lodash');
 var Context = require('./Context');
 
 var availableSamples = {
-  'hihat': 'hihat',
+  'hat': 'hat',
+  'mutedhat': 'mutedhat',
+  'openhat': 'openhat',
   'snare': 'snare',
   'kick': 'kick',
+  'ride': 'ride',
+  'ridebell': 'ridebell',
+  'crash': 'crash',
+  'tom1': 'tom1',
+  'tom2': 'tom2',
+  'tom3': 'tom3',
   'metronome-low': 'metronome-low',
   'metronome-med': 'metronome-med',
   'metronome-high': 'metronome-high'
 };
+
 var buffers = {};
 var loadedBuffers = {};
 

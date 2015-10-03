@@ -15,11 +15,11 @@ var PatternList = React.createClass({
       patterns: this.props.patterns
     };
   },
-  handleSort: function (event, sortable) {
-    console.log('handleSort', event, sortable);
+  handleSort: function (event) {
+    this.props.handlePatternSort(event.oldIndex, event.newIndex);
   },
-  handleUpdate: function (event, sortable) {
-    console.log('handleUpdate', event, sortable);
+  duplicate: function (pattern) {
+    this.props.handlePatternDuplicate(pattern);
   },
   render: function () {
     return (
@@ -28,6 +28,9 @@ var PatternList = React.createClass({
           return (
             <li key={patternKey}>
               {pattern.name}&nbsp;&nbsp;{pattern.beat}/{pattern.noteValue}
+              <div className="duplicate">
+                <a href="#" onClick={this.duplicate.bind(this, pattern)}>duplicate</a>
+              </div>
               <ul>{
                 pattern.lines.map(function (line, key){
                   return <li key={key}>{line.bufferIdx + ' ' + Settings.subDivisionNames[line.subDivision]}</li>;
@@ -35,7 +38,7 @@ var PatternList = React.createClass({
               }</ul>
             </li>
           );
-        })
+        }.bind(this))
       }</ul>
     );
   }

@@ -77,8 +77,17 @@ var SequencerReactApp = React.createClass({
     this.handleTrackSelect(TrackWrapper.getCurrentTrack());
   },
   handleTrackNameChange: function (newName) {
-    console.log(newName);
     TrackWrapper.changeTrackName(newName);
+    this.state.data.currentTrack = TrackWrapper.getCurrentTrack();
+    this.setState(this.state);
+  },
+  duplicatePattern: function (pattern) {
+    TrackWrapper.duplicatePattern(pattern);
+    this.state.data.currentTrack = TrackWrapper.getCurrentTrack();
+    this.setState(this.state);
+  },
+  patternMove: function (oldIndex, newIndex) {
+    TrackWrapper.movePattern(oldIndex, newIndex);
     this.state.data.currentTrack = TrackWrapper.getCurrentTrack();
     this.setState(this.state);
   },
@@ -92,6 +101,8 @@ var SequencerReactApp = React.createClass({
           onTrackTempo={this.setTrackTempo}
           onPatternTempo={this.setPatternTempo}
           onTrackNameChange={this.handleTrackNameChange}
+          handlePatternDuplicate={this.duplicatePattern}
+          handlePatternSort={this.patternMove}
           onReleasePatternTempo={this.releasePatternTempo}/>
       </ReactTransitionGroup>
     );
