@@ -24,13 +24,13 @@ var PatternList = React.createClass({
   render: function () {
     return (
       <ul ref='patterns' className='PatternList'>{
-        this.state.patterns.map(function (pattern) {
+        this.state.patterns.map(function (pattern, patternKey) {
           return (
-            <li>
+            <li key={patternKey}>
               {pattern.name}&nbsp;&nbsp;{pattern.beat}/{pattern.noteValue}
               <ul>{
-                pattern.lines.map(function (line){
-                  return <li>{line.bufferIdx + ' ' + Settings.subDivisionNames[line.subDivision]}</li>;
+                pattern.lines.map(function (line, key){
+                  return <li key={key}>{line.bufferIdx + ' ' + Settings.subDivisionNames[line.subDivision]}</li>;
                 })
               }</ul>
             </li>

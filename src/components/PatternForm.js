@@ -41,29 +41,19 @@ var PatternForm = React.createClass({
     this.setState(this.state);
   },
   getBeats: function () {
-    return Settings.beat.map(function (beat) {
-      var option = beat === this.state.data.beat ?
-        <option value={beat}>{beat}</option> :
-        <option value={beat}>{beat}</option>;
-      return (
-        {option}
-      );
-    }.bind(this));
+    return Settings.beat.map(function (beat, key) {
+      return <option key={key} value={beat}>{beat}</option>;
+    });
   },
   getNoteValues: function () {
-    return Settings.noteValue.map(function (noteValue) {
-      var option = noteValue === this.state.data.noteValue ?
-        <option value={noteValue}>{noteValue}</option> :
-        <option value={noteValue}>{noteValue}</option>;
-      return (
-        {option}
-      );
-    }.bind(this));
+    return Settings.noteValue.map(function (noteValue, key) {
+      return <option key={key} value={noteValue}>{noteValue}</option>;
+    });
   },
   getSubDivisions: function () {
-    return this.state.data.availableSubDivisions.map(function (value) {
+    return this.state.data.availableSubDivisions.map(function (value, key) {
       return (
-        <option value={value}>{Settings.subDivisionNames[value]}</option>
+        <option key={key} value={value}>{Settings.subDivisionNames[value]}</option>
       );
     });
   },
@@ -90,7 +80,7 @@ var PatternForm = React.createClass({
     var buffersArr = [];
     var buffers = Buffers.get();
     for (var bufferName in buffers) {
-      buffersArr.push(<option value={bufferName}>{bufferName}</option>);
+      buffersArr.push(<option key={bufferName} value={bufferName}>{bufferName}</option>);
     }
     return buffersArr;
   },
@@ -119,7 +109,7 @@ var PatternForm = React.createClass({
   getLines: function (){
     var lines = this.state.data.lines.map(function (line, index) {
       return (
-        <li>
+        <li key={index}>
           <select className='buffer' ref={'lineBuffer-' + index} value={line.buffer} onChange={this.changeLine('buffer', index)}>
             {this.getBuffersSelect()}
           </select>

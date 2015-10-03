@@ -37,7 +37,7 @@ var NameInput = React.createClass({
           <form className='inputName' onSubmit={this.handleNameChange}>
             <input type="text" onBlur={this.handleNameChange} ref='name'/>
           </form> :
-          <span className='title' onClick={this.handleNameClick.bind(this)}>{this.props.val}</span>
+          <span className='title' onClick={this.handleNameClick}>{this.props.val}</span>
         }
       </div>
     );
