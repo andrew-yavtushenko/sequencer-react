@@ -25,7 +25,6 @@ var PatternList = React.createClass({
     return (
       <ul ref='patterns' className='PatternList'>{
         this.state.patterns.map(function (pattern) {
-          console.log(pattern.lines);
           return (
             <li>
               {pattern.name}&nbsp;&nbsp;{pattern.beat}/{pattern.noteValue}

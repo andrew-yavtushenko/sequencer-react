@@ -38,7 +38,7 @@ Track.prototype.setTempo = function(tempo) {
   }
 };
 
-Track.prototype.createPattern = function (beat, noteValue) {
+Track.prototype.createPattern = function (beat, noteValue, name) {
   if (this.isPlaying) {
     console.error('you can\'t modify track while playing');
     return false;
@@ -57,7 +57,7 @@ Track.prototype.createPattern = function (beat, noteValue) {
       noteValue: noteValue,
       id: uuid.create().hex,
       tempo: this.tempo,
-      name: defaultPatternName + ' ' + parseInt(this.patterns.length + 1)
+      name: name || defaultPatternName + ' ' + parseInt(this.patterns.length + 1)
     });
 
     this.patterns.push(newPattern);

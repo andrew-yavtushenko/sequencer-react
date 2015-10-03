@@ -2,9 +2,10 @@
 
 var React = require('react/addons');
 // var TrackWrapper = require('./TrackWrapper');
-var Tempo = require('./Tempo');
+var CounterComponent = require('./CounterComponent');
 var PatternForm = require('./PatternForm');
 var PatternList = require('./PatternList');
+var NameInput = require('./NameInput');
 
 var CurrentTrack = React.createClass({
   getInitialState: function () {
@@ -13,26 +14,15 @@ var CurrentTrack = React.createClass({
         patterns: []
       },
       showNameInput: false,
-      showPatternForm: false
+      showPatternForm: false,
+      tempo: {
+        min: 40,
+        max: 300,
+        val: 120,
+        label: 'BPM:',
+        name: 'Tempo'
+      }
     };
-  },
-  handleNewTrackName: function (e) {
-    e.preventDefault();
-    var newName = this.refs.newTrackName.getDOMNode().value.trim();
-    if ((/^[a-zA-Z0-9\s]+$/gi).test(newName)) {
-      this.props.onTrackNameChange(newName);
-      this.state.showNameInput = false;
-      this.setState(this.state);
-    }
-  },
-  handleNameClick: function (e) {
-    e.preventDefault();
-    this.state.showNameInput = true;
-    this.setState(this.state);
-    setTimeout(function () {
-      this.refs.newTrackName.getDOMNode().value = this.props.data.name;
-      this.refs.newTrackName.getDOMNode().focus();
-    }.bind(this), 0);
   },
   handleTempoChange: function (tempo) {
     this.props.onTrackTempo(tempo);
@@ -63,15 +53,10 @@ var CurrentTrack = React.createClass({
         <div className='CurrentTrack'>
           <div className='TrackTitle'>
             <span className='title-label'>Track Title:</span>
-            {this.state.showNameInput ?
-              <form className='trackName' onSubmit={this.handleNewTrackName}>
-                <input type="text" onBlur={this.handleNewTrackName} ref='newTrackName'/>
-              </form> :
-              <span className='title' onClick={this.handleNameClick.bind(this)}>{this.props.data.name}</span>
-            }
+            <NameInput onNameChange={this.props.onTrackNameChange} val={this.props.data.name}/>
             <ul className='controls'>
               <li>
-                <Tempo onTempoChange={this.handleTempoChange}/>
+                <CounterComponent onValueChange={this.handleTempoChange} data={this.state.tempo}/>
               </li>
               <li>
                 <a href="#" onClick={this.showForm} className='create-pattern'>Add new pattern</a>

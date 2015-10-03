@@ -1,15 +1,16 @@
 /* Stiziles */
 
 select {
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   -webkit-appearance: none;
   border: 1px solid #b7b7b7;
+  border-radius: 3px;
   background-color: #f5f5f5;
   padding: 5px;
   display: inline-block;
   line-height: 12px;
   height: 12px;
   font-size: 14px;
-  text-transform: uppercase;
   box-sizing: content-box;
 }
 
@@ -174,21 +175,25 @@ html, body {
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
 }
 
+.TrackTitle .NameInput {
+  display: inline-block;
+}
+
 .title-label {
   display: inline-block;
   margin-right: 10px;
 }
 
-.TrackTitle .title {
+.NameInput .title {
   color: #ff5722;
 }
 
-.TrackTitle .trackName {
+.NameInput .trackName {
   display: inline-block;
   width: 320px;
 }
 
-.TrackTitle .trackName input {
+.NameInput .inputName input {
   text-transform: uppercase;
   background-color: transparent;
   border: none;
@@ -198,7 +203,7 @@ html, body {
   padding: 0;
 }
 
-.TrackTitle input:focus {
+.NameInput input:focus {
   outline: none;
 }
 
@@ -221,7 +226,7 @@ html, body {
   margin-top: -6px;
 }
 
-.TrackTitle .Tempo * {
+.Counter * {
   display: inline-block;
   height: 34px;
   line-height: 34px;
@@ -230,26 +235,25 @@ html, body {
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   font-weight: bold;
 }
-.TrackTitle .Tempo .button {
+.Counter .button {
   width: 35px;
   text-align: center;
   margin: 0;
   padding: 0;
-  left: 34px;
   background-color: #515b60;
   color: #fff;
   border: 1px solid #434d51;
   border-radius: 4px;
 }
-.TrackTitle .Tempo .button.minus {
+.Counter .button.minus {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
 }
-.TrackTitle .Tempo .button.plus {
+.Counter .button.plus {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
 }
-.TrackTitle .Tempo input{
+.Counter input{
   line-height: 34px;
   height: 32px;
   width: 50px;
@@ -262,9 +266,54 @@ html, body {
   border-bottom: 1px solid #434d51;
 }
 
-.TrackTitle .tempo-label {
+.Counter .label {
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   margin-right: 10px;
+}
+.lineAndLoop button {
+  float: left;
+  display: inline-block;
+  vertical-align: top;
+  -webkit-appearance: none;
+  border: none;
+  text-align: center;
+  background: #515b60;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+
+  padding: 0;
+  margin: 0;
+
+  border-radius: 3px;
+  width: 102px;
+  margin-right: 14px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 14px;
+}
+.Loops.Counter {
+  float: right;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: -1px;
+}
+.Loops.Counter *{
+  height: 22px;
+  line-height: 22px;
+}
+.Loops.Counter input{
+  width: 34px;
+  height: 20px;
+  line-height: 22px;
+}
+
+.Loops.Counter .button{
+  width: 23px;
+}
+.Loops.Counter .label{
+  font-size: 14px;
+  font-family: 'open_sans_condensedbold';
 }
 
 #PatternFormWrapper {
@@ -299,10 +348,99 @@ html, body {
   background-color: #fff;
   border-radius: 4px;
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+  position: relative;
 
+}
+
+.PatternForm .submit {
+  margin-top: 12px;
+}
+
+.PatternForm .submit a,
+.PatternForm .submit input {
+  display: inline-block;
+  -webkit-appearance: none;
+  border: none;
+  text-align: center;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  background: #515b60;
+  text-decoration: none;
+  color: #fff;
+
+  padding: 0;
+  margin: 0;
+
+  border-radius: 3px;
+  width: 141px;
+  margin-right: 14px;
+  height: 36px;
+  line-height: 36px;
+}
+
+.PatternForm .submit input {
+  margin-right: 0;
+  background-color: #ff5722;
+}
+
+.PatternForm .buffer {
+  width: 90px;
+}
+
+.PatternForm .subDiv {
+  width: 137px;
 }
 
 .PatternForm .lines ul{
   list-style: none;
   padding: 0;
+}
+
+.PatternForm .NameInput {
+  margin-bottom: 5px;
+}
+
+.PatternForm .NameInput .title{
+  text-transform: uppercase;
+}
+
+.time-signature {
+  margin-bottom: 10px;
+}
+.time-signature label {
+  text-transform: uppercase;
+  font-size: 14px;
+  margin-right: 20px;
+  color: #999999;
+}
+
+.time-signature .divider {
+  color: #999;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 5px;
+}
+
+.PatternForm .lines li {
+  margin-bottom: 5px;
+}
+
+.PatternForm .lines li select {
+  margin-right: 10px;
+}
+
+.PatternForm .lines {
+  margin-bottom: 10px;
+}
+
+.PatternForm .remove-line {
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid #b7b7b7;
+  border-radius: 3px;
+  padding: 0;
+  background-color: #f5f5f5;
+  height: 24px;
+  line-height: 22px;
+  text-align: center;
+  width: 24px;
 }

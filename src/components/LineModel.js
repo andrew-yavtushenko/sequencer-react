@@ -1,5 +1,4 @@
 function Line (notes, bufferIdx, subDivision) {
-  console.log(bufferIdx, subDivision);
   this.bufferIdx = bufferIdx;
   this.subDivision = subDivision;
   this._threshold = 0.200;

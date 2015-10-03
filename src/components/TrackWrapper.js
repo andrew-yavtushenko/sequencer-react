@@ -48,8 +48,8 @@ function trackWrapper () {
     });
   }
 
-  function createPattern (beat, noteValue) {
-    var newPattern = currentTrack.createPattern(beat, noteValue);
+  function createPattern (beat, noteValue, name) {
+    var newPattern = currentTrack.createPattern(beat, noteValue, name);
     dispatcher.setTrack(currentTrack, function () {
       console.log('track updated successfully');
     });

@@ -3,6 +3,8 @@
 var React = require('react/addons');
 var Settings = require('./Settings');
 var Buffers = require('./Buffers');
+var NameInput = require('./NameInput');
+var CounterComponent = require('./CounterComponent');
 
 var PatternForm = React.createClass({
   getInitialState: function () {
@@ -11,7 +13,16 @@ var PatternForm = React.createClass({
         beat: 4,
         noteValue: 4,
         availableSubDivisions: Settings.subDivision,
-        lines: []
+        lines: [],
+        defaultName: 'Untitled Pattern',
+        name: '',
+        loop: {
+          min: 1,
+          max: 1000000,
+          val: 1,
+          label: 'LOOPS:',
+          name: 'Loops'
+        }
       }
     };
   },
@@ -24,6 +35,10 @@ var PatternForm = React.createClass({
     //  console.log(line);
     //});
     this.props.onSubmit(newPatternData);
+    console.log(this.state.data.defaultName);
+    this.state.data.name = '';
+    this.state.data.defaultName = 'Untitled Pattern';
+    this.setState(this.state);
   },
   getBeats: function () {
     return Settings.beat.map(function (beat) {
@@ -105,13 +120,13 @@ var PatternForm = React.createClass({
     var lines = this.state.data.lines.map(function (line, index) {
       return (
         <li>
-          <select ref={'lineBuffer-' + index} value={line.buffer} onChange={this.changeLine('buffer', index)}>
+          <select className='buffer' ref={'lineBuffer-' + index} value={line.buffer} onChange={this.changeLine('buffer', index)}>
             {this.getBuffersSelect()}
           </select>
-          <select ref={'lineSubDivision-' + index} value={line.subDivision} onChange={this.changeLine('subDivision', index)}>
+          <select className='subDiv' ref={'lineSubDivision-' + index} value={line.subDivision} onChange={this.changeLine('subDivision', index)}>
             {this.getSubDivisions()}
           </select>
-          <button onClick={this.removeLine(index)}>&times;</button>
+          <button className='remove-line' onClick={this.removeLine(index)}>&times;</button>
         </li>
       );
     }.bind(this));
@@ -135,21 +150,41 @@ var PatternForm = React.createClass({
     this.state.data.beat = beat;
     this.setState(this.state);
   },
+  handleNameChange: function (newName) {
+    if (newName !== this.state.data.defaultName) {
+      this.state.data.name = newName;
+      this.setState(this.state);
+    }
+  },
+  handleLoopsChange: function (loops) {
+    console.log(loops);
+  },
   render: function () {
     return (
       <form className='PatternForm' onSubmit={this.handleSubmit}>
-        <a href="#" onClick={this.props.hideForm}>&times;</a>
-        <select ref='beat' value={this.state.data.beat} onChange={this.updateBeat}>
-          {this.getBeats()}
-        </select>
-        <select ref='noteValue' value={this.state.data.noteValue} onChange={this.updateSubDivisions}>
-          {this.getNoteValues()}
-        </select>
+        <NameInput onNameChange={this.handleNameChange} val={this.state.data.defaultName}/>
+        <div className="time-signature">
+          <label>Time signature</label>
+          <select ref='beat' value={this.state.data.beat} onChange={this.updateBeat}>
+            {this.getBeats()}
+          </select>
+          <span className="divider">/</span>
+          <select ref='noteValue' value={this.state.data.noteValue} onChange={this.updateSubDivisions}>
+            {this.getNoteValues()}
+          </select>
+        </div>
         <div className='lines'>
           {this.getLines()}
         </div>
-        <button onClick={this.addLine}>Add Line</button>
-        <input type="submit" value='Create new pattern'/>
+        <div className="lineAndLoop">
+          <button onClick={this.addLine}>Add Line</button>
+          <CounterComponent onValueChange={this.handleLoopsChange} data={this.state.data.loop}/>
+          <div className="clear"></div>
+        </div>
+        <div className="submit">
+          <a href="#" onClick={this.props.hideForm} className='cancel'>Cancel</a>
+          <input type="submit" value='Save pattern'/>
+        </div>
       </form>
     );
   }

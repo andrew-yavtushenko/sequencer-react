@@ -61,7 +61,7 @@ var SequencerReactApp = React.createClass({
 
   },
   handleNewPattern: function (newPatternData) {
-    var newPattern = TrackWrapper.createPattern(newPatternData.beat, newPatternData.noteValue);
+    var newPattern = TrackWrapper.createPattern(newPatternData.beat, newPatternData.noteValue, newPatternData.name);
     newPatternData.lines.map(function (line) {
       TrackWrapper.addLine(newPattern.id, line.buffer, line.subDivision);
     });
@@ -77,6 +77,7 @@ var SequencerReactApp = React.createClass({
     this.handleTrackSelect(TrackWrapper.getCurrentTrack());
   },
   handleTrackNameChange: function (newName) {
+    console.log(newName);
     TrackWrapper.changeTrackName(newName);
     this.state.data.currentTrack = TrackWrapper.getCurrentTrack();
     this.setState(this.state);
