@@ -38,10 +38,11 @@ function trackWrapper () {
     return currentTrack.getPattern(patternId).addLine(bufferId, subDivision);
   }
 
-  function deletePattern (patternId) {
+  function deletePattern (patternId, callback) {
     currentTrack.deletePattern(patternId);
     dispatcher.setTrack(currentTrack, function () {
       console.log('track updated successfully');
+      callback(currentTrack);
     });
   }
 
@@ -74,9 +75,9 @@ function trackWrapper () {
     return currentTrack.createPattern(beat, noteValue, name, tempo);
   }
 
-  function updateNoteVolume (patternId, lineId, noteId, volume, callback) {
+  function updateNoteVolume (patternId, lineId, noteId, volume) {
     dispatcher.setNoteVolume(patternId, lineId, noteId, volume, function () {
-      callback('note volume updated', patternId, lineId, noteId, volume);
+      //something?
     });
   }
 
@@ -124,12 +125,12 @@ function trackWrapper () {
     return currentTrack;
   }
 
-  function movePattern (oldIndex, newIndex) {
+  function movePattern (oldIndex, newIndex, callback) {
     currentTrack.movePattern(oldIndex, newIndex);
     dispatcher.setTrack(currentTrack, function () {
       console.log('track updated successfully');
+      callback(currentTrack);
     });
-    return currentTrack;
   }
 
   return {

@@ -29,6 +29,19 @@ function buildLineNotes (pattern, bufferIdx, subDivision) {
   return notes;
 }
 
+function clone (obj) {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+  var temp = new obj.constructor(obj);
+  for (var key in obj) {
+    temp[key] = clone(obj[key]);
+  }
+  return temp;
+}
+
+
 module.exports = {
-  buildLineNotes: buildLineNotes
+  buildLineNotes: buildLineNotes,
+  clone: clone
 };

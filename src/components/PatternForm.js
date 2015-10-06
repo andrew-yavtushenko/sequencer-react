@@ -7,17 +7,7 @@ var NameInput = require('./NameInput');
 var TempoComponent = require('./TempoComponent');
 var LoopsComponent = require('./LoopsComponent');
 var _ = require('lodash');
-
-function clone (obj) {
-  if (obj === null || typeof obj !== 'object') {
-    return obj;
-  }
-  var temp = new obj.constructor(obj);
-  for (var key in obj) {
-    temp[key] = clone(obj[key]);
-  }
-  return temp;
-}
+var utils = require('./Utils');
 
 
 var PatternForm = React.createClass({
@@ -26,7 +16,7 @@ var PatternForm = React.createClass({
       data: this.props.data,
       customTempoVal: _.cloneDeep(this.props.data.tempo),
       linesData: [],
-      backup: clone(this.props.data)
+      backup: utils.clone(this.props.data)
     };
   },
   componentDidMount: function () {
@@ -39,12 +29,12 @@ var PatternForm = React.createClass({
   },
   cancel: function (e) {
     e.preventDefault();
-    this.state.data = this.state.backup;
-    this.setState(this.state);
     if (!this.props.newTrack) {
+      this.state.data = this.state.backup;
+      this.setState(this.state);
       this.props.onSubmit(this.state.data);
     }
-    this.props.hideForm(this.state.data);
+    this.props.hideForm();
   },
   handleSubmit: function (e) {
     e.preventDefault();

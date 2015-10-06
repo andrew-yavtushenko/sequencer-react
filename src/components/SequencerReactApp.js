@@ -39,25 +39,11 @@ var SequencerReactApp = React.createClass({
     this.state.data.currentTrack = track;
     this.setState(this.state);
   },
-  setTrackTempo: function (tempo) {
-    TrackWrapper.setTrackTempo(tempo, function () {
-      this.state.data.currentTrack.tempo = tempo;
-      this.setState(this.state);
-    }.bind(this));
+  handlePatternUpdate: function (updatedPattern) {
+    TrackWrapper.updatePattern(updatedPattern, this.updateCurrentTrack);
   },
-  handlePatternUpdate: function (updatedPattern, callback) {
-    TrackWrapper.updatePattern(updatedPattern, function (currentTrack) {
-      this.state.data.currentTrack = currentTrack;
-      this.setState(this.state);
-      callback(this.state.data.currentTrack);
-    }.bind(this));
-  },
-  handleNewPattern: function (newPattern, callback) {
-    TrackWrapper.savePattern(newPattern, function (currentTrack) {
-      this.state.data.currentTrack = currentTrack;
-      this.setState(this.state);
-      callback(this.state.data.currentTrack);
-    }.bind(this));
+  handleNewPattern: function (newPattern) {
+    TrackWrapper.savePattern(newPattern, this.updateCurrentTrack);
   },
   handleNewTrack: function () {
     this.state.data.currentTrack = TrackWrapper.createTrack('');
@@ -66,24 +52,17 @@ var SequencerReactApp = React.createClass({
   },
   handleTrackNameChange: function (newName) {
     TrackWrapper.changeTrackName(newName);
-    this.state.data.currentTrack = TrackWrapper.getCurrentTrack();
+    this.state.data.currentTrack.name = newName;
     this.setState(this.state);
   },
-  duplicatePattern: function (pattern) {
-    TrackWrapper.duplicatePattern(pattern, function (currentTrack) {
-      this.state.data.currentTrack = currentTrack;
-      this.setState(this.state);
-    }.bind(this));
+  handlePatternDuplicate: function (pattern) {
+    TrackWrapper.duplicatePattern(pattern, this.updateCurrentTrack);
   },
-  patternMove: function (oldIndex, newIndex) {
-    TrackWrapper.movePattern(oldIndex, newIndex);
-    this.state.data.currentTrack = TrackWrapper.getCurrentTrack();
-    this.setState(this.state);
+  movePattern: function (oldIndex, newIndex) {
+    TrackWrapper.movePattern(oldIndex, newIndex, this.updateCurrentTrack);
   },
   updateVolume: function (patternId, lineId, noteId, volume) {
-    TrackWrapper.updateNoteVolume(patternId, lineId, noteId, volume, function () {
-      //console.log(arguments);
-    });
+    TrackWrapper.updateNoteVolume(patternId, lineId, noteId, volume);
   },
   play: function () {
     console.profile('react');
@@ -94,6 +73,19 @@ var SequencerReactApp = React.createClass({
     TrackWrapper.stopPlayback();
 
     console.profileEnd('react');
+  },
+  deletePattern: function (patternId) {
+    TrackWrapper.deletePattern(patternId, this.updateCurrentTrack);
+  },
+  updateCurrentTrack: function (currentTrack) {
+    this.state.data.currentTrack = currentTrack;
+    this.setState(this.state);
+  },
+  handleTempoChange: function (tempo) {
+    TrackWrapper.setTrackTempo(tempo, function () {
+      this.state.data.currentTrack.tempo = tempo;
+      this.setState(this.state);
+    }.bind(this));
   },
   render: function() {
     return (
@@ -108,12 +100,11 @@ var SequencerReactApp = React.createClass({
               onNewPattern={this.handleNewPattern}
               onPatternUpdate={this.handlePatternUpdate}
               data={this.state.data.currentTrack}
-              onTrackTempo={this.setTrackTempo}
-              onPatternTempo={this.setPatternTempo}
+              onTempoChange={this.handleTempoChange}
               onTrackNameChange={this.handleTrackNameChange}
-              handlePatternDuplicate={this.duplicatePattern}
-              handlePatternSort={this.patternMove}
-              onReleasePatternTempo={this.releasePatternTempo}/>
+              onPatternDuplicate={this.handlePatternDuplicate}
+              onPatternMove={this.movePattern}
+              onDeletePattern={this.deletePattern}/>
             <NotesComponent
               updateVolume={this.updateVolume}
               data={this.state.data.currentTrack}/>

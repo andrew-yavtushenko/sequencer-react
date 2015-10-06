@@ -19,22 +19,13 @@ var CurrentTrack = React.createClass({
     this.state.defaultPattern = TrackWrapper.createPattern(4, 4, '');
     this.setState(this.state);
   },
-  handleTempoChange: function (tempo) {
-    this.props.onTrackTempo(tempo);
-  },
-  handlePatternsCreate: function (data) {
+  handlePatternCreate: function (data) {
     this.hideForm();
-    this.props.onNewPattern(data, function (currentTrack) {
-      this.state.data = currentTrack;
-      this.setState(this.state);
-    }.bind(this));
+    this.props.onNewPattern(data);
   },
-  handlePatternsUpdate: function (data) {
+  handlePatternUpdate: function (data) {
     this.hideForm();
-    this.props.onPatternUpdate(data, function (currentTrack) {
-      this.state.data = currentTrack;
-      this.setState(this.state);
-    }.bind(this));
+    this.props.onPatternUpdate(data);
   },
   showForm: function () {
     this.state.defaultPattern = TrackWrapper.createPattern(4, 4, '');
@@ -47,9 +38,6 @@ var CurrentTrack = React.createClass({
     }
     this.state.showForm = false;
     this.setState(this.state);
-  },
-  duplicatePattern: function (pattern) {
-    this.props.handlePatternDuplicate(pattern);
   },
   render: function () {
     if (this.props.data === null) {
@@ -64,7 +52,7 @@ var CurrentTrack = React.createClass({
             <NameInput onNameChange={this.props.onTrackNameChange} val={this.props.data.name}/>
             <ul className='controls'>
               <li>
-                <TempoComponent onValueChange={this.handleTempoChange} data={this.props.data.tempo}/>
+                <TempoComponent onValueChange={this.props.onTempoChange} data={this.props.data.tempo}/>
               </li>
               <li>
                 <a href="#" onClick={this.showForm} className='create-pattern'>Add new pattern</a>
@@ -76,9 +64,10 @@ var CurrentTrack = React.createClass({
             <PatternList
               trackTempo={this.state.data.tempo}
               patterns={this.state.data.patterns}
-              handlePatternSort={this.props.handlePatternSort}
-              handlePatternDuplicate={this.duplicatePattern}
-              handlePatternsUpdate={this.handlePatternsUpdate}/>
+              onPatternMove={this.props.onPatternMove}
+              onPatternDuplicate={this.props.onPatternDuplicate}
+              onDeletePattern={this.props.onDeletePattern}
+              onPatternUpdate={this.handlePatternUpdate}/>
           </div>
           <div id="PatternFormWrapper" className={this.state.showForm ? '' : 'hidden'}>
             {this.state.showForm ?
@@ -86,7 +75,7 @@ var CurrentTrack = React.createClass({
                 data={this.state.defaultPattern}
                 trackTempo={this.state.data.tempo}
                 newTrack={true}
-                onSubmit={this.handlePatternsCreate}
+                onSubmit={this.handlePatternCreate}
                 hideForm={this.hideForm}/> :
               <span>nope</span>
             }

@@ -17,10 +17,10 @@ var PatternList = React.createClass({
     };
   },
   handleSort: function (event) {
-    this.props.handlePatternSort(event.oldIndex, event.newIndex);
+    this.props.onPatternMove(event.oldIndex, event.newIndex);
   },
-  duplicate: function (pattern) {
-    this.props.handlePatternDuplicate(pattern);
+  handlePatternDuplicate: function (pattern) {
+    this.props.onPatternDuplicate(pattern);
   },
   render: function () {
     return (
@@ -31,8 +31,9 @@ var PatternList = React.createClass({
               trackTempo={this.props.trackTempo}
               key={patternKey}
               newTrack={false}
-              handlePatternsUpdate={this.props.handlePatternsUpdate}
-              duplicate={this.duplicate.bind(this, pattern)}
+              onPatternUpdate={this.props.onPatternUpdate}
+              duplicate={this.handlePatternDuplicate.bind(this, pattern)}
+              onDeletePattern={this.props.onDeletePattern}
               data={pattern}/>
           );
         }.bind(this))

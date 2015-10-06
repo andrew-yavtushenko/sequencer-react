@@ -119,7 +119,7 @@ Track.prototype.createPattern = function (beat, noteValue, name, customTempo) {
 Track.prototype.deletePattern = function(patternId) {
   if (!this.isPlaying) {
     var thisPattern = this.getPattern(patternId);
-    idx = this.patterns.indexOf(thisPattern);
+    var idx = this.patterns.indexOf(thisPattern);
     this.patterns.splice(idx, 1);
     return true;
   } else {
