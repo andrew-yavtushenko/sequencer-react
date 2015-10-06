@@ -45,10 +45,11 @@ function trackWrapper () {
     });
   }
 
-  function duplicatePattern (pattern) {
+  function duplicatePattern (pattern, callback) {
     currentTrack.duplicatePattern(pattern);
     dispatcher.setTrack(currentTrack, function () {
       console.log('track updated successfully');
+      callback(currentTrack);
     });
     return currentTrack;
   }

@@ -50,10 +50,21 @@ Track.prototype.setTempo = function(tempo) {
   }
 };
 
+Track.prototype.clone = function (pattern) {
+  var newPattern = this.createPattern(pattern.beat, pattern.noteValue, pattern.name, pattern.customTempo);
+  for (var i = 0; i < pattern.lines.length; i++) {
+    newPattern.addLine(pattern.lines[i].bufferIdx, pattern.lines[i].subDivision);
+    for (var j = 0; j < pattern.lines[i].notes.length; j++) {
+      newPattern.lines[i].notes[j] = _.cloneDeep(pattern.lines[i].notes[j]);
+    }
+  }
+  newPattern.id = uuid.create().hex;
+  return newPattern;
+};
+
 Track.prototype.duplicatePattern = function (pattern) {
   var position = this.patterns.indexOf(pattern);
-  var newPattern = _.extend(pattern, {});
-  newPattern.id = uuid.create().hex;
+  var newPattern = this.clone(pattern);
   this.patterns.splice(position + 1, 0, newPattern);
   return this;
 };

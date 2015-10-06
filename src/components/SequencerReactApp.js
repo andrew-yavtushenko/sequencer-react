@@ -69,9 +69,10 @@ var SequencerReactApp = React.createClass({
     this.setState(this.state);
   },
   duplicatePattern: function (pattern) {
-    TrackWrapper.duplicatePattern(pattern);
-    this.state.data.currentTrack = TrackWrapper.getCurrentTrack();
-    this.setState(this.state);
+    TrackWrapper.duplicatePattern(pattern, function (currentTrack) {
+      this.state.data.currentTrack = currentTrack;
+      this.setState(this.state);
+    }.bind(this));
   },
   patternMove: function (oldIndex, newIndex) {
     TrackWrapper.movePattern(oldIndex, newIndex);

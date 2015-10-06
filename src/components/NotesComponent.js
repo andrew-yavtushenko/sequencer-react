@@ -13,7 +13,7 @@ module.exports = React.createClass({
   },
   updateVolume: function (pattern, line, lineId, noteId, event) {
     event.preventDefault();
-    var volume = line.updateVolume(noteId);
+    var volume = this.state.data.getPattern(pattern.id).lines[lineId].updateVolume(noteId);
     this.props.updateVolume(pattern.id, lineId, noteId, volume);
     this.setState(this.state);
   },
@@ -33,7 +33,7 @@ module.exports = React.createClass({
           this.state.data.patterns.map(function (pattern, patternKey) {
             return (
               <div key={patternKey} className="pattern">
-                {pattern.name}
+                {pattern.id}
                 <ul className="lines">
                   {
                     pattern.lines.map(function (line, lineKey) {
