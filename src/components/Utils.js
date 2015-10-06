@@ -22,7 +22,8 @@ function buildLineNotes (pattern, bufferIdx, subDivision) {
     return {
       value: correctNote,
       volume: 0,
-      bufferIdx: bufferIdx
+      bufferIdx: bufferIdx,
+      isCurrent: false
     };
   });
   return notes;

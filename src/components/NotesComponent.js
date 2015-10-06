@@ -3,6 +3,9 @@
 var React = require('react/addons');
 
 module.exports = React.createClass({
+  componentDidMount: function () {
+    window.addEventListener('blink', this.blink);
+  },
   getInitialState: function () {
     return {
       data: this.props.data
@@ -14,8 +17,14 @@ module.exports = React.createClass({
     this.props.updateVolume(pattern.id, lineId, noteId, volume);
     this.setState(this.state);
   },
-  blink: function () {
-
+  stopNote: function (note) {
+    note.setAttribute('data-is-on', false);
+  },
+  blink: function (e) {
+    var data = e.detail;
+    var note = this.refs[data.patternId + '-' + data.lineId + '-' + data.noteId].getDOMNode();
+    note.setAttribute('data-is-on', true);
+    setTimeout(this.stopNote.bind(this, note), 100);
   },
   render: function () {
     return (
@@ -37,7 +46,7 @@ module.exports = React.createClass({
                                   onClick={this.updateVolume.bind(this, pattern, line, lineKey, noteKey)}
                                   data-note-volume={note.volume}
                                   data-note-size={note.value}
-                                  data-is-on={note.isCurrent}
+                                  ref={pattern.id + '-' + lineKey + '-' + noteKey}
                                   key={noteKey}
                                   className="note">
                                 </li>

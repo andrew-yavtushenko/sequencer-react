@@ -2,6 +2,7 @@
 
 var Context = require('./Context').context;
 var Buffers = require('./Buffers');
+var blink = require('./Blink');
 
 function play (buffer, gain, duration, psh) {
   var noteDuration = duration / 1000;
@@ -28,8 +29,9 @@ function play (buffer, gain, duration, psh) {
 
 
 module.exports = function playNote (bufferId, gain, patternId, lineId, noteId, duration) {
-  var buffer;
+  blink(patternId, lineId, noteId);
 
+  var buffer;
   var psh = bufferId.match(/muted/gi);
 
   if (bufferId.match(/metronome/gi)) {

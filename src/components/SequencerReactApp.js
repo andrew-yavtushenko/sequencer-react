@@ -84,11 +84,14 @@ var SequencerReactApp = React.createClass({
     });
   },
   play: function () {
+    console.profile('react');
+
     TrackWrapper.startPlayback();
   },
   stop: function () {
     TrackWrapper.stopPlayback();
 
+    console.profileEnd('react');
   },
   render: function() {
     return (

@@ -6,7 +6,6 @@ function Line (notes, bufferIdx, subDivision) {
   this._noteTime = 0.0;
   this._rhythmIndex = 0;
   this._isStoped = true;
-  this.isCurrent = false;
 }
 
 Line.prototype.updateVolume = function(noteIdx) {
