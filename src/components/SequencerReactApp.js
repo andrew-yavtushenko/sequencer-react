@@ -45,11 +45,12 @@ var SequencerReactApp = React.createClass({
       this.setState(this.state);
     }.bind(this));
   },
-  setPatternTempo: function () {
-
-  },
-  releasePatternTempo: function () {
-
+  handlePatternUpdate: function (updatedPattern, callback) {
+    TrackWrapper.updatePattern(updatedPattern, function (currentTrack) {
+      this.state.data.currentTrack = currentTrack;
+      this.setState(this.state);
+      callback(this.state.data.currentTrack);
+    }.bind(this));
   },
   handleNewPattern: function (newPattern, callback) {
     TrackWrapper.savePattern(newPattern, function (currentTrack) {
@@ -105,6 +106,7 @@ var SequencerReactApp = React.createClass({
           <div className='track'>
             <CurrentTrack
               onNewPattern={this.handleNewPattern}
+              onPatternUpdate={this.handlePatternUpdate}
               data={this.state.data.currentTrack}
               onTrackTempo={this.setTrackTempo}
               onPatternTempo={this.setPatternTempo}

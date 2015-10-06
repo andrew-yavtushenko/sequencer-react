@@ -22,9 +22,16 @@ var CurrentTrack = React.createClass({
   handleTempoChange: function (tempo) {
     this.props.onTrackTempo(tempo);
   },
-  handlePatternsUpdate: function (data) {
+  handlePatternsCreate: function (data) {
     this.hideForm();
     this.props.onNewPattern(data, function (currentTrack) {
+      this.state.data = currentTrack;
+      this.setState(this.state);
+    }.bind(this));
+  },
+  handlePatternsUpdate: function (data) {
+    this.hideForm();
+    this.props.onPatternUpdate(data, function (currentTrack) {
       this.state.data = currentTrack;
       this.setState(this.state);
     }.bind(this));
@@ -79,7 +86,7 @@ var CurrentTrack = React.createClass({
                 data={this.state.defaultPattern}
                 trackTempo={this.state.data.tempo}
                 newTrack={true}
-                onSubmit={this.handlePatternsUpdate}
+                onSubmit={this.handlePatternsCreate}
                 hideForm={this.hideForm}/> :
               <span>nope</span>
             }

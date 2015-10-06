@@ -50,6 +50,13 @@ Track.prototype.setTempo = function(tempo) {
   }
 };
 
+Track.prototype.updatePattern = function (updatedPattern) {
+  var pattern = this.getPattern(updatedPattern.id);
+  var index = this.patterns.indexOf(pattern);
+  this.patterns[index] = updatedPattern;
+  return this;
+};
+
 Track.prototype.clone = function (pattern) {
   var newPattern = this.createPattern(pattern.beat, pattern.noteValue, pattern.name, pattern.customTempo);
   for (var i = 0; i < pattern.lines.length; i++) {

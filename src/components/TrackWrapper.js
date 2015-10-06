@@ -54,6 +54,14 @@ function trackWrapper () {
     return currentTrack;
   }
 
+  function updatePattern (updatedPattern, callback) {
+    currentTrack.updatePattern(updatedPattern);
+    dispatcher.setTrack(currentTrack, function () {
+      console.log('track updated successfully');
+      callback(currentTrack);
+    });
+  }
+
   function savePattern (pattern, callback) {
     currentTrack.savePattern(pattern);
     dispatcher.setTrack(currentTrack, function () {
@@ -125,6 +133,7 @@ function trackWrapper () {
   }
 
   return {
+    updatePattern: updatePattern,
     savePattern: savePattern,
     movePattern: movePattern,
     duplicatePattern: duplicatePattern,

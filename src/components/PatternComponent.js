@@ -18,12 +18,13 @@ module.exports = React.createClass({
   duplicate: function () {
     this.props.duplicate(this.state.data);
   },
-  hideForm: function () {
+  hideForm: function (data) {
+    this.state.data = data;
     this.state.showForm = false;
     this.setState(this.state);
   },
   handleSubmit: function (data) {
-    this.hideForm();
+    this.hideForm(data);
     this.props.handlePatternsUpdate(data);
   },
   render: function () {

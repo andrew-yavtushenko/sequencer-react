@@ -8,13 +8,43 @@ var TempoComponent = require('./TempoComponent');
 var LoopsComponent = require('./LoopsComponent');
 var _ = require('lodash');
 
+function clone (obj) {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+  var temp = new obj.constructor(obj);
+  for (var key in obj) {
+    temp[key] = clone(obj[key]);
+  }
+  return temp;
+}
+
+
 var PatternForm = React.createClass({
   getInitialState: function () {
     return {
       data: this.props.data,
       customTempoVal: _.cloneDeep(this.props.data.tempo),
-      linesData: []
+      linesData: [],
+      backup: clone(this.props.data)
     };
+  },
+  componentDidMount: function () {
+    this.updateSubDivisions();
+    if (this.props.newTrack) {
+      this.createLine('hat', this.state.data.availableSubDivisions[0]);
+      this.createLine('snare', this.state.data.availableSubDivisions[0]);
+      this.createLine('kick', this.state.data.availableSubDivisions[0]);
+    }
+  },
+  cancel: function (e) {
+    e.preventDefault();
+    this.state.data = this.state.backup;
+    this.setState(this.state);
+    if (!this.props.newTrack) {
+      this.props.onSubmit(this.state.data);
+    }
+    this.props.hideForm(this.state.data);
   },
   handleSubmit: function (e) {
     e.preventDefault();
@@ -68,20 +98,17 @@ var PatternForm = React.createClass({
     }
     return buffersArr;
   },
-  componentDidMount: function () {
-    this.updateSubDivisions();
-    if (this.props.newTrack) {
-      this.createLine('hat', this.state.data.availableSubDivisions[0]);
-      this.createLine('snare', this.state.data.availableSubDivisions[0]);
-      this.createLine('kick', this.state.data.availableSubDivisions[0]);
-    }
-  },
-  removeLine: function (index){
+  removeLineData: function (index){
     return function (event) {
       event.preventDefault();
       this.state.linesData.splice(index, 1);
       this.setState(this.state);
     }.bind(this);
+  },
+  removeLine: function (line, index, event) {
+    event.preventDefault();
+    this.state.data.lines.splice(index, 1);
+    this.setState(this.state);
   },
   changeSubDivision: function (index, event) {
     var val = parseInt(event.target.value);
@@ -102,7 +129,7 @@ var PatternForm = React.createClass({
           <select className='subDiv' ref={'lineSubDivision-' + index} value={line.subDivision} onChange={this.changeSubDivision.bind(this, index)}>
             {this.getSubDivisions()}
           </select>
-          <button className='remove-line' onClick={this.removeLine(index)}>&times;</button>
+          <button className='remove-line' onClick={this.removeLineData(index)}>&times;</button>
         </li>
       );
     }.bind(this));
@@ -174,6 +201,19 @@ var PatternForm = React.createClass({
             {this.getNoteValues()}
           </select>
         </div>
+        <ul>
+          {
+            this.state.data.lines.map(function (line, index) {
+              return (
+                <li key={index}>
+                  <span>{line.bufferIdx}</span>
+                  <span>{Settings.subDivisionNames[line.subDivision]}</span>
+                  <button className='remove-line' onClick={this.removeLine.bind(this, line, index)}>&times;</button>
+                </li>
+              );
+            }.bind(this))
+          }
+        </ul>
         <div className='lines'>
           {this.getLines()}
         </div>
@@ -183,7 +223,7 @@ var PatternForm = React.createClass({
           <div className="clear"></div>
         </div>
         <div className="submit">
-          <a href="#" onClick={this.props.hideForm} className='cancel'>Cancel</a>
+          <a href="#" onClick={this.cancel} className='cancel'>Cancel</a>
           <input type="submit" value='Save pattern'/>
         </div>
       </form>
