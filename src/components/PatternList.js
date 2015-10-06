@@ -2,7 +2,7 @@
 
 var React = require('react/addons');
 var SortableMixin = require('./react-sortable-mixin.js');
-var Settings = require('./Settings');
+var PatternComponent = require('./PatternComponent');
 
 var PatternList = React.createClass({
   mixins: [SortableMixin],
@@ -12,7 +12,8 @@ var PatternList = React.createClass({
   },
   getInitialState: function () {
     return {
-      patterns: this.props.patterns
+      patterns: this.props.patterns,
+      showEditForm: false
     };
   },
   handleSort: function (event) {
@@ -26,17 +27,13 @@ var PatternList = React.createClass({
       <ul ref='patterns' className='PatternList'>{
         this.state.patterns.map(function (pattern, patternKey) {
           return (
-            <li key={patternKey}>
-              {pattern.name}&nbsp;&nbsp;{pattern.beat}/{pattern.noteValue}
-              <div className="duplicate">
-                <a href="#" onClick={this.duplicate.bind(this, pattern)}>duplicate</a>
-              </div>
-              <ul>{
-                pattern.lines.map(function (line, key){
-                  return <li key={key}>{line.bufferIdx + ' ' + Settings.subDivisionNames[line.subDivision]}</li>;
-                })
-              }</ul>
-            </li>
+            <PatternComponent
+              trackTempo={this.props.trackTempo}
+              key={patternKey}
+              newTrack={false}
+              handlePatternsUpdate={this.props.handlePatternsUpdate}
+              duplicate={this.duplicate.bind(this, pattern)}
+              data={pattern}/>
           );
         }.bind(this))
       }</ul>

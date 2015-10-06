@@ -1,38 +1,36 @@
 'use strict';
 
 var React = require('react/addons');
-// var TrackWrapper = require('./TrackWrapper');
-var CounterComponent = require('./CounterComponent');
 var PatternForm = require('./PatternForm');
 var PatternList = require('./PatternList');
 var NameInput = require('./NameInput');
+var TempoComponent = require('./TempoComponent');
+var TrackWrapper = require('./TrackWrapper');
 
 var CurrentTrack = React.createClass({
   getInitialState: function () {
     return {
-      data: {
-        patterns: []
-      },
+      data: this.props.data,
       showNameInput: false,
-      showPatternForm: false,
-      tempo: {
-        min: 40,
-        max: 300,
-        val: 120,
-        label: 'BPM:',
-        name: 'Tempo'
-      }
+      showPatternForm: false
     };
+  },
+  componentDidMount: function () {
+    this.state.defaultPattern = TrackWrapper.createPattern(4, 4, '');
+    this.setState(this.state);
   },
   handleTempoChange: function (tempo) {
     this.props.onTrackTempo(tempo);
   },
   handlePatternsUpdate: function (data) {
     this.hideForm();
-    this.state.data = this.props.onNewPattern(data);
-    this.setState(this.state);
+    this.props.onNewPattern(data, function (currentTrack) {
+      this.state.data = currentTrack;
+      this.setState(this.state);
+    }.bind(this));
   },
   showForm: function () {
+    this.state.defaultPattern = TrackWrapper.createPattern(4, 4, '');
     this.state.showForm = true;
     this.setState(this.state);
   },
@@ -59,7 +57,7 @@ var CurrentTrack = React.createClass({
             <NameInput onNameChange={this.props.onTrackNameChange} val={this.props.data.name}/>
             <ul className='controls'>
               <li>
-                <CounterComponent onValueChange={this.handleTempoChange} data={this.state.tempo}/>
+                <TempoComponent onValueChange={this.handleTempoChange} data={this.props.data.tempo}/>
               </li>
               <li>
                 <a href="#" onClick={this.showForm} className='create-pattern'>Add new pattern</a>
@@ -69,12 +67,22 @@ var CurrentTrack = React.createClass({
           </div>
           <div id='PatternListWrapper' className={this.state.showForm ? 'with-form' : ''}>
             <PatternList
+              trackTempo={this.state.data.tempo}
               patterns={this.state.data.patterns}
               handlePatternSort={this.props.handlePatternSort}
-              handlePatternDuplicate={this.duplicatePattern}/>
+              handlePatternDuplicate={this.duplicatePattern}
+              handlePatternsUpdate={this.handlePatternsUpdate}/>
           </div>
           <div id="PatternFormWrapper" className={this.state.showForm ? '' : 'hidden'}>
-            <PatternForm onSubmit={this.handlePatternsUpdate} hideForm={this.hideForm}/>
+            {this.state.showForm ?
+              <PatternForm
+                data={this.state.defaultPattern}
+                trackTempo={this.state.data.tempo}
+                newTrack={true}
+                onSubmit={this.handlePatternsUpdate}
+                hideForm={this.hideForm}/> :
+              <span>nope</span>
+            }
           </div>
         </div>
       );

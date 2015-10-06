@@ -20,7 +20,7 @@ var CounterComponent = React.createClass({
   increase: function (e) {
     e.preventDefault();
 
-    var newValue = parseInt.call(null, React.findDOMNode(this.refs.value).value) + 1;
+    var newValue = parseInt(React.findDOMNode(this.refs.value).value) + 1;
     if (newValue <= this.state.data.max) {
       this.state.data.val = newValue;
       this.setState(this.state);
@@ -30,7 +30,7 @@ var CounterComponent = React.createClass({
   decrease: function (e) {
     e.preventDefault();
 
-    var newValue = parseInt.call(null, React.findDOMNode(this.refs.value).value) - 1;
+    var newValue = parseInt(React.findDOMNode(this.refs.value).value) - 1;
     if (newValue >= this.state.data.min) {
       this.state.data.val = newValue;
       this.setState(this.state);

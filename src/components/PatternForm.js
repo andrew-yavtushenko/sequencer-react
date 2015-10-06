@@ -4,45 +4,25 @@ var React = require('react/addons');
 var Settings = require('./Settings');
 var Buffers = require('./Buffers');
 var NameInput = require('./NameInput');
-var CounterComponent = require('./CounterComponent');
+var TempoComponent = require('./TempoComponent');
+var LoopsComponent = require('./LoopsComponent');
+var _ = require('lodash');
 
 var PatternForm = React.createClass({
   getInitialState: function () {
     return {
-      data: {
-        beat: 4,
-        noteValue: 4,
-        availableSubDivisions: Settings.subDivision,
-        lines: [],
-        defaultName: 'Untitled Pattern',
-        name: '',
-        customTempo: false,
-        tempo: {
-          min: 40,
-          max: 300,
-          val: 120,
-          label: 'BPM:',
-          name: 'Tempo'
-        },
-        loop: {
-          min: 1,
-          max: 1000000,
-          val: 1,
-          label: 'LOOPS:',
-          name: 'Loops'
-        }
-      }
+      data: this.props.data,
+      customTempoVal: _.cloneDeep(this.props.data.tempo),
+      linesData: []
     };
   },
-
   handleSubmit: function (e) {
     e.preventDefault();
-    var newPatternData = this.state.data;
     this.updateLines();
-    this.props.onSubmit(newPatternData);
-    this.state.data.name = '';
-    this.state.data.defaultName = 'Untitled Pattern';
-    this.setState(this.state);
+    this.state.linesData.map(function (lineData) {
+      this.state.data.addLine(lineData.bufferIdx, lineData.subDivision);
+    }.bind(this));
+    this.props.onSubmit(this.state.data);
   },
   getBeats: function () {
     return Settings.beat.map(function (beat, key) {
@@ -75,8 +55,8 @@ var PatternForm = React.createClass({
     this.setState(this.state);
   },
   updateLines: function () {
-    this.state.data.lines.map(function (line, index) {
-      this.state.data.lines[index].subDivision = parseInt.call(null, this.refs['lineSubDivision-' + index].getDOMNode().value);
+    this.state.linesData.map(function (line, index) {
+      this.state.linesData[index].subDivision = parseInt(this.refs['lineSubDivision-' + index].getDOMNode().value);
     }.bind(this));
     this.setState(this.state);
   },
@@ -90,34 +70,36 @@ var PatternForm = React.createClass({
   },
   componentDidMount: function () {
     this.updateSubDivisions();
-    this.createLine('hihat', this.state.data.availableSubDivisions[0]);
-    this.createLine('snare', this.state.data.availableSubDivisions[0]);
-    this.createLine('kick', this.state.data.availableSubDivisions[0]);
-  },
-  changeLine: function (field, index){
-    return function (event) {
-      var parsed = parseInt.call(null, event.target.value);
-      var val = isNaN(parsed) ? event.target.value : parsed;
-
-      this.state.data.lines[index][field] = val;
-      this.setState(this.state);
-    }.bind(this);
+    if (this.props.newTrack) {
+      this.createLine('hat', this.state.data.availableSubDivisions[0]);
+      this.createLine('snare', this.state.data.availableSubDivisions[0]);
+      this.createLine('kick', this.state.data.availableSubDivisions[0]);
+    }
   },
   removeLine: function (index){
     return function (event) {
       event.preventDefault();
-      this.state.data.lines.splice(index, 1);
+      this.state.linesData.splice(index, 1);
       this.setState(this.state);
     }.bind(this);
   },
+  changeSubDivision: function (index, event) {
+    var val = parseInt(event.target.value);
+    this.state.linesData[index].subDivision = val;
+    this.setState(this.state);
+  },
+  changeBuffer: function (index, event) {
+    this.state.linesData[index].bufferIdx = event.target.value;
+    this.setState(this.state);
+  },
   getLines: function (){
-    var lines = this.state.data.lines.map(function (line, index) {
+    var lines = this.state.linesData.map(function (line, index) {
       return (
         <li key={index}>
-          <select className='buffer' ref={'lineBuffer-' + index} value={line.buffer} onChange={this.changeLine('buffer', index)}>
+          <select className='bufferIdx' ref={'lineBuffer-' + index} value={line.bufferIdx} onChange={this.changeBuffer.bind(this, index)}>
             {this.getBuffersSelect()}
           </select>
-          <select className='subDiv' ref={'lineSubDivision-' + index} value={line.subDivision} onChange={this.changeLine('subDivision', index)}>
+          <select className='subDiv' ref={'lineSubDivision-' + index} value={line.subDivision} onChange={this.changeSubDivision.bind(this, index)}>
             {this.getSubDivisions()}
           </select>
           <button className='remove-line' onClick={this.removeLine(index)}>&times;</button>
@@ -131,12 +113,11 @@ var PatternForm = React.createClass({
     this.getLines();
     this.createLine('hihat', this.state.data.availableSubDivisions[0]);
   },
-  createLine: function (buffer, subDivision) {
-    var newLine = {
-      buffer: buffer,
+  createLine: function (bufferIdx, subDivision) {
+    this.state.linesData.push({
+      bufferIdx: bufferIdx,
       subDivision: subDivision
-    };
-    this.state.data.lines.push(newLine);
+    });
     this.setState(this.state);
   },
   updateBeat: function() {
@@ -154,14 +135,33 @@ var PatternForm = React.createClass({
     console.log(loops);
   },
   handleTempoChange: function (newTempo) {
-    console.log(newTempo);
+    this.state.data.tempo = newTempo;
+    this.setState(this.state);
+  },
+  toggleTempoForm: function () {
+    var checked = this.refs.tempoForm.getDOMNode().checked;
+    if (checked) {
+      this.state.customTempoVal = this.props.trackTempo;
+      this.state.data.customTempo = true;
+    } else {
+      this.state.data.tempo = this.props.trackTempo;
+      this.state.data.customTempo = false;
+    }
+    this.setState(this.state);
+  },
+  getTempo: function () {
+    return this.state.data.customTempo ? this.state.customTempoVal : this.state.data.tempo;
   },
   render: function () {
     return (
       <form className='PatternForm' onSubmit={this.handleSubmit}>
         <div className="head-wrapper">
-          <NameInput onNameChange={this.handleNameChange} val={this.state.data.defaultName}/>
-          <CounterComponent onValueChange={this.handleTempoChange} data={this.state.data.tempo}/>
+          <NameInput onNameChange={this.handleNameChange} val={this.state.data.name}/>
+          <input type="checkbox" checked={this.state.data.customTempo} ref='tempoForm' onChange={this.toggleTempoForm}/>
+          {this.state.data.customTempo ?
+            <TempoComponent onValueChange={this.handleTempoChange} data={this.getTempo()}/> :
+            <span>{this.getTempo()}</span>
+          }
           <div className="clear"></div>
         </div>
         <div className="time-signature">
@@ -179,7 +179,7 @@ var PatternForm = React.createClass({
         </div>
         <div className="lineAndLoop">
           <button onClick={this.addLine}>Add Line</button>
-          <CounterComponent onValueChange={this.handleLoopsChange} data={this.state.data.loop}/>
+          <LoopsComponent onValueChange={this.handleLoopsChange} data={this.props.data.loops}/>
           <div className="clear"></div>
         </div>
         <div className="submit">

@@ -35,10 +35,7 @@ function trackWrapper () {
   }
 
   function addLine (patternId, bufferId, subDivision) {
-    currentTrack.getPattern(patternId).addLine(bufferId, subDivision);
-    dispatcher.setTrack(currentTrack, function () {
-      console.log('track updated successfully');
-    });
+    return currentTrack.getPattern(patternId).addLine(bufferId, subDivision);
   }
 
   function deletePattern (patternId) {
@@ -56,29 +53,36 @@ function trackWrapper () {
     return currentTrack;
   }
 
-  function createPattern (beat, noteValue, name) {
-    var newPattern = currentTrack.createPattern(beat, noteValue, name);
+  function savePattern (pattern, callback) {
+    currentTrack.savePattern(pattern);
     dispatcher.setTrack(currentTrack, function () {
       console.log('track updated successfully');
+      callback(currentTrack);
     });
-    return newPattern;
   }
 
-  function updateNoteVolume (patternId, lineId, noteId) {
-    var volume = currentTrack.getPattern(patternId).lines[lineId].updateVolume(noteId);
+  function createPattern (beat, noteValue, name, tempo) {
+    return currentTrack.createPattern(beat, noteValue, name, tempo);
+  }
+
+  function updateNoteVolume (patternId, lineId, noteId, volume, callback) {
     dispatcher.setNoteVolume(patternId, lineId, noteId, volume, function () {
-      // console.log(arguments);
+      callback('note volume updated', patternId, lineId, noteId, volume);
     });
   }
 
-  function setTrackTempo (tempo) {
+  function setTrackTempo (tempo, callback) {
     dispatcher.setTrackTempo(tempo, function () {
       currentTrack.setTempo(tempo);
+      callback(tempo);
     });
   }
-  function setPatternCustomTempo (tempo, patternId) {
+  function setPatternCustomTempo (tempo, patternId, callback) {
     dispatcher.setPatternCustomTempo(tempo, patternId, function () {
       currentTrack.setCustomTempo(tempo, patternId);
+      if (callback) {
+        callback(currentTrack);
+      }
     });
 
   }
@@ -120,6 +124,7 @@ function trackWrapper () {
   }
 
   return {
+    savePattern: savePattern,
     movePattern: movePattern,
     duplicatePattern: duplicatePattern,
     changeTrackName: changeTrackName,

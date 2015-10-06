@@ -6,6 +6,7 @@ function Pattern (properties) {
   this.beat = properties.beat;
   this.noteValue = properties.noteValue;
   this.lines = [];
+  this.loops = 1 || properties.loops;
   this.currentSubDivision = properties.currentSubDivision;
   this.availableSubDivisions = properties.availableSubDivisions;
   this.id = properties.id;
@@ -55,6 +56,7 @@ Pattern.prototype.addLine = function(bufferIdx, subDivision) {
   var notes = utils.buildLineNotes(this, bufferIdx, subDivision);
   var newLine = new Line(notes, bufferIdx, subDivision);
   this.lines.push(newLine);
+  return newLine;
 };
 
 module.exports = Pattern;

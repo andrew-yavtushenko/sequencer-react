@@ -58,7 +58,17 @@ Track.prototype.duplicatePattern = function (pattern) {
   return this;
 };
 
-Track.prototype.createPattern = function (beat, noteValue, name) {
+Track.prototype.savePattern = function (newPattern) {
+  var index = this.patterns.indexOf(newPattern);
+  if (index !== -1) {
+    this.patterns[index] = newPattern;
+  } else {
+    this.patterns.push(newPattern);
+  }
+  return this;
+};
+
+Track.prototype.createPattern = function (beat, noteValue, name, customTempo) {
   if (this.isPlaying) {
     console.error('you can\'t modify track while playing');
     return false;
@@ -80,7 +90,10 @@ Track.prototype.createPattern = function (beat, noteValue, name) {
       name: name || defaultPatternName + ' ' + parseInt(this.patterns.length + 1)
     });
 
-    this.patterns.push(newPattern);
+    if (customTempo) {
+      newPattern.setCustomTempo(customTempo);
+    }
+
     return newPattern;
   }
 };

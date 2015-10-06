@@ -1,10 +1,7 @@
 'use strict';
 
 var worker = new Worker('./worker/main.js');
-
-var playNote = function () {
-  console.log(arguments);
-};
+var PlayNote = require('./PlayNote');
 
 var callbacks = {};
 var callbacksCounter = 0;
@@ -28,7 +25,7 @@ function addCallback (callback) {
 function parseWorkerMessage (event) {
   var data = JSON.parse(event.data);
   if (data.callName === 'emitNote') {
-    playNote.apply(null, data.payload);
+    PlayNote.apply(null, data.payload);
     return;
   }
   if (typeof callbacks[data.callbackId] === 'function') { callbacks[data.callbackId].call(null, data.payload); }

@@ -4,11 +4,10 @@ var React = require('react/addons');
 var ReactTransitionGroup = React.addons.TransitionGroup;
 var Context = require('./Context');
 var Buffers = require('./Buffers');
-//var TrackForm = require('./TrackForm');
-//var TrackList = require('./TrackList');
 var TrackWrapper = require('./TrackWrapper');
 var CurrentTrack = require('./CurrentTrack');
 var SequencerHeader = require('./SequencerHeader');
+var NotesComponent = require('./NotesComponent');
 
 require('normalize.css');
 require('../styles/main.css');
@@ -29,17 +28,8 @@ var SequencerReactApp = React.createClass({
   getInitialState: function () {
     return {data: {
       tracks: [],
-      currentTrack: null,
       initilized: false
     }};
-  },
-  handleTrackSubmit: function(newTrack) {
-    var tracks = this.state.data.tracks;
-    var newTracks = tracks.concat([newTrack]);
-    this.state.data.tracks = newTracks;
-    this.setState(this.state);
-    this.state.data.tracks = TrackWrapper.getTracks();
-    this.setState(this.state);
   },
   componentDidMount: function() {
     this.loadBuffers();
@@ -50,9 +40,10 @@ var SequencerReactApp = React.createClass({
     this.setState(this.state);
   },
   setTrackTempo: function (tempo) {
-    TrackWrapper.setTrackTempo(tempo);
-    this.state.data.currentTrack.tempo = tempo;
-    this.setState(this.state);
+    TrackWrapper.setTrackTempo(tempo, function () {
+      this.state.data.currentTrack.tempo = tempo;
+      this.setState(this.state);
+    }.bind(this));
   },
   setPatternTempo: function () {
 
@@ -60,21 +51,17 @@ var SequencerReactApp = React.createClass({
   releasePatternTempo: function () {
 
   },
-  handleNewPattern: function (newPatternData) {
-    var newPattern = TrackWrapper.createPattern(newPatternData.beat, newPatternData.noteValue, newPatternData.name);
-    newPatternData.lines.map(function (line) {
-      TrackWrapper.addLine(newPattern.id, line.buffer, line.subDivision);
-    });
-    return TrackWrapper.getCurrentTrack();
+  handleNewPattern: function (newPattern, callback) {
+    TrackWrapper.savePattern(newPattern, function (currentTrack) {
+      this.state.data.currentTrack = currentTrack;
+      this.setState(this.state);
+      callback(this.state.data.currentTrack);
+    }.bind(this));
   },
-  handleNewTrack: function (newTrack) {
-    var tracks = this.state.data.tracks;
-    var newTracks = tracks.concat([newTrack]);
-    this.state.data.tracks = newTracks;
-    this.setState(this.state);
+  handleNewTrack: function () {
+    this.state.data.currentTrack = TrackWrapper.createTrack('');
     this.state.data.tracks = TrackWrapper.getTracks();
     this.setState(this.state);
-    this.handleTrackSelect(TrackWrapper.getCurrentTrack());
   },
   handleTrackNameChange: function (newName) {
     TrackWrapper.changeTrackName(newName);
@@ -91,19 +78,42 @@ var SequencerReactApp = React.createClass({
     this.state.data.currentTrack = TrackWrapper.getCurrentTrack();
     this.setState(this.state);
   },
+  updateVolume: function (patternId, lineId, noteId, volume) {
+    TrackWrapper.updateNoteVolume(patternId, lineId, noteId, volume, function () {
+      //console.log(arguments);
+    });
+  },
+  play: function () {
+    TrackWrapper.startPlayback();
+  },
+  stop: function () {
+    TrackWrapper.stopPlayback();
+
+  },
   render: function() {
     return (
       <ReactTransitionGroup transitionName="fade" component="div" className="main">
-        <SequencerHeader onTrackCreate={this.handleNewTrack} />
-        <CurrentTrack
-          onNewPattern={this.handleNewPattern}
-          data={this.state.data.currentTrack}
-          onTrackTempo={this.setTrackTempo}
-          onPatternTempo={this.setPatternTempo}
-          onTrackNameChange={this.handleTrackNameChange}
-          handlePatternDuplicate={this.duplicatePattern}
-          handlePatternSort={this.patternMove}
-          onReleasePatternTempo={this.releasePatternTempo}/>
+        <SequencerHeader
+          onPlay={this.play}
+          onStop={this.stop}
+          onTrackCreate={this.handleNewTrack} />
+        {this.state.data.currentTrack ?
+          <div className='track'>
+            <CurrentTrack
+              onNewPattern={this.handleNewPattern}
+              data={this.state.data.currentTrack}
+              onTrackTempo={this.setTrackTempo}
+              onPatternTempo={this.setPatternTempo}
+              onTrackNameChange={this.handleTrackNameChange}
+              handlePatternDuplicate={this.duplicatePattern}
+              handlePatternSort={this.patternMove}
+              onReleasePatternTempo={this.releasePatternTempo}/>
+            <NotesComponent
+              updateVolume={this.updateVolume}
+              data={this.state.data.currentTrack}/>
+          </div> :
+          <span>nope</span>
+        }
       </ReactTransitionGroup>
     );
   }
