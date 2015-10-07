@@ -9,6 +9,9 @@
   "dist": "dist",
   "mainInput": "main",
   "mainOutput": "main",
+  "scripts": {
+    "start": "grunt serve"
+  },
   "dependencies": {
     "events": "^1.0.2",
     "flux": "^2.0.1",
