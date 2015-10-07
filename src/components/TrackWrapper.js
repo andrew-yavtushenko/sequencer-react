@@ -47,6 +47,7 @@ function trackWrapper () {
   }
 
   function duplicatePattern (pattern, callback) {
+    console.log(currentTrack);
     currentTrack.duplicatePattern(pattern);
     dispatcher.setTrack(currentTrack, function () {
       console.log('track updated successfully');

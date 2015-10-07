@@ -66,6 +66,7 @@ var SequencerReactApp = React.createClass({
   },
   play: function () {
     console.profile('react');
+    console.log(this.state.data.currentTrack);
 
     TrackWrapper.startPlayback();
   },

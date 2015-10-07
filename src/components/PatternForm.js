@@ -128,7 +128,7 @@ var PatternForm = React.createClass({
   addLine: function (e) {
     e.preventDefault();
     this.getLines();
-    this.createLine('hihat', this.state.data.availableSubDivisions[0]);
+    this.createLine('hat', this.state.data.availableSubDivisions[0]);
   },
   createLine: function (bufferIdx, subDivision) {
     this.state.linesData.push({
