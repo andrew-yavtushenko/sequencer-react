@@ -12,6 +12,7 @@
   "dependencies": {
     "events": "^1.0.2",
     "flux": "^2.0.1",
+    "lodash": "^3.10.1",
     "normalize.css": "~3.0.3",
     "object-assign": "^2.0.0",
     "react": "0.13.x",

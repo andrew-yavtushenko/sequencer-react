@@ -35,7 +35,9 @@ function clone (obj) {
   }
   var temp = new obj.constructor(obj);
   for (var key in obj) {
-    temp[key] = clone(obj[key]);
+    if (obj.hasOwnProperty(key)) {
+      temp[key] = clone(obj[key]);
+    }
   }
   return temp;
 }

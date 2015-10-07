@@ -1,7 +1,7 @@
 var Pattern = require('./PatternModel');
 var uuid = require('./uuid');
 var settings = require('./Settings');
-var _ = require('lodash');
+var utils = require('./Utils');
 
 var defaultTrackName = 'New track';
 var defaultPatternName = 'Untitled Pattern';
@@ -58,13 +58,7 @@ Track.prototype.updatePattern = function (updatedPattern) {
 };
 
 Track.prototype.clone = function (pattern) {
-  var newPattern = this.createPattern(pattern.beat, pattern.noteValue, pattern.name, pattern.customTempo);
-  for (var i = 0; i < pattern.lines.length; i++) {
-    newPattern.addLine(pattern.lines[i].bufferIdx, pattern.lines[i].subDivision);
-    for (var j = 0; j < pattern.lines[i].notes.length; j++) {
-      newPattern.lines[i].notes[j] = _.cloneDeep(pattern.lines[i].notes[j]);
-    }
-  }
+  var newPattern = utils.clone(pattern);
   newPattern.id = uuid.create().hex;
   return newPattern;
 };
