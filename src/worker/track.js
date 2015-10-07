@@ -10,10 +10,6 @@ function Track (trackData) {
   return this;
 }
 
-Track.prototype.editName = function (newName) {
-  this.name = newName;
-};
-
 Track.prototype.releaseCustomTempo = function (patternId) {
   this.getPattern(patternId).releaseCustomTempo(this.tempo);
 }

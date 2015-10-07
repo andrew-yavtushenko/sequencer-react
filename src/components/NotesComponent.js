@@ -24,7 +24,7 @@ module.exports = React.createClass({
     var data = e.detail;
     var note = this.refs[data.patternId + '-' + data.lineId + '-' + data.noteId].getDOMNode();
     note.setAttribute('data-is-on', true);
-    setTimeout(this.stopNote.bind(this, note), 100);
+    setTimeout(this.stopNote.bind(this, note), data.duration);
   },
   render: function () {
     return (

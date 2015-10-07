@@ -4,7 +4,7 @@ var Context = require('./Context').context;
 var Buffers = require('./Buffers');
 var blink = require('./Blink');
 
-function play (buffer, gain, duration, psh) {
+function play (buffer, gain, duration, mute) {
   var noteDuration = duration / 1000;
   var source = Context.createBufferSource();
   var gainNode = Context.createGain();
@@ -22,17 +22,17 @@ function play (buffer, gain, duration, psh) {
     source.start = source.noteOn;
   }
   source.start(0);
-  if (psh) {
+  if (mute) {
     gainNode.gain.setTargetAtTime(0, Context.currentTime + buffer.duration * ratio, 0.05);
   }
 }
 
 
 module.exports = function playNote (bufferId, gain, patternId, lineId, noteId, duration) {
-  blink(patternId, lineId, noteId);
+  blink(patternId, lineId, noteId, duration);
 
   var buffer;
-  var psh = bufferId.match(/muted/gi);
+  var mute = bufferId.match(/muted/gi);
 
   if (bufferId.match(/metronome/gi)) {
     if (gain === 0.33) {
@@ -47,5 +47,5 @@ module.exports = function playNote (bufferId, gain, patternId, lineId, noteId, d
     buffer = Buffers.get()[bufferId];
   }
 
-  play(buffer, gain, duration, psh);
+  play(buffer, gain, duration, mute);
 };
