@@ -5,6 +5,7 @@ var utils = require('./Utils');
 
 var defaultTrackName = 'New track';
 var defaultPatternName = 'Untitled Pattern';
+var duplicateRegex = /^(.*)+\s+copy\s*(\d+)?$/i;
 var trackCounter = 0;
 
 function Track (name) {
@@ -50,6 +51,22 @@ Track.prototype.setTempo = function(tempo) {
   }
 };
 
+Track.prototype.generateUniqueName = function (defaultName) {
+  var regex = new RegExp('^' + defaultName + '\\s*(\\d+)?$', 'i');
+  var collisions = this.patterns.reduce(function (numbers, p) {
+    var match = p.name.trim().match(regex);
+    if (match) { numbers[match[1] | 0] = true; }
+    return numbers;
+  }, {});
+
+  var suffix = 0;
+  while (collisions.hasOwnProperty(suffix)) {
+    suffix++;
+  }
+
+  return suffix ? defaultName + ' ' + suffix : defaultName;
+};
+
 Track.prototype.updatePattern = function (updatedPattern) {
   var pattern = this.getPattern(updatedPattern.id);
   var index = this.patterns.indexOf(pattern);
@@ -66,6 +83,10 @@ Track.prototype.clone = function (pattern) {
 Track.prototype.duplicatePattern = function (pattern) {
   var position = this.patterns.indexOf(pattern);
   var newPattern = this.clone(pattern);
+  var match = newPattern.name.match(duplicateRegex);
+  var newName = match && match[1] || pattern.name;
+  newPattern.name = this.generateUniqueName(newName + ' copy');
+
   this.patterns.splice(position + 1, 0, newPattern);
   return this;
 };
@@ -99,7 +120,7 @@ Track.prototype.createPattern = function (beat, noteValue, name, customTempo) {
       noteValue: noteValue,
       id: uuid.create().hex,
       tempo: this.tempo,
-      name: name || defaultPatternName + ' ' + parseInt(this.patterns.length + 1)
+      name: name || this.generateUniqueName(defaultPatternName)
     });
 
     if (customTempo) {
