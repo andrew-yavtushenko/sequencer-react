@@ -6,17 +6,15 @@ var Buffers = require('./Buffers');
 var NameInput = require('./NameInput');
 var TempoComponent = require('./TempoComponent');
 var LoopsComponent = require('./LoopsComponent');
-var _ = require('lodash');
-var utils = require('./Utils');
 
 
 var PatternForm = React.createClass({
   getInitialState: function () {
     return {
       data: this.props.data,
-      customTempoVal: _.cloneDeep(this.props.data.tempo),
+      customTempoVal: Number(this.props.data.tempo),
       linesData: [],
-      backup: utils.clone(this.props.data)
+      backup: this.props.data.clone()
     };
   },
   componentDidMount: function () {
@@ -29,12 +27,9 @@ var PatternForm = React.createClass({
   },
   cancel: function (e) {
     e.preventDefault();
-    if (!this.props.newTrack) {
-      this.state.data = this.state.backup;
-      this.setState(this.state);
-      this.props.onSubmit(this.state.data);
-    }
-    this.props.hideForm();
+    this.state.data = this.state.backup;
+    this.setState(this.state);
+    this.props.onCancel(this.state.data);
   },
   handleSubmit: function (e) {
     e.preventDefault();
@@ -167,7 +162,7 @@ var PatternForm = React.createClass({
     this.setState(this.state);
   },
   getTempo: function () {
-    return this.state.data.customTempo ? this.state.customTempoVal : this.state.data.tempo;
+    return this.state.data.customTempo ? this.state.customTempoVal : this.props.data.tempo;
   },
   render: function () {
     return (
@@ -175,9 +170,10 @@ var PatternForm = React.createClass({
         <div className="head-wrapper">
           <NameInput onNameChange={this.handleNameChange} val={this.state.data.name}/>
           <input type="checkbox" checked={this.state.data.customTempo} ref='tempoForm' onChange={this.toggleTempoForm}/>
-          {this.state.data.customTempo ?
-            <TempoComponent onValueChange={this.handleTempoChange} data={this.getTempo()}/> :
-            <span>{this.getTempo()}</span>
+          {
+            this.state.data.customTempo
+              ? <TempoComponent onValueChange={this.handleTempoChange} data={this.getTempo()}/>
+              : <span>{this.state.data.tempo}</span>
           }
           <div className="clear"></div>
         </div>

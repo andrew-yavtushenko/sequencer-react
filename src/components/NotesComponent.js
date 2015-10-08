@@ -11,9 +11,9 @@ module.exports = React.createClass({
       data: this.props.data
     };
   },
-  updateVolume: function (pattern, line, lineId, noteId, event) {
+  updateVolume: function (pattern, lineId, noteId, event) {
     event.preventDefault();
-    var volume = this.state.data.getPattern(pattern.id).lines[lineId].updateVolume(noteId);
+    var volume = pattern.lines[lineId].updateVolume(noteId);
     this.props.updateVolume(pattern.id, lineId, noteId, volume);
     this.setState(this.state);
   },
@@ -43,7 +43,7 @@ module.exports = React.createClass({
                             line.notes.map(function (note, noteKey) {
                               return (
                                 <li
-                                  onClick={this.updateVolume.bind(this, pattern, line, lineKey, noteKey)}
+                                  onClick={this.updateVolume.bind(this, pattern, lineKey, noteKey)}
                                   data-note-volume={note.volume}
                                   data-note-size={note.value}
                                   ref={pattern.id + '-' + lineKey + '-' + noteKey}

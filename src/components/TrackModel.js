@@ -1,12 +1,13 @@
 var Pattern = require('./PatternModel');
 var uuid = require('./uuid');
 var settings = require('./Settings');
-var utils = require('./Utils');
+//var utils = require('./Utils');
 
 var defaultTrackName = 'New track';
 var defaultPatternName = 'Untitled Pattern';
 var duplicateRegex = /^(.*)+\s+copy\s*(\d+)?$/i;
 var trackCounter = 0;
+//var _ = require('lodash');
 
 function Track (name) {
   this.tempo = 120;
@@ -74,15 +75,9 @@ Track.prototype.updatePattern = function (updatedPattern) {
   return this;
 };
 
-Track.prototype.clone = function (pattern) {
-  var newPattern = utils.clone(pattern);
-  newPattern.id = uuid.create().hex;
-  return newPattern;
-};
-
 Track.prototype.duplicatePattern = function (pattern) {
   var position = this.patterns.indexOf(pattern);
-  var newPattern = this.clone(pattern);
+  var newPattern = pattern.clone(true);
   var match = newPattern.name.match(duplicateRegex);
   var newName = match && match[1] || pattern.name;
   newPattern.name = this.generateUniqueName(newName + ' copy');

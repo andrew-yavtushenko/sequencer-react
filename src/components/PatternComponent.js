@@ -7,24 +7,24 @@ var PatternForm = require('./PatternForm');
 module.exports = React.createClass({
   getInitialState: function () {
     return {
-      showForm: false,
-      data: this.props.data
+      showForm: false
     };
   },
   showEditForm: function () {
     this.state.showForm = true;
     this.setState(this.state);
   },
-  duplicate: function () {
-    this.props.duplicate(this.state.data);
-  },
   hideForm: function () {
     this.state.showForm = false;
     this.setState(this.state);
   },
-  handleSubmit: function (data) {
+  handleSubmit: function (pattern) {
     this.hideForm();
-    this.props.onPatternUpdate(data);
+    this.props.onPatternUpdate(pattern);
+  },
+  handleCancel: function (pattern) {
+    this.hideForm();
+    this.props.onCancel(pattern);
   },
   deletePattern: function (patternId) {
    this.props.onDeletePattern(patternId);
@@ -37,16 +37,15 @@ module.exports = React.createClass({
             trackTempo={this.props.trackTempo}
             data={this.props.data}
             newTrack={false}
+            onCancel={this.handleCancel}
             onSubmit={this.handleSubmit}
             hideForm={this.hideForm}/> :
           <div className="inner">
             {this.props.data.name}&nbsp;&nbsp;{this.props.data.beat}/{this.props.data.noteValue}
             <div className="custom">
-              {
-                this.props.data.customTempo ?
-                <span>custom</span> :
-                <span>general</span>
-              }
+              { this.props.data.customTempo
+                ? <span>custom</span>
+                : <span>general</span> }
             </div>
             <div className="tempo">{this.props.data.tempo}</div>
             <div className="duplicate">

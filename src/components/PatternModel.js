@@ -1,5 +1,7 @@
 var utils = require('./Utils');
 var Line = require('./LineModel');
+var _ = require('lodash');
+var uuid = require('./uuid');
 
 function Pattern (properties) {
   this.name = properties.name;
@@ -57,6 +59,20 @@ Pattern.prototype.addLine = function(bufferIdx, subDivision) {
   var newLine = new Line(notes, bufferIdx, subDivision);
   this.lines.push(newLine);
   return newLine;
+};
+
+Pattern.prototype.clone = function (full) {
+  var clone = new this.constructor(this);
+  clone.id = full ? uuid.create().hex : this.id;
+
+  for (var i = 0; i < this.lines.length; i++) {
+    var line = this.lines[i];
+    clone.addLine(line.bufferIdx, line.subDivision);
+    for (var j = 0; j < line.notes.length; j++) {
+      clone.lines[i].notes[j] = _.cloneDeep(line.notes[j]);
+    }
+  }
+  return clone;
 };
 
 module.exports = Pattern;

@@ -87,6 +87,9 @@ var SequencerReactApp = React.createClass({
       this.setState(this.state);
     }.bind(this));
   },
+  handleFormCancel: function () {
+    console.log(arguments);
+  },
   render: function() {
     return (
       <ReactTransitionGroup transitionName="fade" component="div" className="main">
@@ -97,6 +100,7 @@ var SequencerReactApp = React.createClass({
         {this.state.data.currentTrack ?
           <div className='track'>
             <CurrentTrack
+              onFormCancel={this.handleFormCancel}
               onNewPattern={this.handleNewPattern}
               onPatternUpdate={this.handlePatternUpdate}
               data={this.state.data.currentTrack}

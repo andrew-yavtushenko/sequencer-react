@@ -22,6 +22,10 @@ var PatternList = React.createClass({
   handlePatternDuplicate: function (pattern) {
     this.props.onPatternDuplicate(pattern);
   },
+  handleCancel: function (index, pattern) {
+    this.state.patterns[index] = pattern;
+    this.setState(this.state);
+  },
   render: function () {
     return (
       <ul ref='patterns' className='PatternList'>{
@@ -31,6 +35,7 @@ var PatternList = React.createClass({
               trackTempo={this.props.trackTempo}
               key={patternKey}
               newTrack={false}
+              onCancel={this.handleCancel.bind(this, patternKey)}
               onPatternUpdate={this.props.onPatternUpdate}
               duplicate={this.handlePatternDuplicate.bind(this, pattern)}
               onDeletePattern={this.props.onDeletePattern}

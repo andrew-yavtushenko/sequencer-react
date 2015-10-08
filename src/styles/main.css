@@ -98,13 +98,16 @@ html, body {
   padding: 0;
 }
 
+.PatternList >li .inner {
+  padding: 12px;
+}
+
 .PatternList >li {
   white-space: normal;
   display: inline-block;
   vertical-align: top;
   margin: 0 9px 9px 0;
   width: 320px;
-  padding: 12px;
   border-radius: 4px;
   box-shadow: 0 0 2px 0 rgba(0,0,0,0.5);
   background-color: #fff;
