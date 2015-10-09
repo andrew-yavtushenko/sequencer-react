@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react/addons');
-var SortableMixin = require('vendor/react-sortable-mixin.js');
+var SortableMixin = require('react-sortable-mixin');
 var PatternComponent = require('components/PatternComponent');
 
 var PatternList = React.createClass({

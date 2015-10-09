@@ -25,8 +25,27 @@ function areLoaded () {
   return _.size(buffers) === _.size(availableSamples);
 }
 
+function loadSample (url, callback) {
+
+  var request = new XMLHttpRequest();
+  request.open('GET', url, true);
+  request.responseType = 'arraybuffer';
+
+  request.onload = function() {
+    Context.context.decodeAudioData(
+      request.response,
+      callback,
+      function(buffer) {
+          console.log('Error decoding drum samples!', buffer);
+      }
+    );
+  };
+
+  request.send();
+}
+
 function compileBuffers (receivedBuffers) {
-  _.reduce(availableSamples, function(result, sampleName){
+  _.reduce(availableSamples, function(result, sampleUrl, sampleName){
     if (sampleName.match(/metronome-/gi)) {
       result.metronome = 'metronome';
     } else {
@@ -36,43 +55,16 @@ function compileBuffers (receivedBuffers) {
   }, loadedBuffers);
 }
 
-function debugError(stage, sample, url) {
-  return function (err) {
-    console.error('Error', stage, 'drum sample: ', sample);
-    console.error('URL:', url);
-    console.error('Exception:', err);
-    return Promise.reject();
-  };
-}
-
 function loadBuffers (callback) {
-  var requests = [];
-
   _.forOwn(availableSamples, function (url, sample) {
-    requests.push(new Request(url)
-      .arrayBuffer()
-      .catch(debugError('fetching', sample, url))
-      .then(function (buffer) {
-        return new Promise(function (resolve, reject) {
-          Context.context.decodeAudioData(buffer, resolve, reject);
-        });
-      })
-      .catch(debugError('decoding', sample, url))
-      .then(function (decodedData) {
-        return [decodedData, sample];
-      })
-    );
-  });
+    loadSample('.' + url, function (buffer) {
+      buffers[sample] = buffer;
 
-  Promise.all(requests).then(function (results) {
-    buffers = results.reduce(function (acc, [value, key]) {
-      acc[key] = value;
-    }, {});
-
-    compileBuffers(buffers);
-    callback(loadedBuffers);
-  }).catch(function (err) {
-    console.error(err);
+      if (areLoaded()) {
+        compileBuffers(buffers);
+        callback(loadedBuffers);
+      }
+    });
   });
 }
 
