@@ -5,13 +5,13 @@ function Loop (properties) {
 }
 
 Loop.prototype.start = function () {
-  if (!this.isStoped) return;
+  if (!this.isStoped) { return; }
   console.log('loop start');
   this.isStoped = false;
 };
 
 Loop.prototype.stop = function () {
-  if (this.isStoped) return;
+  if (this.isStoped) { return; }
   console.log('loop stop');
   this.loopIndex = 0;
   this.patternIndex = 0;
@@ -40,4 +40,4 @@ Loop.prototype.advance = function () {
 
 Loop.prototype.hasPattern = function (pattern) {
   return this.patterns.indexOf(pattern.id) !== -1;
-}
+};

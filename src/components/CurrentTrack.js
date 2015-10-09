@@ -1,8 +1,8 @@
 'use strict';
 
 var React = require('react/addons');
-var PatternForm = require('./PatternForm');
-var PatternList = require('./PatternList');
+var PatternForm = require('./PatternForm/');
+var PatternList = require('./PatternList/');
 var NameInput = require('./NameInput');
 var TempoComponent = require('./TempoComponent');
 var TrackWrapper = require('./TrackWrapper');

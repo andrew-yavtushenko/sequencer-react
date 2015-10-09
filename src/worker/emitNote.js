@@ -1,4 +1,4 @@
-function emitNote (bufferIdx, gain, patternId, lineId, noteId, duration) {
+function emitNote (bufferIdx, gain, patternId, lineId, noteId, duration) { //eslint-disable-line no-unused-vars
   if (gain > 0) {
     var data = JSON.stringify({
       callName: 'emitNote',

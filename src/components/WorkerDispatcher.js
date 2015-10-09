@@ -1,7 +1,7 @@
 'use strict';
 
-var worker = new Worker('./worker/main.js');
-var PlayNote = require('./PlayNote');
+var worker = new Worker(require('../worker/main.js'));
+var PlayNote = require('./playNote');
 
 var callbacks = {};
 var callbacksCounter = 0;

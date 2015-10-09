@@ -2,20 +2,20 @@ var _ = require('lodash');
 var Context = require('./Context');
 
 var availableSamples = {
-  'hat': 'hat',
-  'mutedhat': 'mutedhat',
-  'openhat': 'openhat',
-  'snare': 'snare',
-  'kick': 'kick',
-  'ride': 'ride',
-  'ridebell': 'ridebell',
-  'crash': 'crash',
-  'tom1': 'tom1',
-  'tom2': 'tom2',
-  'tom3': 'tom3',
-  'metronome-low': 'metronome-low',
-  'metronome-med': 'metronome-med',
-  'metronome-high': 'metronome-high'
+  'hat': require('sounds/hat.wav'),
+  'mutedhat': require('sounds/mutedhat.wav'),
+  'openhat': require('sounds/openhat.wav'),
+  'snare': require('sounds/snare.wav'),
+  'kick': require('sounds/kick.wav'),
+  'ride': require('sounds/ride.wav'),
+  'ridebell': require('sounds/ridebell.wav'),
+  'crash': require('sounds/crash.wav'),
+  'tom1': require('sounds/tom1.wav'),
+  'tom2': require('sounds/tom2.wav'),
+  'tom3': require('sounds/tom3.wav'),
+  'metronome-low': require('sounds/metronome-low.wav'),
+  'metronome-med': require('sounds/metronome-med.wav'),
+  'metronome-high': require('sounds/metronome-high.wav')
 };
 
 var buffers = {};
@@ -45,7 +45,7 @@ function loadSample (url, callback) {
 }
 
 function compileBuffers (receivedBuffers) {
-  _.reduce(availableSamples, function(result, sampleName){
+  _.reduce(availableSamples, function(result, sampleUrl, sampleName){
     if (sampleName.match(/metronome-/gi)) {
       result.metronome = 'metronome';
     } else {
@@ -56,9 +56,8 @@ function compileBuffers (receivedBuffers) {
 }
 
 function loadBuffers (callback) {
-  _.each(availableSamples, function (sample) {
-
-    loadSample('./sounds/' + sample + '.wav', function (buffer) {
+  _.forOwn(availableSamples, function (url, sample) {
+    loadSample('.' + url, function (buffer) {
       buffers[sample] = buffer;
 
       if (areLoaded()) {

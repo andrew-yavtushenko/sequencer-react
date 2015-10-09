@@ -13,12 +13,12 @@
   },
   "rules": {
     "quotes": [ 1, "single" ],
-    "no-wrap-func": false,
-    "no-unused-expressions": false,
-    "no-console": false,
-    "no-undef": false,
-    "global-strict": false,
+    "no-extra-parens": 0,
+    "no-unused-expressions": 0,
+    "no-console": 0,
+    "no-undef": 0,
+    "global-strict": 0,
     "no-extra-semi": 1,
-    "no-underscore-dangle": false
+    "no-underscore-dangle": 0
   }
 }

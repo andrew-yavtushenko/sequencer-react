@@ -15,3 +15,4 @@ importScripts(
 
 var Player = initPlayer();
 var Ticker = initTicker();
+(function () {})(Player, Ticker); // tricking eslint

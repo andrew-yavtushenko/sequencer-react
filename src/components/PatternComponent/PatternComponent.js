@@ -1,10 +1,11 @@
 'use strict';
 
 var React = require('react/addons');
-var Settings = require('./Settings');
-var PatternForm = require('./PatternForm');
+var Settings = require('components/Settings');
+var PatternForm = require('components/PatternForm');
 
-module.exports = React.createClass({
+var PatternComponent = React.createClass({
+  displayName: 'PatternComponent',
   getInitialState: function () {
     return {
       showForm: false
@@ -67,3 +68,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+module.exports = PatternComponent;

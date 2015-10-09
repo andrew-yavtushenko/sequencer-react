@@ -1,8 +1,8 @@
 var _player;
 var currentTrack;
 
-function initPlayer () {
-  
+function initPlayer () { //eslint-disable-line no-unused-vars
+
   function start () {
     Ticker.start(currentTrack);
   }

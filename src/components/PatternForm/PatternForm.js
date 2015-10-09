@@ -1,10 +1,10 @@
 'use strict';
 
 var React = require('react/addons');
-var Settings = require('./Settings');
-var Buffers = require('./Buffers');
-var NameInput = require('./NameInput');
-var TempoComponent = require('./TempoComponent');
+var Settings = require('components/Settings');
+var Buffers = require('components/Buffers');
+var NameInput = require('components/NameInput');
+var TempoComponent = require('components/TempoComponent');
 
 
 var PatternForm = React.createClass({
