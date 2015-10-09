@@ -25,10 +25,12 @@ Pattern.prototype.setTempo = function(tempo) {
 };
 
 Pattern.prototype.check = function(currentTime) {
-  var result;
-  for (var i = 0, il = this.lines.length; i < il; i++) {
-    result = this.lines[i].check(currentTime, this.tempo, this.id, i);
-    if (i === 0) { this.isStopped = result; }
+  if (this.lines[0].check(currentTime, this.tempo, this.id, 0)) {
+    this.stop();
+  } else {
+    for (var i = 1, il = this.lines.length; i < il; i++) {
+      this.lines[i].check(currentTime, this.tempo, this.id, i);
+    }
   }
   return this.isStopped;
 };

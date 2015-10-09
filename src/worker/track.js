@@ -1,12 +1,20 @@
+
+function findPattern (patternId, pattern) {
+  return pattern.id === patternId;
+}
+
 function Track (trackData) {
-  this.patternIndex = 0;
   for (var key in trackData) {
     this[key] = trackData[key];
   }
 
+  this.patternIndex = 0;
+  this.loopsIndex = 0;
+
   for (var i = 0; i < this.patterns.length; i++) {
-    this.patterns[i] = new Pattern(this.patterns[i]);
+    this.patterns[i] = this.patterns[i].isLoop ? new Loop(this.patterns[i]) : new Pattern(this.patterns[i]);
   }
+
   return this;
 }
 
@@ -27,34 +35,45 @@ Track.prototype.setTempo = function(tempo) {
   }
 };
 
-Track.prototype.advancePattern = function(currentPattern) {
-  currentPattern.stop();
+Track.prototype.advancePattern = function() {
+  this.loops[this.loopsIndex].advance();
   this.patternIndex++;
   if (this.patternIndex === this.patterns.length) {
     this.patternIndex = 0;
   }
 };
 
+Track.prototype.advanceLoop = function() {
+  this.loopsIndex++;
+  if (this.loopsIndex === this.loops.length) {
+    this.loopsIndex = 0;
+  }
+};
+
 Track.prototype.check = function(currentTime) {
   var currentPattern = this.patterns[this.patternIndex];
-  currentPattern.start();
+  var currentLoop = this.loops[this.loopsIndex];
 
-  var currentPatternIsStoped = currentPattern.check(currentTime);
-
-  if (currentPatternIsStoped) {
-    this.advancePattern(currentPattern);
+  if (currentLoop.hasPattern(currentPattern)) {
+    currentLoop.start();
+  } else {
+    currentLoop.stop();
+    this.advanceLoop();
   }
 
-  return currentPatternIsStoped;
+  currentPattern.start();
+
+  var currentPatternIsStopped = currentPattern.check(currentTime);
+
+  if (currentPatternIsStopped) {
+    this.advancePattern();
+  }
+
+  return currentPatternIsStopped;
 };
 
 Track.prototype.getPattern = function(patternId) {
-
-  function findPattern (pattern) {
-    return pattern.id === patternId;
-  }
-
-  return this.patterns.find(findPattern);
+  return this.patterns.find(findPattern.bind(this, patternId));
 };
 
 Track.prototype.stop = function() {

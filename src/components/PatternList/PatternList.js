@@ -2,7 +2,7 @@
 
 var React = require('react/addons');
 var SortableMixin = require('react-sortable-mixin');
-var PatternComponent = require('components/PatternComponent');
+var PatternComponentWrapper = require('components/PatternWrapperComponent');
 
 var PatternList = React.createClass({
   mixins: [SortableMixin],
@@ -31,7 +31,7 @@ var PatternList = React.createClass({
       <ul ref='patterns' className='PatternList'>{
         this.state.patterns.map(function (pattern, patternKey) {
           return (
-            <PatternComponent
+            <PatternComponentWrapper
               trackTempo={this.props.trackTempo}
               key={patternKey}
               newTrack={false}

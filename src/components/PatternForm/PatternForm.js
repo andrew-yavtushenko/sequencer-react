@@ -5,7 +5,6 @@ var Settings = require('components/Settings');
 var Buffers = require('components/Buffers');
 var NameInput = require('components/NameInput');
 var TempoComponent = require('components/TempoComponent');
-var LoopsComponent = require('components/LoopsComponent');
 
 
 var PatternForm = React.createClass({
@@ -205,7 +204,6 @@ var PatternForm = React.createClass({
         </div>
         <div className="lineAndLoop">
           <button onClick={this.addLine}>Add Line</button>
-          <LoopsComponent onValueChange={this.handleLoopsChange} data={this.props.data.loops}/>
           <div className="clear"></div>
         </div>
         <div className="submit">

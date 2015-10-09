@@ -87,8 +87,8 @@ var SequencerReactApp = React.createClass({
       this.setState(this.state);
     }.bind(this));
   },
-  handleFormCancel: function () {
-    console.log(arguments);
+  handleCreateLoop: function (patterns) {
+    TrackWrapper.createLoop(patterns, this.updateCurrentTrack);
   },
   render: function() {
     return (
@@ -100,7 +100,7 @@ var SequencerReactApp = React.createClass({
         {this.state.data.currentTrack ?
           <div className='track'>
             <CurrentTrack
-              onFormCancel={this.handleFormCancel}
+              onCreateLoop={this.handleCreateLoop}
               onNewPattern={this.handleNewPattern}
               onPatternUpdate={this.handlePatternUpdate}
               data={this.state.data.currentTrack}

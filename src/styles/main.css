@@ -87,7 +87,8 @@ html, body {
   width: calc(100% - 335px);
 }
 
-.PatternList {
+.PatternList,
+.loopPatterns {
   list-style: none;
   padding: 0;
   white-space: nowrap;
@@ -102,7 +103,8 @@ html, body {
   padding: 12px;
 }
 
-.PatternList >li {
+.PatternList >li,
+.PatternList .loopPatterns >li{
   white-space: normal;
   display: inline-block;
   vertical-align: top;
@@ -111,6 +113,10 @@ html, body {
   border-radius: 4px;
   box-shadow: 0 0 2px 0 rgba(0,0,0,0.5);
   background-color: #fff;
+}
+
+.PatternList .loop {
+    width: auto;
 }
 
 #SequencerHeader {
@@ -566,7 +572,9 @@ ul.notes:before {
 
 .patterns {
     background-color: #636c70;
-    width: 100%;
-    overflow: auto;
-    padding-bottom: 300px;
+}
+
+.loopPatterns {
+    margin: 0;
+    background-color: #879398;
 }
