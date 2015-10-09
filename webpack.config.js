@@ -23,6 +23,7 @@ module.exports = {
   devtool: 'cheap-module-sourcemap',
   devServer: {
     contentBase: 'dist/',
+    port: 8000
   },
 
   entry: {
