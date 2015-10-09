@@ -13,12 +13,12 @@ function Pattern (patternData) {
 Pattern.prototype.releaseCustomTempo = function(tempo) {
   this.customTempo = false;
   this.tempo = tempo;
-}
+};
 
 Pattern.prototype.setCustomTempo = function(tempo) {
   this.customTempo = true;
   this.tempo = tempo;
-}
+};
 
 Pattern.prototype.setTempo = function(tempo) {
   this.tempo = tempo;
@@ -28,7 +28,7 @@ Pattern.prototype.check = function(currentTime) {
   var result;
   for (var i = 0, il = this.lines.length; i < il; i++) {
     result = this.lines[i].check(currentTime, this.tempo, this.id, i);
-    if (i === 0) this.isStopped = result;
+    if (i === 0) { this.isStopped = result; }
   }
   return this.isStopped;
 };

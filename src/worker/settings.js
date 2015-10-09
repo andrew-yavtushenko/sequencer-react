@@ -1,7 +1,7 @@
-var settings = {
-  subDivision: [1,2,4,8,12,16,24,32,48,64],
-  beat: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
-  noteValue: [1,2,4,8,16],
+var settings = { //eslint-disable-line no-unused-vars
+  subDivision: [1, 2, 4, 8, 12, 16, 24, 32, 48, 64],
+  beat: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+  noteValue: [1, 2, 4, 8, 16],
   subDivisionNames: {
     1: 'Whole note',
     2: 'Half note',

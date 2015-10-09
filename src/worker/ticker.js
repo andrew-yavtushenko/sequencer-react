@@ -1,12 +1,11 @@
 var _ticker;
 
-function initTicker () {
+function initTicker () { //eslint-disable-line no-unused-vars
   var intervalId;
   var startTime;
   var currentTime;
   var currentTrack;
   var inProgress = false;
-  var tracks = [];
 
   function schedule() {
     currentTime = timing.current();
@@ -14,23 +13,25 @@ function initTicker () {
     currentTime -= startTime;
     var timeToDrop = currentTrack.check(currentTime);
 
-    if (timeToDrop) startTime = timing.current();
+    if (timeToDrop) {
+      startTime = timing.current();
+    }
   }
 
-  function stop (track) {
-    if (!inProgress) return;
+  function stop() {
+    if (!inProgress) { return; }
 
     clearInterval(intervalId);
     currentTrack.stop();
     currentTrack.isPlaying = false;
     inProgress = false;
-    console.profileEnd("worker");
+    console.profileEnd('worker');
   }
 
   function start (track) {
-    if (inProgress) return;
+    if (inProgress) { return; }
 
-    console.profile("worker");
+    console.profile('worker');
     currentTrack = track;
     currentTrack.isPlaying = true;
     inProgress = true;
