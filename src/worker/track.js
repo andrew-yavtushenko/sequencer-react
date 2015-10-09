@@ -36,7 +36,6 @@ Track.prototype.setTempo = function(tempo) {
 };
 
 Track.prototype.advancePattern = function() {
-  this.loops[this.loopsIndex].advance();
   this.patternIndex++;
   if (this.patternIndex === this.patterns.length) {
     this.patternIndex = 0;
