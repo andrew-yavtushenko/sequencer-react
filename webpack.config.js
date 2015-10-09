@@ -63,8 +63,18 @@ module.exports = {
     }],
     loaders: [{
       test: /\.(js|jsx)$/,
-      exclude: /node_modules/,
-      loader: 'react-hot!babel-loader'
+      loader: 'react-hot!babel-loader',
+      exclude: [
+        path.resolve(__dirname, 'node_modules'),
+        path.resolve(__dirname, 'src', 'worker')
+      ]
+    }, {
+      loader: 'file-loader?name=[path][name].[ext]',
+      include: [
+        path.resolve(__dirname, 'src', 'worker'),
+        path.resolve(__dirname, 'src', 'fonts'),
+        path.resolve(__dirname, 'src', 'sounds')
+      ]
     }, {
       test: /\.styl/,
       loader: 'style-loader!css-loader!stylus-loader'
@@ -72,11 +82,9 @@ module.exports = {
       test: /\.css$/,
       loader: 'style-loader!css-loader'
     }, {
-      test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
-      loader: 'url-loader?limit=8192'
-    }, {
-      test: /\.wav$/,
-      loader: 'file-loader'
+      test: /\.(png|jpg|svg)$/,
+      loader: 'url-loader?limit=8192',
+      exclude: path.resolve(__dirname, 'src', 'fonts')
     }]
   },
 

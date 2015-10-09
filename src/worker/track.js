@@ -12,11 +12,11 @@ function Track (trackData) {
 
 Track.prototype.releaseCustomTempo = function (patternId) {
   this.getPattern(patternId).releaseCustomTempo(this.tempo);
-}
+};
 
 Track.prototype.setCustomTempo = function (tempo, patternId) {
   this.getPattern(patternId).setCustomTempo(tempo);
-}
+};
 
 Track.prototype.setTempo = function(tempo) {
   this.tempo = tempo;
@@ -41,7 +41,9 @@ Track.prototype.check = function(currentTime) {
 
   var currentPatternIsStoped = currentPattern.check(currentTime);
 
-  if (currentPatternIsStoped) this.advancePattern(currentPattern);
+  if (currentPatternIsStoped) {
+    this.advancePattern(currentPattern);
+  }
 
   return currentPatternIsStoped;
 };
@@ -56,7 +58,9 @@ Track.prototype.getPattern = function(patternId) {
 };
 
 Track.prototype.stop = function() {
-  if (!this.isPlaying) return;
+  if (!this.isPlaying) {
+    return;
+  }
 
   this.isPlaying = true;
   this.patternIndex = 0;

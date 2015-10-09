@@ -5,6 +5,7 @@ var React = require('react');
 // var Router = require('react-router');
 // var Route = Router.Route;
 
+require.context('../worker/', true, /\.js$/);
 
 // var Routes = (
 //   <Route handler={SequencerReactApp}>
