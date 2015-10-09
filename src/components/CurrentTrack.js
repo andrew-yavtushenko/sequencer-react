@@ -11,8 +11,15 @@ var CurrentTrack = React.createClass({
   getInitialState: function () {
     return {
       showNameInput: false,
-      showPatternForm: false
+      showPatternForm: false,
+      loopStart: null,
+      loopFinish: null
     };
+  },
+  updateLoopValues: function () {
+    this.state.loopStart = this.props.data.patterns[0].id;
+    this.state.loopFinish = this.props.data.patterns[0].id;
+    this.setState(this.state);
   },
   componentDidMount: function () {
     this.state.defaultPattern = TrackWrapper.createPattern(4, 4, '');
@@ -21,10 +28,16 @@ var CurrentTrack = React.createClass({
   handlePatternCreate: function (data) {
     this.hideForm();
     this.props.onNewPattern(data);
+    this.updateLoopValues();
   },
   handlePatternUpdate: function (pattern) {
     this.hideForm();
     this.props.onPatternUpdate(pattern);
+    this.updateLoopValues();
+  },
+  onPatternDuplicate: function (data) {
+    this.props.onPatternDuplicate(data);
+    this.updateLoopValues();
   },
   showForm: function () {
     this.state.defaultPattern = TrackWrapper.createPattern(4, 4, '');
@@ -43,6 +56,32 @@ var CurrentTrack = React.createClass({
     this.setState(this.state);
     this.props.onTempoChange(tempo);
   },
+  onCreateLoop: function () {
+    var patternStart = this.props.data.getPattern(this.state.loopStart);
+    var patternFinish = this.props.data.getPattern(this.state.loopFinish);
+
+    var startIndex = this.props.data.patterns.indexOf(patternStart);
+    var finishIndex = this.props.data.patterns.indexOf(patternFinish);
+    var patternsToLoop = [];
+
+    if (startIndex < finishIndex) {
+      patternsToLoop = this.props.data.patterns.slice(startIndex, finishIndex + 1);
+    } else {
+      patternsToLoop = this.props.data.patterns.slice(finishIndex, startIndex + 1);
+    }
+
+    this.props.onCreateLoop(patternsToLoop);
+  },
+  handleLoopStartChange: function (e) {
+    e.preventDefault();
+    this.state.loopStart = e.target.value;
+    this.setState(this.state);
+  },
+  handleLoopFinishChange: function (e) {
+    e.preventDefault();
+    this.state.loopFinish = e.target.value;
+    this.setState(this.state);
+  },
   render: function () {
     if (this.props.data === null) {
       return (
@@ -55,6 +94,31 @@ var CurrentTrack = React.createClass({
             <span className='title-label'>Track Title:</span>
             <NameInput onNameChange={this.props.onTrackNameChange} val={this.props.data.name}/>
             <ul className='controls'>
+              <li>
+                <select value={this.state.loopStart} onChange={this.handleLoopStartChange}>
+                  {
+                    this.props.data.patterns.map(function (pattern, patternKey) {
+                      return (
+                        <option key={patternKey} value={pattern.id}>{pattern.name}</option>
+                      );
+                    })
+                  }
+                </select>
+              </li>
+              <li>
+                <select value={this.state.loopFinish} onChange={this.handleLoopFinishChange}>
+                  {
+                    this.props.data.patterns.map(function (pattern, patternKey) {
+                      return (
+                        <option key={patternKey} value={pattern.id}>{pattern.name}</option>
+                      );
+                    })
+                  }
+                </select>
+              </li>
+              <li>
+                <a href="#" onClick={this.onCreateLoop}>create loop</a>
+              </li>
               <li>
                 <TempoComponent onValueChange={this.handleTempoChange} data={this.props.data.tempo}/>
               </li>

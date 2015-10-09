@@ -26,41 +26,53 @@ module.exports = React.createClass({
     note.setAttribute('data-is-on', true);
     setTimeout(this.stopNote.bind(this, note), data.duration);
   },
+  renderNote: function (pattern, lineKey, note, noteKey) {
+    return (
+      <li
+        onClick={this.updateVolume.bind(this, pattern, lineKey, noteKey)}
+        data-note-volume={note.volume}
+        data-note-size={note.value}
+        ref={pattern.id + '-' + lineKey + '-' + noteKey}
+        key={noteKey}
+        className="note">
+      </li>
+    );
+  },
+  renderLine: function (pattern, line, lineKey) {
+    return (
+      <li key={lineKey}>{
+        <ul className="notes" data-buffer={line.bufferIdx}>{
+          line.notes.map(this.renderNote.bind(this, pattern, lineKey))
+        }</ul>
+      }</li>
+    );
+  },
+  renderPattern: function (pattern, patternKey) {
+    return (
+      pattern.isLoop ?
+        <div key={patternKey} className="loop">
+          {pattern.id}
+          <ul className="loopPatterns">
+            {
+              pattern.patterns.map(this.renderPattern)
+            }
+          </ul>
+        </div> :
+        <div key={patternKey} className="pattern">
+          {pattern.name}
+          <ul className="lines">
+            {
+              pattern.lines.map(this.renderLine.bind(this, pattern))
+            }
+          </ul>
+        </div>
+    );
+  },
   render: function () {
     return (
       <div className="patterns">
         {
-          this.state.data.patterns.map(function (pattern, patternKey) {
-            return (
-              <div key={patternKey} className="pattern">
-                {pattern.id}
-                <ul className="lines">
-                  {
-                    pattern.lines.map(function (line, lineKey) {
-                      return (
-                        <li key={lineKey}>{
-                          <ul className="notes" data-buffer={line.bufferIdx}>{
-                            line.notes.map(function (note, noteKey) {
-                              return (
-                                <li
-                                  onClick={this.updateVolume.bind(this, pattern, lineKey, noteKey)}
-                                  data-note-volume={note.volume}
-                                  data-note-size={note.value}
-                                  ref={pattern.id + '-' + lineKey + '-' + noteKey}
-                                  key={noteKey}
-                                  className="note">
-                                </li>
-                              );
-                            }.bind(this))
-                          }</ul>
-                        }</li>
-                      );
-                    }.bind(this))
-                  }
-                </ul>
-              </div>
-            );
-          }.bind(this))
+          this.state.data.patterns.map(this.renderPattern)
         }
       </div>
     );

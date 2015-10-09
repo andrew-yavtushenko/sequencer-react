@@ -1,4 +1,7 @@
+'use strict';
+
 var Pattern = require('./PatternModel');
+var Loop = require('./LoopModel');
 var uuid = require('./uuid');
 var settings = require('./Settings');
 //var utils = require('./Utils');
@@ -19,6 +22,14 @@ function Track (name) {
 
   return this;
 }
+
+Track.prototype.createLoop = function (patternsToLoop) {
+  var start = this.patterns.indexOf(patternsToLoop[0]);
+  var patterns = this.patterns.splice(start, patternsToLoop.length);
+  var newLoop = new Loop(patterns, 1);
+  this.patterns.splice(start, 0, newLoop);
+  return newLoop;
+};
 
 Track.prototype.movePattern = function (oldIndex, newIndex) {
   if (newIndex >= this.patterns.length) {
@@ -55,6 +66,9 @@ Track.prototype.setTempo = function(tempo) {
 Track.prototype.generateUniqueName = function (defaultName) {
   var regex = new RegExp('^' + defaultName + '\\s*(\\d+)?$', 'i');
   var collisions = this.patterns.reduce(function (numbers, p) {
+    if (p.isLoop) {
+      return numbers;
+    }
     var match = p.name.trim().match(regex);
     if (match) { numbers[match[1] | 0] = true; }
     return numbers;
