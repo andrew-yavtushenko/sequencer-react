@@ -9,10 +9,10 @@ function Track (trackData) {
   }
 
   this.patternIndex = 0;
-  this.loopsIndex = 0;
 
   for (var i = 0; i < this.patterns.length; i++) {
-    this.patterns[i] = this.patterns[i].isLoop ? new Loop(this.patterns[i]) : new Pattern(this.patterns[i]);
+    var patternData = this.patterns[i];
+    this.patterns[i] = patternData.isLoop ? new Loop(patternData) : new Pattern(patternData);
   }
 
   return this;
@@ -43,23 +43,8 @@ Track.prototype.advancePattern = function() {
   }
 };
 
-Track.prototype.advanceLoop = function() {
-  this.loopsIndex++;
-  if (this.loopsIndex === this.loops.length) {
-    this.loopsIndex = 0;
-  }
-};
-
 Track.prototype.check = function(currentTime) {
   var currentPattern = this.patterns[this.patternIndex];
-  var currentLoop = this.loops[this.loopsIndex];
-
-  if (currentLoop.hasPattern(currentPattern)) {
-    currentLoop.start();
-  } else {
-    currentLoop.stop();
-    this.advanceLoop();
-  }
 
   currentPattern.start();
 
