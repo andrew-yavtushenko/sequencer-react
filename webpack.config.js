@@ -33,7 +33,7 @@ module.exports = {
     ],
     vendor: Object.keys(
         packageJSON.dependencies
-    )
+    ).filter(function (dep) { return dep !== 'lodash'; })
   },
 
   stats: {

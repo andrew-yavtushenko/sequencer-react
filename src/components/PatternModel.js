@@ -1,6 +1,6 @@
 var utils = require('./Utils');
 var Line = require('./LineModel');
-var _ = require('lodash');
+var cloneDeep = require('lodash/lang/cloneDeep');
 var uuid = require('./uuid');
 
 function Pattern (properties) {
@@ -69,7 +69,7 @@ Pattern.prototype.clone = function (full) {
     var line = this.lines[i];
     clone.addLine(line.bufferIdx, line.subDivision);
     for (var j = 0; j < line.notes.length; j++) {
-      clone.lines[i].notes[j] = _.cloneDeep(line.notes[j]);
+      clone.lines[i].notes[j] = cloneDeep(line.notes[j]);
     }
   }
   return clone;
