@@ -16,5 +16,4 @@ var React = require('react');
 //   React.render(<Handler/>, content);
 // });
 
-var content = document.getElementById('content');
-React.render(<SequencerReactApp />, content);
+React.render(<SequencerReactApp />, document.body);
