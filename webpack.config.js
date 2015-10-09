@@ -29,7 +29,7 @@ module.exports = {
   entry: {
     main: [
         //'webpack/hot/only-dev-server',
-        './components/main.js'
+        './main.js'
     ],
     vendor: Object.keys(
         packageJSON.dependencies
@@ -45,13 +45,13 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx'],
     alias: {
-      'styles': __dirname + '/src/styles',
+      'actions': __dirname + '/src/actions',
+      'components': __dirname + '/src/components',
+      'containers': __dirname + '/src/containers',
       'mixins': __dirname + '/src/mixins',
-      'components': __dirname + '/src/components/',
-      'vendor': __dirname + '/src/vendor/',
-      'sounds': __dirname + '/src/sounds/',
-      'stores': __dirname + '/src/stores/',
-      'actions': __dirname + '/src/actions/'
+      'reducers': __dirname + '/src/reducers',
+      'sounds': __dirname + '/src/sounds',
+      'styles': __dirname + '/src/styles'
     }
   },
 
@@ -91,7 +91,9 @@ module.exports = {
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
     new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin()
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'src', 'index.html')
+    })
   ]
 
 };
