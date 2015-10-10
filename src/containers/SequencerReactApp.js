@@ -2,12 +2,16 @@
 
 var React = require('react/addons');
 var ReactTransitionGroup = React.addons.TransitionGroup;
-var Context = require('./Context');
-var Buffers = require('./Buffers');
-var TrackWrapper = require('./TrackWrapper');
-var CurrentTrack = require('./CurrentTrack');
-var SequencerHeader = require('./SequencerHeader');
-var NotesComponent = require('./NotesComponent');
+var Context = require('components/Context');
+var Buffers = require('components/Buffers');
+var TrackWrapper = require('components/TrackWrapper');
+var CurrentTrack = require('components/CurrentTrack');
+var SequencerHeader = require('components/SequencerHeader');
+var NotesComponent = require('components/NotesComponent');
+var mapValues = require('lodash/object/mapValues');
+var actions = require('actions');
+var { bindActionCreators } = require('redux');
+var { connect } = require('react-redux');
 
 require('normalize.css');
 require('../styles/main.css');
@@ -120,4 +124,16 @@ var SequencerReactApp = React.createClass({
   }
 });
 
-module.exports = SequencerReactApp;
+function mapStateToProps(state) {
+    return state;
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: mapValues(actions, function (obj) {
+          return bindActionCreators(obj, dispatch);
+        })
+    };
+}
+
+module.exports = connect(mapStateToProps, mapDispatchToProps)(SequencerReactApp);

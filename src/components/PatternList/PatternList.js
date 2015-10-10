@@ -31,15 +31,16 @@ var PatternList = React.createClass({
       <ul ref='patterns' className='PatternList'>{
         this.state.patterns.map(function (pattern, patternKey) {
           return (
-            <PatternComponentWrapper
-              trackTempo={this.props.trackTempo}
-              key={patternKey}
-              newTrack={false}
-              onCancel={this.handleCancel.bind(this, patternKey)}
-              onPatternUpdate={this.props.onPatternUpdate}
-              duplicate={this.handlePatternDuplicate.bind(this, pattern)}
-              onDeletePattern={this.props.onDeletePattern}
-              data={pattern}/>
+            <li key={patternKey} className={pattern.isLoop ? 'loop' : void 0}>
+              <PatternComponentWrapper
+                trackTempo={this.props.trackTempo}
+                newTrack={false}
+                onCancel={this.handleCancel.bind(this, patternKey)}
+                onPatternUpdate={this.props.onPatternUpdate}
+                duplicate={this.handlePatternDuplicate.bind(this, pattern)}
+                onDeletePattern={this.props.onDeletePattern}
+                data={pattern}/>
+            </li>
           );
         }.bind(this))
       }</ul>

@@ -27,9 +27,9 @@ module.exports = React.createClass({
           {this.props.data.id}
           <LoopsComponent onValueChange={this.handleLoopsChange} data={this.props.data.counter}/>
         </div>
-        {this.props.data.patterns.map(function (pattern) {
+        {this.props.data.patterns.map(function (pattern, patternKey) {
           return (
-            <li>
+            <li key={patternKey}>
               {this.renderPattern(pattern)}
             </li>
           );
@@ -39,12 +39,9 @@ module.exports = React.createClass({
   },
   render: function () {
     return (
-      <li className={this.props.data.isLoop ? 'loop' : void 0}>
-        {this.props.data.isLoop ?
-          this.renderLoop() :
-          this.renderPattern(this.props.data)
-        }
-      </li>
+      this.props.data.isLoop ?
+        this.renderLoop() :
+        this.renderPattern(this.props.data)
     );
   }
 });

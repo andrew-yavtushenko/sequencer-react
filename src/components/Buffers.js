@@ -1,4 +1,6 @@
-var _ = require('lodash');
+var reduce = require('lodash/collection/reduce');
+var size = require('lodash/collection/size');
+var forOwn = require('lodash/object/forOwn');
 var Context = require('./Context');
 
 var availableSamples = {
@@ -22,7 +24,7 @@ var buffers = {};
 var loadedBuffers = {};
 
 function areLoaded () {
-  return _.size(buffers) === _.size(availableSamples);
+  return size(buffers) === size(availableSamples);
 }
 
 function loadSample (url, callback) {
@@ -45,7 +47,7 @@ function loadSample (url, callback) {
 }
 
 function compileBuffers (receivedBuffers) {
-  _.reduce(availableSamples, function(result, sampleUrl, sampleName){
+  reduce(availableSamples, function(result, sampleUrl, sampleName){
     if (sampleName.match(/metronome-/gi)) {
       result.metronome = 'metronome';
     } else {
@@ -56,7 +58,7 @@ function compileBuffers (receivedBuffers) {
 }
 
 function loadBuffers (callback) {
-  _.forOwn(availableSamples, function (url, sample) {
+  forOwn(availableSamples, function (url, sample) {
     loadSample('.' + url, function (buffer) {
       buffers[sample] = buffer;
 
