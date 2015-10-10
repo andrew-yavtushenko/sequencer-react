@@ -29,7 +29,11 @@ module.exports = {
   entry: {
     main: [
         //'webpack/hot/only-dev-server',
+//<<<<<<< HEAD
         './main.js'
+//=======
+//        './components/main.js'
+//>>>>>>> 43b5d5472249b83b46b4f57c494e454cf66f4304
     ],
     vendor: Object.keys(
         packageJSON.dependencies
@@ -43,7 +47,6 @@ module.exports = {
 
   context: path.resolve(__dirname, 'src'),
   resolve: {
-    root: path.resolve(__dirname, 'src'),
     extensions: ['', '.js', '.jsx'],
     alias: {
       'actions': __dirname + '/src/actions',
