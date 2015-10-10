@@ -35,25 +35,41 @@ Track.prototype.setTempo = function(tempo) {
   }
 };
 
-Track.prototype.advancePattern = function() {
+Track.prototype.advanceItem = function() {
   this.patternIndex++;
   if (this.patternIndex === this.patterns.length) {
     this.patternIndex = 0;
   }
 };
 
-Track.prototype.check = function(currentTime) {
-  var currentPattern = this.patterns[this.patternIndex];
+Track.prototype.check = function (currentTime) {
+  var currentItem = this.patterns[this.patternIndex];
 
-  currentPattern.start();
+  return currentItem.isLoop ? this.checkLoop(currentItem, currentTime) : this.checkPattern(currentItem, currentTime);
+};
 
-  var currentPatternIsStopped = currentPattern.check(currentTime);
+Track.prototype.checkPattern = function (currentItem, currentTime) {
+  currentItem.start();
 
-  if (currentPatternIsStopped) {
-    this.advancePattern();
+  currentItem.check(currentTime);
+
+  if (currentItem.isStopped) {
+    this.advanceItem();
   }
 
-  return currentPatternIsStopped;
+  return currentItem.isStopped;
+};
+
+Track.prototype.checkLoop = function (currentItem, currentTime) {
+  currentItem.start();
+
+  var loopCheck = currentItem.check(currentTime);
+
+  if (loopCheck.isStopped) {
+    this.advanceItem();
+  }
+
+  return loopCheck.timeToDrop;
 };
 
 Track.prototype.getPattern = function(patternId) {

@@ -3,13 +3,13 @@
 var uuid = require('./uuid');
 
 function Loop (patterns, counter) {
-  this.counter = counter;
   this.id = uuid.create().hex;
+  this.counter = counter;
   this.patterns = patterns;
   this.patternIndex = 0;
-  this.isStoped = true;
   this.loopIndex = 0;
   this.isLoop = true;
+  this.isStoped = true;
 
   return this;
 }

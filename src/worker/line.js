@@ -2,6 +2,10 @@ function Line (lineData) {
   for (var key in lineData) {
     this[key] = lineData[key];
   }
+
+  for (var i = 0; i < lineData.notes.length; i++) {
+    this.notes[i] = lineData.notes[i];
+  }
   this._rhythmIndex = 0;
 }
 

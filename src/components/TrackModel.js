@@ -26,7 +26,8 @@ function Track (name) {
 Track.prototype.createLoop = function (patternsToLoop) {
   var start = this.patterns.indexOf(patternsToLoop[0]);
   var patterns = this.patterns.splice(start, patternsToLoop.length);
-  var newLoop = new Loop(patterns, 1);
+  console.log(patterns);
+  var newLoop = new Loop(patterns, 3);
   this.patterns.splice(start, 0, newLoop);
   return newLoop;
 };

@@ -25,7 +25,8 @@ Pattern.prototype.setTempo = function(tempo) {
 };
 
 Pattern.prototype.check = function(currentTime) {
-  if (this.lines[0].check(currentTime, this.tempo, this.id, 0)) {
+  var isStopped = this.lines[0].check(currentTime, this.tempo, this.id, 0);
+  if (isStopped) {
     this.stop();
   } else {
     for (var i = 1, il = this.lines.length; i < il; i++) {
@@ -49,4 +50,18 @@ Pattern.prototype.stop = function() {
   for (var i = 0, il = this.lines.length; i < il; i++) {
     this.lines[i].stop();
   }
+};
+Pattern.prototype.clone = function (full) {
+  var clone = new this.constructor(this);
+  clone.id = full ? uuid.create().hex : this.id;
+
+  for (var i = 0; i < this.lines.length; i++) {
+    var line = this.lines[i];
+    clone.addLine(line.bufferIdx, line.subDivision);
+    for (var j = 0; j < line.notes.length; j++) {
+      var str = JSON.stringify(line.notes[j]);
+      clone.lines[i].notes[j] = JSON.parse(str);
+    }
+  }
+  return clone;
 };
