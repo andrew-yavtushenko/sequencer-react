@@ -14,6 +14,7 @@
   "rules": {
     "quotes": [ 1, "single" ],
     "no-extra-parens": 0,
+    "no-wrap-func": 0,
     "no-unused-expressions": 0,
     "no-console": 0,
     "no-undef": 0,
