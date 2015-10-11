@@ -9,28 +9,28 @@ var webpack = require('webpack');
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var packageJSON = require('./package.json');
+var ENV = process.env.ENV;
+var mainEntry = ['./main.js'];
+
+if (ENV === 'development') {
+  mainEntry.unshift('webpack/hot/only-dev-server');
+}
 
 module.exports = {
 
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/'
+    path: path.resolve(__dirname, 'dist')
+    // publicPath: '/'
   },
 
-  cache: true,
-  debug: true,
-  devtool: 'cheap-module-sourcemap',
   devServer: {
     contentBase: 'dist/',
     port: 8000
   },
 
   entry: {
-    main: [
-        //'webpack/hot/only-dev-server',
-        './main.js'
-    ],
+    main: mainEntry,
     vendor: Object.keys(
         packageJSON.dependencies
     ).filter(function (dep) { return dep !== 'lodash'; })
@@ -90,7 +90,10 @@ module.exports = {
 
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      ENV: ENV,
+      VERSION: packageJSON.version
+    }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'index.html')
     })

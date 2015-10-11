@@ -10,12 +10,12 @@ var ContextMenu = React.createClass({
     }
   }
   render: function () {
-    var iconClass = this.props.icon ? 'icon-' + this.props.icon : '';
+    var className = this.props.className || '';
     var href = this.props.href || '#';
 
     return (
-        <li class="ContextMenuItem {iconClass}">
-          <a class="ContextMenuItem-link"
+        <li className="ContextMenuItem {className}">
+          <a className="ContextMenuItem-link"
              href={href}
              onClick={this.props.onClick}>{this.props.text}</a>
         </li>

@@ -59,7 +59,7 @@ function compileBuffers (receivedBuffers) {
 
 function loadBuffers (callback) {
   forOwn(availableSamples, function (url, sample) {
-    loadSample('.' + url, function (buffer) {
+    loadSample(url, function (buffer) {
       buffers[sample] = buffer;
 
       if (areLoaded()) {
