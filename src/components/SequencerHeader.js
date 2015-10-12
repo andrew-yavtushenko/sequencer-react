@@ -1,10 +1,21 @@
 'use strict';
 
 var React = require('react/addons');
+var Context = require('components/Context');
 
 var SequencerHeader = React.createClass({
+  getInitialState: function () {
+    return {
+      ulocked: false
+    }
+  },
   handleSubmit: function(e) {
     e.preventDefault();
+    Context.unlock(function () {
+      console.log('context unlocked');
+      this.state.unlocked = true;
+      this.setState(this.state);
+    }.bind(this));
     this.props.onTrackCreate();
   },
   render: function () {
