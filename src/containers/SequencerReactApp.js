@@ -1,13 +1,13 @@
 'use strict';
 
 var React = require('react/addons');
-var ReactTransitionGroup = React.addons.TransitionGroup;
 var Context = require('components/Context');
 var Buffers = require('components/Buffers');
 var TrackWrapper = require('components/TrackWrapper');
 var CurrentTrack = require('components/CurrentTrack');
 var SequencerHeader = require('components/SequencerHeader');
 var NotesComponent = require('components/NotesComponent');
+var PopupsOverlay = require('components/PopupsOverlay');
 var mapValues = require('lodash/object/mapValues');
 var actions = require('actions');
 var { bindActionCreators } = require('redux');
@@ -95,15 +95,17 @@ var SequencerReactApp = React.createClass({
     console.log(arguments);
   },
   render: function() {
-    return (
-      <ReactTransitionGroup transitionName="fade" component="div" className="main">
-        <SequencerHeader
-          onPlay={this.play}
-          onStop={this.stop}
-          onTrackCreate={this.handleNewTrack} />
-        {this.state.data.currentTrack ?
-          <div className='track'>
+    var header = (<SequencerHeader key="header"
+        onPlay={this.play}
+        onStop={this.stop}
+        onTrackCreate={this.handleNewTrack} />);
+
+    var currentTrack;
+    if (this.state.data.currentTrack) {
+      currentTrack = (
+          <div key="track" className='track'>
             <CurrentTrack
+              actions={this.props.actions}
               onFormCancel={this.handleFormCancel}
               onNewPattern={this.handleNewPattern}
               onPatternUpdate={this.handlePatternUpdate}
@@ -116,10 +118,16 @@ var SequencerReactApp = React.createClass({
             <NotesComponent
               updateVolume={this.updateVolume}
               data={this.state.data.currentTrack}/>
-          </div> :
-          <span>nope</span>
-        }
-      </ReactTransitionGroup>
+          </div>
+        );
+    }
+
+    return (
+      <div>
+        {header}
+        {currentTrack}
+        <PopupsOverlay key="overlay" {...this.props} />
+      </div>
     );
   }
 });

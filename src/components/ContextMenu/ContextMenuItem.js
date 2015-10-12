@@ -8,13 +8,13 @@ var ContextMenu = React.createClass({
       e.preventDefault();
       this.props.onClick();
     }
-  }
+  },
   render: function () {
     var className = this.props.className || '';
     var href = this.props.href || '#';
 
     return (
-        <li className="ContextMenuItem {className}">
+        <li className={'ContextMenuItem ' + className}>
           <a className="ContextMenuItem-link"
              href={href}
              onClick={this.props.onClick}>{this.props.text}</a>

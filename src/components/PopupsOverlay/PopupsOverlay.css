@@ -1,0 +1,13 @@
+.popups-overlay {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.1);
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.popups-overlay > div {
+  position: absolute;
+  transform: translateX(-50%);
+}

@@ -3,6 +3,8 @@
 var React = require('react/addons');
 var Settings = require('components/Settings');
 var PatternForm = require('components/PatternForm');
+var ContextMenuWrapper = require('components/ContextMenu/ContextMenuWrapper');
+require('./PatternComponent.css');
 
 var PatternComponent = React.createClass({
   displayName: 'PatternComponent',
@@ -32,7 +34,7 @@ var PatternComponent = React.createClass({
   },
   render: function () {
     return (
-      <li key={this.props.patternKey}>
+      <li className="pattern-component" key={this.props.patternKey}>
         {this.state.showForm ?
           <PatternForm
             trackTempo={this.props.trackTempo}
@@ -49,6 +51,9 @@ var PatternComponent = React.createClass({
                 : <span>general</span> }
             </div>
             <div className="tempo">{this.props.data.tempo}</div>
+            <ContextMenuWrapper popupClass="PatternContextMenu" data={this.props.data} actions={this.props.actions}>
+              <div className="actions"></div>
+            </ContextMenuWrapper>
             <div className="duplicate">
               <a href="#" onClick={this.props.duplicate}>duplicate</a>
             </div>

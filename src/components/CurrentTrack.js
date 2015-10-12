@@ -66,6 +66,7 @@ var CurrentTrack = React.createClass({
           </div>
           <div id='PatternListWrapper' className={this.state.showForm ? 'with-form' : ''}>
             <PatternList
+              actions={this.props.actions}
               trackTempo={this.props.data.tempo}
               patterns={this.props.data.patterns}
               onPatternMove={this.props.onPatternMove}
@@ -76,6 +77,7 @@ var CurrentTrack = React.createClass({
           <div id="PatternFormWrapper" ref='newPatternForm'>
             { this.state.showForm ?
               <PatternForm
+                actions={this.props.actions}
                 trackTempo={this.props.data.tempo}
                 data={this.state.defaultPattern}
                 newTrack={true}

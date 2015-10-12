@@ -1,5 +1,6 @@
 'use strict';
 
+require('./ContextMenu.css');
 var React = require('react/addons');
 var ContextMenuItem = require('./ContextMenuItem');
 
@@ -7,7 +8,7 @@ var ContextMenu = React.createClass({
   displayName: 'ContextMenu',
   render: function () {
     return (
-        <div class="ContextMenu">
+        <div className="context-menu" style={this.props.style}>
           <ul>
             <ContextMenuItem icon="edit" text="Edit pattern" />
             <ContextMenuItem icon="duplicate" text="Duplicate pattern" />

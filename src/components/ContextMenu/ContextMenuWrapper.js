@@ -7,24 +7,25 @@ var ContextMenuWrapper = React.createClass({
     data: React.PropTypes.object,
     popupClass: React.PropTypes.string.isRequired
   },
-  onClick: function (e) {
+  openPopup: function (e) {
     var dom, rect;
 
     e.preventDefault();
     dom = React.findDOMNode(this);
+    dom = dom.children[0] || dom;
     rect = dom.getBoundingClientRect();
 
     this.props.actions.popups.open({
       data: this.props.data,
       popupClass: this.props.popupClass,
-      clickPosition: rect
+      position: rect
     });
   },
   render: function () {
     return (
         <a href="#"
            className={this.props.className}
-           onClick={this.onClick}>
+           onMouseOver={this.openPopup}>
           {this.props.children}
         </a>
     );

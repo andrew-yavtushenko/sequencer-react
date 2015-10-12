@@ -1,6 +1,5 @@
-// var { combineReducers } = require('redux');
-// var rootReducer = combineReducers({});
+var { combineReducers } = require('redux');
 
-module.exports = function rootReducer(state = {} /*, action*/) {
-  return state;
-};
+module.exports = combineReducers({
+  popups: require('./popups')
+});

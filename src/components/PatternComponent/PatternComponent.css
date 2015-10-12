@@ -1,0 +1,30 @@
+.pattern-component {
+  white-space: normal;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 9px 9px 0;
+  width: 320px;
+  border-radius: 4px;
+  box-shadow: 0 0 2px 0 rgba(0,0,0,0.5);
+  background-color: #fff;
+}
+
+.pattern-component > .inner {
+  padding: 12px;
+  position: relative;
+}
+
+.pattern-component .actions {
+  background: #000;
+  display: block;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.pattern-component ul {
+  list-style: none;
+  padding: 0;
+}

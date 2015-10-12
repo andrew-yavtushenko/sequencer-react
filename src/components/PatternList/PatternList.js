@@ -32,6 +32,7 @@ var PatternList = React.createClass({
         this.state.patterns.map(function (pattern, patternKey) {
           return (
             <PatternComponent
+              actions={this.props.actions}
               trackTempo={this.props.trackTempo}
               key={patternKey}
               newTrack={false}
