@@ -8,7 +8,7 @@ function Pattern (properties) {
   this.beat = properties.beat;
   this.noteValue = properties.noteValue;
   this.lines = [];
-  this.loops = 1 || properties.loops;
+  this.loops = properties.loops || 1;
   this.currentSubDivision = properties.currentSubDivision;
   this.availableSubDivisions = properties.availableSubDivisions;
   this.id = properties.id;
