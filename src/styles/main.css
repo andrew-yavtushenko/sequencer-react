@@ -459,7 +459,6 @@ html, body {
 }
 
 .notes li {
-    cursor: pointer;
     background-color: #495256;
     border-radius: 3px;
     display: inline-block;
@@ -477,6 +476,7 @@ html, body {
     -ms-user-select: none;      /* IE 10+ */
     user-select: none;          /* Likely future */
     box-shadow: 0 -1px 0 #fff, 0 1px 0 rgba(0, 0, 0, 0.7);
+    cursor: pointer;
 }
 
 .notes li[data-note-volume='0'] {
