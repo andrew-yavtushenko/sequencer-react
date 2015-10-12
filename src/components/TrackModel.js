@@ -4,13 +4,11 @@ var Pattern = require('./PatternModel');
 var Loop = require('./LoopModel');
 var uuid = require('./uuid');
 var settings = require('./Settings');
-//var utils = require('./Utils');
 
 var defaultTrackName = 'New track';
 var defaultPatternName = 'Untitled Pattern';
 var duplicateRegex = /^(.*)+\s+copy\s*(\d+)?$/i;
 var trackCounter = 0;
-//var _ = require('lodash');
 
 function Track (name) {
   this.tempo = 120;
@@ -26,7 +24,6 @@ function Track (name) {
 Track.prototype.createLoop = function (patternsToLoop) {
   var start = this.patterns.indexOf(patternsToLoop[0]);
   var patterns = this.patterns.splice(start, patternsToLoop.length);
-  console.log(patterns);
   var newLoop = new Loop(patterns, 3);
   this.patterns.splice(start, 0, newLoop);
   return newLoop;

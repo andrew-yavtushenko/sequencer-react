@@ -41,6 +41,7 @@ var PatternComponent = React.createClass({
           onSubmit={this.handleSubmit}
           hideForm={this.hideForm}/> :
         <div className="inner">
+          <div className="handle">handle</div>
           {this.props.data.name}&nbsp;&nbsp;{this.props.data.beat}/{this.props.data.noteValue}
           <div className="custom">
             { this.props.data.customTempo

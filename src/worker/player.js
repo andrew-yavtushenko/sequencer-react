@@ -12,7 +12,8 @@ function initPlayer () { //eslint-disable-line no-unused-vars
   }
 
   function setTrack (data) {
-    currentTrack = new Track(data.track);
+    console.log('setTrack', data);
+    //currentTrack = new Track(data.track);
   }
 
   function setNoteVolume (data) {

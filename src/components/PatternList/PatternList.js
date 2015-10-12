@@ -1,14 +1,15 @@
 'use strict';
 
 var React = require('react/addons');
-var SortableMixin = require('react-sortable-mixin');
+var SortableMixin = require('../SortableMixin');
 var PatternComponentWrapper = require('components/PatternWrapperComponent');
 
 var PatternList = React.createClass({
   mixins: [SortableMixin],
   sortableOptions: {
     model: 'patterns',
-    ref: 'pattern'
+    ref: 'pattern',
+    handle: '.handle'
   },
   getInitialState: function () {
     return {

@@ -52,9 +52,9 @@ module.exports = React.createClass({
       pattern.isLoop ?
         <div key={patternKey} className="loop">
           {pattern.id}
-          <ul className="loopPatterns">
+          <ul className="patterns">
             {
-              pattern.patterns.map(this.renderPattern)
+              this.state.data.patterns.map(this.renderPattern)
             }
           </ul>
         </div> :
