@@ -7,7 +7,6 @@ module.exports = React.createClass({
   getInitialState: function () {
     return {
       data: this.props.data,
-      linesData: [],
       backup: this.props.data.clone()
     };
   },
@@ -25,11 +24,11 @@ module.exports = React.createClass({
   },
   changeSubDivision: function (index, event) {
     var val = parseInt(event.target.value);
-    this.state.linesData[index].subDivision = val;
+    this.props.linesData[index].subDivision = val;
     this.setState(this.state);
   },
   changeBuffer: function (index, event) {
-    this.state.linesData[index].bufferIdx = event.target.value;
+    this.props.linesData[index].bufferIdx = event.target.value;
     this.setState(this.state);
   },
   getSubDivisions: function () {
@@ -50,7 +49,7 @@ module.exports = React.createClass({
   removeLineData: function (index){
     return function (event) {
       event.preventDefault();
-      this.state.linesData.splice(index, 1);
+      this.props.linesData.splice(index, 1);
       this.setState(this.state);
     }.bind(this);
   },
@@ -83,8 +82,8 @@ module.exports = React.createClass({
     this.setState(this.state);
   },
   updateLines: function () {
-    this.state.linesData.map(function (line, index) {
-      this.state.linesData[index].subDivision = parseInt(this.refs['lineSubDivision-' + index].getDOMNode().value);
+    this.props.linesData.map(function (line, index) {
+      this.props.linesData[index].subDivision = parseInt(this.refs['lineSubDivision-' + index].getDOMNode().value);
     }.bind(this));
     this.setState(this.state);
   },
@@ -94,14 +93,14 @@ module.exports = React.createClass({
     this.createLine('hat', this.state.data.availableSubDivisions[0]);
   },
   createLine: function (bufferIdx, subDivision) {
-    this.state.linesData.push({
+    this.props.linesData.push({
       bufferIdx: bufferIdx,
       subDivision: subDivision
     });
     this.setState(this.state);
   },
   getLinesData: function () {
-    return this.state.linesData.map(function (line, index) {
+    return this.props.linesData.map(function (line, index) {
       return (
         <li key={index}>
           <select className='bufferIdx' ref={'lineBuffer-' + index} value={line.bufferIdx} onChange={this.changeBuffer.bind(this, index)}>

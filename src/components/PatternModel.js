@@ -4,11 +4,9 @@ var cloneDeep = require('lodash/lang/cloneDeep');
 var uuid = require('./uuid');
 
 function Pattern (properties) {
-  this.name = properties.name;
   this.beat = properties.beat;
   this.noteValue = properties.noteValue;
   this.lines = [];
-  this.loops = 1 || properties.loops;
   this.currentSubDivision = properties.currentSubDivision;
   this.availableSubDivisions = properties.availableSubDivisions;
   this.id = properties.id;

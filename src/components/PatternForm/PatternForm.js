@@ -13,7 +13,7 @@ var PatternForm = React.createClass({
       customTempoVal: Number(this.props.data.tempo),
       linesData: [],
       backup: this.props.data.clone(),
-      defaultBeat: this.props.data.createBeat(4, 4)
+      defaultBeat: this.props.newTrack ? this.props.data.createBeat(4, 4) : void 0
     };
   },
   cancel: function (e) {
@@ -24,11 +24,20 @@ var PatternForm = React.createClass({
   },
   handleSubmit: function (e) {
     e.preventDefault();
+    if (this.props.newTrack) {
+      this.state.data.saveBeat(this.state.defaultBeat);
+    }
     //this.updateLines();
     //this.state.linesData.map(function (lineData) {
     //  this.state.data.addLine(lineData.bufferIdx, lineData.subDivision);
     //}.bind(this));
     this.props.onSubmit(this.state.data);
+  },
+  updateLines: function () {
+    this.props.linesData.map(function (line, index) {
+      this.props.linesData[index].subDivision = parseInt(this.refs['lineSubDivision-' + index].getDOMNode().value);
+    }.bind(this));
+    this.setState(this.state);
   },
   handleNameChange: function (newName) {
     if (newName !== this.state.data.defaultName) {

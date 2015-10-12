@@ -48,25 +48,26 @@ module.exports = React.createClass({
     );
   },
   renderPattern: function (pattern, patternKey) {
-    return (
-      pattern.isLoop ?
-        <div key={patternKey} className="loop">
-          {pattern.id}
-          <ul className="patterns">
-            {
-              this.state.data.patterns.map(this.renderPattern)
-            }
-          </ul>
-        </div> :
-        <div key={patternKey} className="pattern">
-          {pattern.name}
-          <ul className="lines">
-            {
-              pattern.lines.map(this.renderLine.bind(this, pattern))
-            }
-          </ul>
-        </div>
-    );
+    return (<span key={patternKey}>{pattern.name}</span>);
+    //return (
+    //  pattern.isLoop ?
+    //    <div key={patternKey} className="loop">
+    //      {pattern.id}
+    //      <ul className="patterns">
+    //        {
+    //          this.state.data.patterns.map(this.renderPattern)
+    //        }
+    //      </ul>
+    //    </div> :
+    //    <div key={patternKey} className="pattern">
+    //      {pattern.name}
+    //      <ul className="lines">
+    //        {
+    //          pattern.lines.map(this.renderLine.bind(this, pattern))
+    //        }
+    //      </ul>
+    //    </div>
+    //);
   },
   render: function () {
     return (
