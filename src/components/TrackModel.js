@@ -1,9 +1,9 @@
 'use strict';
 
-var Pattern = require('./PatternModel');
-var Loop = require('./LoopModel');
+//var Beat = require('./PatternModel');
+var Pattern = require('./LoopModel');
 var uuid = require('./uuid');
-var settings = require('./Settings');
+//var settings = require('./Settings');
 
 var defaultTrackName = 'New track';
 var defaultPatternName = 'Untitled Pattern';
@@ -21,12 +21,26 @@ function Track (name) {
   return this;
 }
 
-Track.prototype.createLoop = function (patternsToLoop) {
-  var start = this.patterns.indexOf(patternsToLoop[0]);
-  var patterns = this.patterns.splice(start, patternsToLoop.length);
-  var newLoop = new Loop(patterns, 3);
-  this.patterns.splice(start, 0, newLoop);
-  return newLoop;
+Track.prototype.createPattern = function (name) {
+  if (this.isPlaying) {
+    console.error('you can\'t modify track while playing');
+    return false;
+  } else {
+    var newName = name || this.generateUniqueName(defaultPatternName);
+    var newPattern = new Pattern(newName, [], 1);
+    newPattern.setGeneralTempo(this.tempo);
+    return newPattern;
+  }
+};
+
+Track.prototype.savePattern = function (newPattern) {
+  var index = this.patterns.indexOf(newPattern);
+  if (index !== -1) {
+    this.patterns[index] = newPattern;
+  } else {
+    this.patterns.push(newPattern);
+  }
+  return this;
 };
 
 Track.prototype.movePattern = function (oldIndex, newIndex) {
@@ -55,9 +69,7 @@ Track.prototype.setCustomTempo = function (tempo, patternId) {
 Track.prototype.setTempo = function(tempo) {
   this.tempo = tempo;
   for (var i = 0; i < this.patterns.length; i++) {
-    if (this.patterns[i].customTempo === false) {
-      this.patterns[i].setTempo(tempo);
-    }
+    this.patterns[i].setGeneralTempo(tempo);
   }
 };
 
@@ -96,46 +108,6 @@ Track.prototype.duplicatePattern = function (pattern) {
 
   this.patterns.splice(position + 1, 0, newPattern);
   return this;
-};
-
-Track.prototype.savePattern = function (newPattern) {
-  var index = this.patterns.indexOf(newPattern);
-  if (index !== -1) {
-    this.patterns[index] = newPattern;
-  } else {
-    this.patterns.push(newPattern);
-  }
-  return this;
-};
-
-Track.prototype.createPattern = function (beat, noteValue, name, customTempo) {
-  if (this.isPlaying) {
-    console.error('you can\'t modify track while playing');
-    return false;
-  } else {
-    var availableSubDivisions = settings.subDivision.reduce(function (result, subDivision) {
-      if (subDivision >= noteValue) {
-        result.push(subDivision);
-      }
-      return result;
-    }, []);
-
-    var newPattern = new Pattern({
-      availableSubDivisions: availableSubDivisions,
-      currentSubDivision: availableSubDivisions[0],
-      beat: beat,
-      noteValue: noteValue,
-      id: uuid.create().hex,
-      tempo: this.tempo,
-      name: name || this.generateUniqueName(defaultPatternName)
-    });
-
-    if (customTempo) {
-      newPattern.setCustomTempo(customTempo);
-    }
-
-    return newPattern;
-  }
 };
 
 Track.prototype.deletePattern = function(patternId) {

@@ -40,7 +40,7 @@ var CurrentTrack = React.createClass({
     this.updateLoopValues();
   },
   showForm: function () {
-    this.state.defaultPattern = TrackWrapper.createPattern(4, 4, '');
+    this.state.defaultPattern = TrackWrapper.createPattern('');
     this.state.showForm = true;
     this.setState(this.state);
   },
@@ -52,7 +52,7 @@ var CurrentTrack = React.createClass({
     this.setState(this.state);
   },
   handleTempoChange: function (tempo) {
-    this.state.defaultPattern.setTempo(tempo);
+    this.state.defaultPattern.setGeneralTempo(tempo);
     this.setState(this.state);
     this.props.onTempoChange(tempo);
   },

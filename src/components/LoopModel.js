@@ -8,9 +8,10 @@ function findBeat (beatId, beat) {
   return beat.id === beatId;
 }
 
-function Loop (beats, counter) {
+function Loop (name, beats, counter) {
+  this.name = name;
   this.id = uuid.create().hex;
-  this.counter = counter;
+  this.counter = counter || 1;
   this.beats = beats;
   this.beatsIndex = 0;
   this.loopIndex = 0;
@@ -36,12 +37,11 @@ Loop.prototype.stop = function () {
   this.beatsIndex = 0;
 };
 
-
 Loop.prototype.editName = function (newName) {
   this.name = newName;
 };
 
-Loop.prototype.createBeat = function (beat, noteValue, name, customTempo) {
+Loop.prototype.createBeat = function (beat, noteValue, customTempo) {
   if (this.isPlaying) {
     console.error('you can\'t modify track while playing');
     return false;
@@ -65,7 +65,6 @@ Loop.prototype.createBeat = function (beat, noteValue, name, customTempo) {
     if (customTempo) {
       newBeat.setCustomTempo(customTempo);
     }
-
     return newBeat;
   }
 };
@@ -144,5 +143,16 @@ Loop.prototype.setGeneralTempo = function(tempo) {
   }
 };
 
+Loop.prototype.clone = function (full) {
+  var clone = new this.constructor(this.name, this.beats, this.counter);
+  clone.id = full ? uuid.create().hex : this.id;
+
+  for (var i = 0; i < this.beats.length; i++) {
+    this.beats[i] = this.beats[i].clone(true);
+  }
+
+  return clone;
+};
 
 module.exports = Loop;
+

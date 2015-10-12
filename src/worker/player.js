@@ -17,11 +17,13 @@ function initPlayer () { //eslint-disable-line no-unused-vars
   }
 
   function setNoteVolume (data) {
-    currentTrack.getPattern(data.patternId).lines[data.lineId].setNoteVolume(data.noteId, data.volume);
+    console.log('setNoteVolume', data);
+    //currentTrack.getPattern(data.patternId).lines[data.lineId].setNoteVolume(data.noteId, data.volume);
   }
 
   function setTrackTempo (data) {
-    currentTrack.setTempo(data.tempo);
+    console.log('setTrackTempo', data);
+    //currentTrack.setTempo(data.tempo);
   }
 
   function setPatternCustomTempo (data) {
