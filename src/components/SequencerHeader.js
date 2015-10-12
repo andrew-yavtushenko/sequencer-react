@@ -7,7 +7,7 @@ var SequencerHeader = React.createClass({
   getInitialState: function () {
     return {
       ulocked: false
-    }
+    };
   },
   handleSubmit: function(e) {
     e.preventDefault();
