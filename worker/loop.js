@@ -1,43 +1,66 @@
 function Loop (properties) {
+
+  //this.id = uuid.create().hex;
+  //this.counter = counter;
+  //this.patterns = patterns;
+
   for (var key in properties) {
     this[key] = properties[key];
   }
+
+  for (var i = 0; i < this.patterns.length; i++) {
+    var patternData = this.patterns[i];
+    this.patterns[i] = new Pattern(patternData);
+  }
+
+  this.patternIndex = 0;
+  this.loopIndex = 0;
+  this.isLoop = true;
+  this.isStopped = true;
 }
 
 Loop.prototype.start = function () {
-  if (!this.isStoped) { return; }
+  if (this.isStopped === false) { return; }
+  this.isStopped = false;
   console.log('loop start');
-  this.isStoped = false;
 };
 
 Loop.prototype.stop = function () {
-  if (this.isStoped) { return; }
+  this.isStopped = true;
   console.log('loop stop');
   this.loopIndex = 0;
   this.patternIndex = 0;
-  this.isStoped = true;
 };
 
-Loop.advancePattern = function () {
+Loop.prototype.advancePattern = function() {
   this.patternIndex++;
-
   if (this.patternIndex === this.patterns.length) {
-    this.advance();
+    this.advanceLoop();
     this.patternIndex = 0;
   }
 };
 
-Loop.prototype.advance = function () {
-  console.log(this.loopIndex);
+Loop.prototype.advanceLoop = function () {
   this.loopIndex++;
-
   if (this.loopIndex === this.counter) {
     this.stop();
   }
-
-  return this.isStoped;
 };
 
-Loop.prototype.hasPattern = function (pattern) {
-  return this.patterns.indexOf(pattern.id) !== -1;
+Loop.prototype.check = function (currentTime) {
+  var currentPattern = this.patterns[this.patternIndex];
+
+  currentPattern.start();
+
+  currentPattern.check(currentTime);
+
+  if (currentPattern.isStopped) {
+    this.advancePattern();
+  }
+
+  return {
+    isStopped: this.isStopped,
+    timeToDrop: currentPattern.isStopped
+  };
 };
+
