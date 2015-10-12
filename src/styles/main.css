@@ -459,6 +459,7 @@ html, body {
 }
 
 .notes li {
+    cursor: pointer;
     background-color: #495256;
     border-radius: 3px;
     display: inline-block;
