@@ -104,7 +104,7 @@ Track.prototype.duplicatePattern = function (patternId) {
   newPattern.setGeneralTempo(this.tempo);
 
   this.patterns.splice(position + 1, 0, newPattern);
-  return this;
+  return newPattern;
 };
 
 Track.prototype.deletePattern = function(patternId) {

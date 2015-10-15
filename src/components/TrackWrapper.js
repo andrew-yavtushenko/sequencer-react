@@ -46,6 +46,14 @@ function trackWrapper () {
     });
   }
 
+  function changePatternCounter (patternId, counter, callback) {
+    currentTrack.getPattern(patternId).setCounter(counter);
+    dispatcher.setTrack(currentTrack, function () {
+      console.log('track updated successfully');
+      callback(currentTrack);
+    });
+  }
+
   function duplicatePattern (patternId, callback) {
     currentTrack.duplicatePattern(patternId);
     dispatcher.setTrack(currentTrack, function () {
@@ -142,6 +150,7 @@ function trackWrapper () {
   }
 
   return {
+    changePatternCounter: changePatternCounter,
     createLoop: createLoop,
     updatePattern: updatePattern,
     savePattern: savePattern,

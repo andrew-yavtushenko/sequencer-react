@@ -20,7 +20,7 @@ module.exports = React.createClass({
   handleSort: function (event) {
     this.props.onPatternMove(event.oldIndex, event.newIndex);
   },
-  handlePatternDuplicate: function (patternId) {
+  handlePatternDuplicate: function (pattern, patternKey, patternId) {
     this.props.onPatternDuplicate(patternId);
   },
   handleCancel: function (index, pattern) {
@@ -35,7 +35,8 @@ module.exports = React.createClass({
           newTrack={false}
           onCancel={this.handleCancel.bind(this, patternKey)}
           onPatternUpdate={this.props.onPatternUpdate}
-          duplicate={this.handlePatternDuplicate}
+          duplicate={this.handlePatternDuplicate.bind(this, pattern, patternKey)}
+          onCounterChange={this.props.onPatternCounterChange}
           onDeletePattern={this.props.onDeletePattern}
           data={pattern}/>
       </li>

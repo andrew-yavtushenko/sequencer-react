@@ -31,7 +31,7 @@ module.exports = React.createClass({
   },
   renderBeat: function (beat, beatKey) {
     return (
-      <li key={beatKey} id={beat.id} ref={beat.id}>
+      <li key={beatKey} id={beat.id}>
         {beat.beat}/{beat.noteValue}
         <ul>{
           beat.lines.map(this.renderLine)

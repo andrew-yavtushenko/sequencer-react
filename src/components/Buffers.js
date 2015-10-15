@@ -34,11 +34,12 @@ function loadSample (url, callback) {
   request.responseType = 'arraybuffer';
 
   request.onload = function() {
+    window.meh = request.response;
     Context.context.decodeAudioData(
       request.response,
       callback,
       function(buffer) {
-          console.log('Error decoding drum samples!', buffer);
+        console.log('Error decoding drum samples!', buffer);
       }
     );
   };

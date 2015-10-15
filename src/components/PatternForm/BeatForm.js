@@ -35,7 +35,6 @@ module.exports = React.createClass({
   },
   getSubDivisions: function () {
     return this.state.data.availableSubDivisions.map(function (value, key) {
-      console.log('this.state.data.availableSubDivisions', value);
       return (
         <option key={key} value={value}>{Settings.subDivisionNames[value]}</option>
       );
@@ -66,7 +65,6 @@ module.exports = React.createClass({
   },
   addLine: function (e) {
     e.preventDefault();
-    this.getLines();
     this.createLine('hat', this.state.data.availableSubDivisions[0]);
   },
   createLine: function (bufferIdx, subDivision) {
@@ -83,7 +81,6 @@ module.exports = React.createClass({
     this.setState(this.state);
   },
   renderLine: function (line, index) {
-    console.log('renderLine', line.subDivision);
     return (
       <li key={index} className="beatLine">
         <select className='bufferIdx' ref={'lineBuffer-' + index} value={line.bufferIdx} onChange={this.changeBuffer.bind(this, index)}>

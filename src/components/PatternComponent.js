@@ -28,7 +28,7 @@ module.exports = React.createClass({
     this.props.onCancel(pattern);
   },
   handleLoopsChange: function (counter) {
-    console.log(counter);
+    this.props.onCounterChange(this.props.data.id, counter);
   },
   deletePattern: function () {
     this.props.onDeletePattern(this.props.data.id);

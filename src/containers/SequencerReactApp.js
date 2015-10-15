@@ -94,6 +94,9 @@ var SequencerReactApp = React.createClass({
   handleCreateLoop: function (patterns) {
     TrackWrapper.createLoop(patterns, this.updateCurrentTrack);
   },
+  handleCounterChange: function (patternId, counter) {
+    TrackWrapper.changePatternCounter(patternId, counter, this.updateCurrentTrack);
+  },
   render: function() {
     return (
       <ReactTransitionGroup transitionName="fade" component="div" className="main">
@@ -110,6 +113,7 @@ var SequencerReactApp = React.createClass({
               data={this.state.data.currentTrack}
               onTempoChange={this.handleTempoChange}
               onTrackNameChange={this.handleTrackNameChange}
+              onPatternCounterChange={this.handleCounterChange}
               onPatternDuplicate={this.handlePatternDuplicate}
               onPatternMove={this.movePattern}
               onDeletePattern={this.deletePattern}/>
