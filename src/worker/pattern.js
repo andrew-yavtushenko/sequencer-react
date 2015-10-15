@@ -1,67 +1,68 @@
-function Pattern (patternData) {
-
-  for (var key in patternData) {
-    this[key] = patternData[key];
-  }
-
-  for (var i = 0; i < this.lines.length; i++) {
-    this.lines[i] = new Line(this.lines[i]);
-  }
-  return this;
+function findBeat (beatId, beat) {
+  return beat.id === beatId;
 }
 
-Pattern.prototype.releaseCustomTempo = function(tempo) {
-  this.customTempo = false;
-  this.tempo = tempo;
-};
 
-Pattern.prototype.setCustomTempo = function(tempo) {
-  this.customTempo = true;
-  this.tempo = tempo;
-};
+function Pattern (properties) {
 
-Pattern.prototype.setTempo = function(tempo) {
-  this.tempo = tempo;
-};
-
-Pattern.prototype.check = function(currentTime) {
-  var isStopped = this.lines[0].check(currentTime, this.tempo, this.id, 0);
-  if (isStopped) {
-    this.stop();
-  } else {
-    for (var i = 1, il = this.lines.length; i < il; i++) {
-      this.lines[i].check(currentTime, this.tempo, this.id, i);
-    }
+  for (var key in properties) {
+    this[key] = properties[key];
   }
-  return this.isStopped;
-};
 
-Pattern.prototype.start = function() {
-  if (this.isStopped) {
-    this.isStopped = false;
-    for (var i = 0, il = this.lines.length; i < il; i++) {
-      this.lines[i].start();
-    }
+  for (var i = 0; i < this.beats.length; i++) {
+    var beatData = this.beats[i];
+    this.beats[i] = new Beat(beatData);
   }
-};
 
-Pattern.prototype.stop = function() {
+  this.beatsIndex = 0;
+  this.loopIndex = 0;
   this.isStopped = true;
-  for (var i = 0, il = this.lines.length; i < il; i++) {
-    this.lines[i].stop();
-  }
-};
-Pattern.prototype.clone = function (full) {
-  var clone = new this.constructor(this);
-  clone.id = full ? uuid.create().hex : this.id;
+}
 
-  for (var i = 0; i < this.lines.length; i++) {
-    var line = this.lines[i];
-    clone.addLine(line.bufferIdx, line.subDivision);
-    for (var j = 0; j < line.notes.length; j++) {
-      var str = JSON.stringify(line.notes[j]);
-      clone.lines[i].notes[j] = JSON.parse(str);
-    }
-  }
-  return clone;
+Pattern.prototype.getBeat = function(beatId) {
+  return this.beats.find(findBeat.bind(this, beatId));
 };
+
+Pattern.prototype.start = function () {
+  if (this.isStopped === false) { return; }
+  this.isStopped = false;
+};
+
+Pattern.prototype.stop = function () {
+  this.isStopped = true;
+  this.loopIndex = 0;
+  this.beatsIndex = 0;
+};
+
+Pattern.prototype.advanceBeat = function() {
+  this.beatsIndex++;
+  if (this.beatsIndex === this.beats.length) {
+    this.advancePattern();
+    this.beatsIndex = 0;
+  }
+};
+
+Pattern.prototype.advancePattern = function () {
+  this.loopIndex++;
+  if (this.loopIndex === this.counter) {
+    this.stop();
+  }
+};
+
+Pattern.prototype.check = function (currentTime) {
+  var currentBeat = this.beats[this.beatsIndex];
+
+  currentBeat.start();
+
+  currentBeat.check(currentTime, this.id);
+
+  if (currentBeat.isStopped) {
+    this.advanceBeat();
+  }
+
+  return {
+    isStopped: this.isStopped,
+    timeToDrop: currentBeat.isStopped
+  };
+};
+

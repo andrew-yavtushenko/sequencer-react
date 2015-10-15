@@ -28,8 +28,8 @@ function play (buffer, gain, duration, mute) {
 }
 
 
-module.exports = function playNote (bufferId, gain, patternId, lineId, noteId, duration) {
-  blink(patternId, lineId, noteId, duration);
+module.exports = function playNote (bufferId, gain, patternId, beatId, lineId, noteId, duration) {
+  blink(patternId, beatId, lineId, noteId, duration);
 
   var buffer;
   var mute = bufferId.match(/muted/gi);

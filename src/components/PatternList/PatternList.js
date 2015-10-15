@@ -2,9 +2,9 @@
 
 var React = require('react/addons');
 var SortableMixin = require('../SortableMixin');
-var PatternComponentWrapper = require('components/PatternWrapperComponent');
+var PatternComponent = require('components/PatternComponent');
 
-var PatternList = React.createClass({
+module.exports = React.createClass({
   mixins: [SortableMixin],
   sortableOptions: {
     model: 'patterns',
@@ -20,33 +20,33 @@ var PatternList = React.createClass({
   handleSort: function (event) {
     this.props.onPatternMove(event.oldIndex, event.newIndex);
   },
-  handlePatternDuplicate: function (pattern) {
-    this.props.onPatternDuplicate(pattern);
+  handlePatternDuplicate: function (patternId) {
+    this.props.onPatternDuplicate(patternId);
   },
   handleCancel: function (index, pattern) {
     this.state.patterns[index] = pattern;
     this.setState(this.state);
   },
+  renderPattern: function (pattern, patternKey) {
+    return (
+      <li key={patternKey} className="pattern">
+        <PatternComponent
+          trackTempo={this.props.trackTempo}
+          newTrack={false}
+          onCancel={this.handleCancel.bind(this, patternKey)}
+          onPatternUpdate={this.props.onPatternUpdate}
+          duplicate={this.handlePatternDuplicate}
+          onDeletePattern={this.props.onDeletePattern}
+          data={pattern}/>
+      </li>
+    );
+  },
   render: function () {
     return (
       <ul ref='patterns' className='PatternList'>{
-        this.state.patterns.map(function (pattern, patternKey) {
-          return (
-            <li key={patternKey} className={pattern.isLoop ? 'loop' : void 0}>
-              <PatternComponentWrapper
-                trackTempo={this.props.trackTempo}
-                newTrack={false}
-                onCancel={this.handleCancel.bind(this, patternKey)}
-                onPatternUpdate={this.props.onPatternUpdate}
-                duplicate={this.handlePatternDuplicate.bind(this, pattern)}
-                onDeletePattern={this.props.onDeletePattern}
-                data={pattern}/>
-            </li>
-          );
-        }.bind(this))
+        this.state.patterns.map(this.renderPattern)
       }</ul>
     );
   }
 });
 
-module.exports = PatternList;

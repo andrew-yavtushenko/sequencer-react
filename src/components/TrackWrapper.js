@@ -46,8 +46,8 @@ function trackWrapper () {
     });
   }
 
-  function duplicatePattern (pattern, callback) {
-    currentTrack.duplicatePattern(pattern);
+  function duplicatePattern (patternId, callback) {
+    currentTrack.duplicatePattern(patternId);
     dispatcher.setTrack(currentTrack, function () {
       console.log('track updated successfully');
       callback(currentTrack);
@@ -75,8 +75,8 @@ function trackWrapper () {
     return currentTrack.createPattern(beat, noteValue, name, tempo);
   }
 
-  function updateNoteVolume (patternId, lineId, noteId, volume) {
-    dispatcher.setNoteVolume(patternId, lineId, noteId, volume, function () {
+  function updateNoteVolume (patternId, beatId, lineId, noteId, volume) {
+    dispatcher.setNoteVolume(patternId, beatId, lineId, noteId, volume, function () {
       //something?
     });
   }

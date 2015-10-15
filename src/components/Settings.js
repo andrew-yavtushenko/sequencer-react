@@ -13,6 +13,14 @@ var settings = {
     32: '32nd note',
     48: '32nd triplet note',
     64: '64th note'
+  },
+  getAvailableSubDivisions: function (noteValue) {
+    return this.subDivision.reduce(function (result, subDivision) {
+      if (subDivision >= noteValue) {
+        result.push(subDivision);
+      }
+      return result;
+    }, []);
   }
 };
 

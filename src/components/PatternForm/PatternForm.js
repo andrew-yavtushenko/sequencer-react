@@ -8,13 +8,16 @@ var BeatForm = require('./BeatForm');
 
 var PatternForm = React.createClass({
   getInitialState: function () {
-    return {
+    var state = {
       data: this.props.data,
       customTempoVal: Number(this.props.data.tempo),
-      linesData: [],
-      backup: this.props.data.clone(),
-      defaultBeat: this.props.newTrack ? this.props.data.createBeat(4, 4) : void 0
+      backup: this.props.data.clone()
     };
+
+    if (this.props.newTrack) {
+      this.props.data.createBeat(4, 4);
+    }
+    return state;
   },
   cancel: function (e) {
     e.preventDefault();
@@ -24,20 +27,7 @@ var PatternForm = React.createClass({
   },
   handleSubmit: function (e) {
     e.preventDefault();
-    if (this.props.newTrack) {
-      this.state.data.saveBeat(this.state.defaultBeat);
-    }
-    //this.updateLines();
-    //this.state.linesData.map(function (lineData) {
-    //  this.state.data.addLine(lineData.bufferIdx, lineData.subDivision);
-    //}.bind(this));
     this.props.onSubmit(this.state.data);
-  },
-  updateLines: function () {
-    this.props.linesData.map(function (line, index) {
-      this.props.linesData[index].subDivision = parseInt(this.refs['lineSubDivision-' + index].getDOMNode().value);
-    }.bind(this));
-    this.setState(this.state);
   },
   handleNameChange: function (newName) {
     if (newName !== this.state.data.defaultName) {
@@ -57,10 +47,10 @@ var PatternForm = React.createClass({
     var checked = this.refs.tempoForm.getDOMNode().checked;
     if (checked) {
       this.state.customTempoVal = this.props.trackTempo;
-      this.state.data.customTempo = true;
+      this.state.data.tempoIsCustom = true;
     } else {
       this.state.data.tempo = this.props.trackTempo;
-      this.state.data.customTempo = false;
+      this.state.data.tempoIsCustom = false;
     }
     this.setState(this.state);
   },
@@ -72,17 +62,25 @@ var PatternForm = React.createClass({
       <form className='PatternForm' onSubmit={this.handleSubmit}>
         <div className="head-wrapper">
           <NameInput onNameChange={this.handleNameChange} val={this.state.data.name}/>
-          <input type="checkbox" checked={this.state.data.customTempo} ref='tempoForm' onChange={this.toggleTempoForm}/>
+          <input type="checkbox" checked={this.state.data.tempoIsCustom} ref='tempoForm' onChange={this.toggleTempoForm}/>
           {
-            this.state.data.customTempo
+            this.state.data.tempoIsCustom
               ? <TempoComponent onValueChange={this.handleTempoChange} data={this.getTempo()}/>
               : <span>{this.state.data.tempo}</span>
           }
           <div className="clear"></div>
         </div>
-        <BeatForm
-          newTrack={this.props.newTrack}
-          data={this.state.defaultBeat}/>
+        <ul className="patternFormBeats">
+          {this.state.data.beats.map(function (beat, beatKey) {
+            return (
+              <li key={beatKey} className="beatForm">
+                <BeatForm
+                  newTrack={this.props.newTrack}
+                  data={beat}/>
+              </li>
+            );
+          }.bind(this))}
+        </ul>
         <div className="submit">
           <a href="#" onClick={this.cancel} className='cancel'>Cancel</a>
           <input type="submit" value='Save pattern'/>

@@ -5,8 +5,15 @@ function Line (notes, bufferIdx, subDivision) {
   this.notes = notes;
   this._noteTime = 0.0;
   this._rhythmIndex = 0;
-  this._isStoped = true;
+  this._isStopped = true;
 }
+
+Line.prototype.changeBuffer = function (bufferIdx) {
+  this.bufferIdx = bufferIdx;
+  for (var i = 0; i < this.notes.length; i++) {
+    this.notes[i].bufferIdx = bufferIdx;
+  }
+};
 
 Line.prototype.updateVolume = function(noteIdx) {
   function changeNoteVolume(volume) {
@@ -27,13 +34,13 @@ Line.prototype.updateVolume = function(noteIdx) {
 
 Line.prototype.start = function () {
   this._noteTime = 0;
-  this._isStoped = false;
+  this._isStopped = false;
 };
 
 Line.prototype.stop = function () {
   this._noteTime = 0;
   this._rhythmIndex = 0;
-  this._isStoped = true;
+  this._isStopped = true;
 };
 
 module.exports = Line;

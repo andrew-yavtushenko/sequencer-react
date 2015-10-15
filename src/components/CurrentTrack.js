@@ -30,11 +30,6 @@ var CurrentTrack = React.createClass({
     this.props.onNewPattern(data);
     this.updateLoopValues();
   },
-  handlePatternUpdate: function (pattern) {
-    this.hideForm();
-    this.props.onPatternUpdate(pattern);
-    this.updateLoopValues();
-  },
   onPatternDuplicate: function (data) {
     this.props.onPatternDuplicate(data);
     this.updateLoopValues();
@@ -81,6 +76,9 @@ var CurrentTrack = React.createClass({
     e.preventDefault();
     this.state.loopFinish = e.target.value;
     this.setState(this.state);
+  },
+  handlePatternUpdate: function (pattern) {
+    this.props.onPatternUpdate(pattern);
   },
   render: function () {
     if (this.props.data === null) {
@@ -135,7 +133,7 @@ var CurrentTrack = React.createClass({
               onPatternMove={this.props.onPatternMove}
               onPatternDuplicate={this.props.onPatternDuplicate}
               onDeletePattern={this.props.onDeletePattern}
-              onPatternUpdate={this.props.onPatternUpdate}/>
+              onPatternUpdate={this.handlePatternUpdate}/>
           </div>
           <div id="PatternFormWrapper" ref='newPatternForm'>
             { this.state.showForm ?

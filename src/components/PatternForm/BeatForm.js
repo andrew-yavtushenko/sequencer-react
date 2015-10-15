@@ -6,13 +6,12 @@ var Buffers = require('components/Buffers');
 module.exports = React.createClass({
   getInitialState: function () {
     return {
-      data: this.props.data,
-      backup: this.props.data.clone()
+      data: this.props.data
     };
   },
   componentDidMount: function () {
-    this.updateSubDivisions();
     if (this.props.newTrack) {
+      this.updateSubDivisions();
       this.createLine('hat', this.state.data.availableSubDivisions[0]);
       this.createLine('snare', this.state.data.availableSubDivisions[0]);
       this.createLine('kick', this.state.data.availableSubDivisions[0]);
@@ -22,17 +21,21 @@ module.exports = React.createClass({
     this.state.data.beat = parseInt(this.refs.beat.getDOMNode().value);
     this.setState(this.state);
   },
-  changeSubDivision: function (index, event) {
-    var val = parseInt(event.target.value);
-    this.props.linesData[index].subDivision = val;
-    this.setState(this.state);
-  },
-  changeBuffer: function (index, event) {
-    this.props.linesData[index].bufferIdx = event.target.value;
+  updateSubDivisions: function () {
+    var noteValue = parseInt(this.refs.noteValue.getDOMNode().value);
+
+    this.state.data.noteValue = noteValue;
+    this.state.data.availableSubDivisions = Settings.getAvailableSubDivisions(noteValue);
+
+    for (var i = 0; i < this.state.data.lines.length; i++) {
+      this.state.data.updateLine(i, 'subDivision', this.state.data.availableSubDivisions[0]);
+    }
+
     this.setState(this.state);
   },
   getSubDivisions: function () {
     return this.state.data.availableSubDivisions.map(function (value, key) {
+      console.log('this.state.data.availableSubDivisions', value);
       return (
         <option key={key} value={value}>{Settings.subDivisionNames[value]}</option>
       );
@@ -46,16 +49,9 @@ module.exports = React.createClass({
     }
     return buffersArr;
   },
-  removeLineData: function (index){
-    return function (event) {
-      event.preventDefault();
-      this.props.linesData.splice(index, 1);
-      this.setState(this.state);
-    }.bind(this);
-  },
-  removeLine: function (line, index, event) {
+  removeLine: function (index, event) {
     event.preventDefault();
-    this.state.data.lines.splice(index, 1);
+    this.state.data.removeLine(index);
     this.setState(this.state);
   },
   getBeats: function () {
@@ -68,62 +64,37 @@ module.exports = React.createClass({
       return <option key={key} value={noteValue}>{noteValue}</option>;
     });
   },
-  updateSubDivisions: function () {
-    var noteValue = parseInt.call(null, this.refs.noteValue.getDOMNode().value);
-    var subdivisions = Settings.subDivision.reduce(function (result, subDivision) {
-      if (subDivision >= noteValue) {
-        result.push(subDivision);
-      }
-      return result;
-    }, []);
-
-    this.state.data.availableSubDivisions = subdivisions;
-    this.state.data.noteValue = noteValue;
-    this.setState(this.state);
-  },
-  updateLines: function () {
-    this.props.linesData.map(function (line, index) {
-      this.props.linesData[index].subDivision = parseInt(this.refs['lineSubDivision-' + index].getDOMNode().value);
-    }.bind(this));
-    this.setState(this.state);
-  },
   addLine: function (e) {
     e.preventDefault();
     this.getLines();
     this.createLine('hat', this.state.data.availableSubDivisions[0]);
   },
   createLine: function (bufferIdx, subDivision) {
-    this.props.linesData.push({
-      bufferIdx: bufferIdx,
-      subDivision: subDivision
-    });
+    this.state.data.addLine(bufferIdx, subDivision);
     this.setState(this.state);
   },
-  getLinesData: function () {
-    return this.props.linesData.map(function (line, index) {
-      return (
-        <li key={index}>
-          <select className='bufferIdx' ref={'lineBuffer-' + index} value={line.bufferIdx} onChange={this.changeBuffer.bind(this, index)}>
-            {this.getBuffersSelect()}
-          </select>
-          <select className='subDiv' ref={'lineSubDivision-' + index} value={line.subDivision} onChange={this.changeSubDivision.bind(this, index)}>
-            {this.getSubDivisions()}
-          </select>
-          <button className='remove-line' onClick={this.removeLineData(index)}>&times;</button>
-        </li>
-      );
-    }.bind(this));
+  changeSubDivision: function (lineIndex, event) {
+    var val = parseInt(event.target.value);
+    this.state.data.updateLine(lineIndex, 'subDivision', val);
+    this.setState(this.state);
   },
-  getLines: function () {
-    return this.state.data.lines.map(function (line, index) {
-      return (
-        <li key={index}>
-          <span>{line.bufferIdx}</span>
-          <span>{Settings.subDivisionNames[line.subDivision]}</span>
-          <button className='remove-line' onClick={this.removeLine.bind(this, line, index)}>&times;</button>
-        </li>
-      );
-    }.bind(this));
+  changeBuffer: function (lineIndex, event) {
+    this.state.data.updateLine(lineIndex, 'bufferIdx', event.target.value);
+    this.setState(this.state);
+  },
+  renderLine: function (line, index) {
+    console.log('renderLine', line.subDivision);
+    return (
+      <li key={index} className="beatLine">
+        <select className='bufferIdx' ref={'lineBuffer-' + index} value={line.bufferIdx} onChange={this.changeBuffer.bind(this, index)}>
+          {this.getBuffersSelect()}
+        </select>
+        <select className='subDiv' ref={'lineSubDivision-' + index} value={line.subDivision} onChange={this.changeSubDivision.bind(this, index)}>
+          {this.getSubDivisions()}
+        </select>
+        <button className='remove-line' onClick={this.removeLine.bind(this, index)}>&times;</button>
+      </li>
+    );
   },
   render: function () {
     return (
@@ -138,14 +109,9 @@ module.exports = React.createClass({
             {this.getNoteValues()}
           </select>
         </div>
-        <ul>{
-            this.state.data.lines
-            ? this.getLines()
-            : void 0}
+        <ul className='lines'>
+          {this.state.data.lines.map(this.renderLine)}
         </ul>
-        <div className='lines'>
-          {this.getLinesData()}
-        </div>
         <div className="lineAndLoop">
           <button onClick={this.addLine}>Add Line</button>
           <div className="clear"></div>

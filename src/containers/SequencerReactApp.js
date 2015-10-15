@@ -59,14 +59,14 @@ var SequencerReactApp = React.createClass({
     this.state.data.currentTrack.name = newName;
     this.setState(this.state);
   },
-  handlePatternDuplicate: function (pattern) {
-    TrackWrapper.duplicatePattern(pattern, this.updateCurrentTrack);
+  handlePatternDuplicate: function (patternId) {
+    TrackWrapper.duplicatePattern(patternId, this.updateCurrentTrack);
   },
   movePattern: function (oldIndex, newIndex) {
     TrackWrapper.movePattern(oldIndex, newIndex, this.updateCurrentTrack);
   },
-  updateVolume: function (patternId, lineId, noteId, volume) {
-    TrackWrapper.updateNoteVolume(patternId, lineId, noteId, volume);
+  updateVolume: function (patternId, beatId, lineId, noteId, volume) {
+    TrackWrapper.updateNoteVolume(patternId, beatId, lineId, noteId, volume);
   },
   play: function () {
     console.profile('react');

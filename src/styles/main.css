@@ -1,4 +1,8 @@
 /* Stiziles */
+ul {
+    list-style: none;
+    padding: 0;
+}
 
 select {
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -103,13 +107,12 @@ html, body {
   padding: 12px;
 }
 
-.PatternList >li,
-.PatternList .loopPatterns >li{
+.PatternList >li {
   white-space: normal;
   display: inline-block;
   vertical-align: top;
   margin: 0 9px 9px 0;
-  width: 320px;
+  min-width: 320px;
   border-radius: 4px;
   box-shadow: 0 0 2px 0 rgba(0,0,0,0.5);
   background-color: #fff;
@@ -245,6 +248,7 @@ html, body {
   font-weight: bold;
 }
 .Counter .button {
+  cursor: pointer;
   width: 35px;
   text-align: center;
   margin: 0;
@@ -253,6 +257,10 @@ html, body {
   color: #fff;
   border: 1px solid #434d51;
   border-radius: 4px;
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */
 }
 .Counter .button.minus {
   border-bottom-right-radius: 0;
@@ -362,7 +370,7 @@ html, body {
 }
 
 .PatternForm {
-  width: 296px;
+  min-width: 296px;
   padding: 8px 12px;
   background-color: #fff;
   border-radius: 4px;
@@ -574,7 +582,30 @@ ul.notes:before {
     background-color: #636c70;
 }
 
-.loopPatterns {
-    margin: 0;
-    background-color: #879398;
+.patternFormBeats {
+    list-style: none;
+    padding: 0;
+}
+
+ul.BeatsList,
+ul.patternFormBeats {
+    padding: 5px !important;
+    display: inline-block;
+    white-space: nowrap;
+    background-color: #efefef;
+}
+
+ul.BeatsList >li,
+ul.patternFormBeats >li {
+    display: inline-block;
+    vertical-align: top;
+    padding: 5px;
+    border-radius: 3px;
+    background-color: #fff;
+    margin-right: 5px;
+}
+
+ul.BeatsList >li:last-child,
+ul.patternFormBeats >li:last-child {
+    margin-right: 0px;
 }

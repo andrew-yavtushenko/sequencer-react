@@ -3,7 +3,7 @@ importScripts(
   './timing.js',
   './settings.js',
   './emitNote.js',
-  './loop.js',
+  './beat.js',
   './line.js',
   './pattern.js',
   './track.js',

@@ -1,9 +1,7 @@
 'use strict';
 
-//var Beat = require('./PatternModel');
-var Pattern = require('./LoopModel');
+var Pattern = require('./PatternModel');
 var uuid = require('./uuid');
-//var settings = require('./Settings');
 
 var defaultTrackName = 'New track';
 var defaultPatternName = 'Untitled Pattern';
@@ -12,7 +10,6 @@ var trackCounter = 0;
 
 function Track (name) {
   this.tempo = 120;
-  this.counter = 0;
   this.isPlaying = false;
   this.id = uuid.create().hex;
   this.patterns = [];
@@ -27,7 +24,11 @@ Track.prototype.createPattern = function (name) {
     return false;
   } else {
     var newName = name || this.generateUniqueName(defaultPatternName);
-    var newPattern = new Pattern(newName, [], 1);
+    var newPattern = new Pattern({
+      name: newName,
+      counter: 1,
+      tempo: this.tempo
+    });
     newPattern.setGeneralTempo(this.tempo);
     return newPattern;
   }
@@ -44,14 +45,8 @@ Track.prototype.savePattern = function (newPattern) {
 };
 
 Track.prototype.movePattern = function (oldIndex, newIndex) {
-  if (newIndex >= this.patterns.length) {
-    var k = newIndex - this.patterns.length;
-    while ((k--) + 1) {
-      this.patterns.push(undefined);
-    }
-  }
-  this.patterns.splice(newIndex, 0, this.patterns.splice(oldIndex, 1)[0]);
-  return this; // for testing purposes
+  this.patterns.move(oldIndex, newIndex);
+  return this;
 };
 
 Track.prototype.editName = function (newName) {
@@ -99,12 +94,14 @@ Track.prototype.updatePattern = function (updatedPattern) {
   return this;
 };
 
-Track.prototype.duplicatePattern = function (pattern) {
+Track.prototype.duplicatePattern = function (patternId) {
+  var pattern = this.getPattern(patternId);
   var position = this.patterns.indexOf(pattern);
   var newPattern = pattern.clone(true);
   var match = newPattern.name.match(duplicateRegex);
   var newName = match && match[1] || pattern.name;
   newPattern.name = this.generateUniqueName(newName + ' copy');
+  newPattern.setGeneralTempo(this.tempo);
 
   this.patterns.splice(position + 1, 0, newPattern);
   return this;
