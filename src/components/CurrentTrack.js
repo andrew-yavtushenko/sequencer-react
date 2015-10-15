@@ -80,6 +80,37 @@ var CurrentTrack = React.createClass({
     this.props.data.updatePattern(pattern);
     this.setState(this.state);
   },
+  renderLoops: function () {
+    return (
+      <div>
+        <li>
+          <select value={this.state.loopStart} onChange={this.handleLoopStartChange}>
+            {
+              this.props.data.patterns.map(function (pattern, patternKey) {
+                return (
+                  <option key={patternKey} value={pattern.id}>{pattern.name}</option>
+                );
+              })
+            }
+          </select>
+        </li>
+        <li>
+          <select value={this.state.loopFinish} onChange={this.handleLoopFinishChange}>
+            {
+              this.props.data.patterns.map(function (pattern, patternKey) {
+                return (
+                  <option key={patternKey} value={pattern.id}>{pattern.name}</option>
+                );
+              })
+            }
+          </select>
+        </li>
+        <li>
+          <a href="#" onClick={this.onCreateLoop}>create loop</a>
+        </li>
+      </div>
+    );
+  },
   render: function () {
     if (this.props.data === null) {
       return (
@@ -92,31 +123,6 @@ var CurrentTrack = React.createClass({
             <span className='title-label'>Track Title:</span>
             <NameInput onNameChange={this.props.onTrackNameChange} val={this.props.data.name}/>
             <ul className='controls'>
-              <li>
-                <select value={this.state.loopStart} onChange={this.handleLoopStartChange}>
-                  {
-                    this.props.data.patterns.map(function (pattern, patternKey) {
-                      return (
-                        <option key={patternKey} value={pattern.id}>{pattern.name}</option>
-                      );
-                    })
-                  }
-                </select>
-              </li>
-              <li>
-                <select value={this.state.loopFinish} onChange={this.handleLoopFinishChange}>
-                  {
-                    this.props.data.patterns.map(function (pattern, patternKey) {
-                      return (
-                        <option key={patternKey} value={pattern.id}>{pattern.name}</option>
-                      );
-                    })
-                  }
-                </select>
-              </li>
-              <li>
-                <a href="#" onClick={this.onCreateLoop}>create loop</a>
-              </li>
               <li>
                 <TempoComponent onValueChange={this.handleTempoChange} data={this.props.data.tempo}/>
               </li>

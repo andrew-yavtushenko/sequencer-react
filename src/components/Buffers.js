@@ -3,6 +3,9 @@ var size = require('lodash/collection/size');
 var forOwn = require('lodash/object/forOwn');
 var Context = require('./Context');
 
+window.stereoBuffers = [];
+
+
 var availableSamples = {
   'hat': require('sounds/hat.wav'),
   'mutedhat': require('sounds/mutedhat.wav'),
@@ -61,6 +64,10 @@ function compileBuffers (receivedBuffers) {
 function loadBuffers (callback) {
   forOwn(availableSamples, function (url, sample) {
     loadSample('.' + url, function (buffer) {
+      window.stereoBuffers.push({
+        name: sample,
+        buffer: buffer
+      });
       buffers[sample] = buffer;
 
       if (areLoaded()) {
@@ -71,7 +78,7 @@ function loadBuffers (callback) {
   });
 }
 
-module.exports = {
+module.exports = window.buffers = {
   get: function () { return loadedBuffers; },
   getRaw: function () { return buffers; },
   loadAll: loadBuffers,
