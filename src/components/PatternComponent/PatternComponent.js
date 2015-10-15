@@ -51,7 +51,11 @@ var PatternComponent = React.createClass({
                 : <span>general</span> }
             </div>
             <div className="tempo">{this.props.data.tempo}</div>
-            <ContextMenuWrapper popupClass="PatternContextMenu" data={this.props.data} actions={this.props.actions}>
+            <ContextMenuWrapper
+                popupClass="PatternContextMenu"
+                popups={this.props.popups}
+                data={this.props.data}
+                actions={this.props.actions}>
               <div className="actions"></div>
             </ContextMenuWrapper>
             <div className="duplicate">

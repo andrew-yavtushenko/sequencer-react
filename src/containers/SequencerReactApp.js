@@ -106,6 +106,7 @@ var SequencerReactApp = React.createClass({
           <div key="track" className='track'>
             <CurrentTrack
               actions={this.props.actions}
+              popups={this.props.popups}
               onFormCancel={this.handleFormCancel}
               onNewPattern={this.handleNewPattern}
               onPatternUpdate={this.handlePatternUpdate}

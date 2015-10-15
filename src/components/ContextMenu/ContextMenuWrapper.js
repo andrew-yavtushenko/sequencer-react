@@ -22,10 +22,16 @@ var ContextMenuWrapper = React.createClass({
     });
   },
   render: function () {
+    var className = this.props.className || '';
+    var activePopup = this.props.popups[0];
+    if (activePopup && activePopup.data.id === this.props.data.id) {
+      className += ' active';
+    }
+
     return (
         <a href="#"
-           className={this.props.className}
-           onMouseOver={this.openPopup}>
+           className={className}
+           onClick={this.openPopup}>
           {this.props.children}
         </a>
     );

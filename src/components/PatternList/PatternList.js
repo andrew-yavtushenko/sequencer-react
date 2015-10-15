@@ -33,6 +33,7 @@ var PatternList = React.createClass({
           return (
             <PatternComponent
               actions={this.props.actions}
+              popups={this.props.popups}
               trackTempo={this.props.trackTempo}
               key={patternKey}
               newTrack={false}

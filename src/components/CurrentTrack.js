@@ -67,6 +67,7 @@ var CurrentTrack = React.createClass({
           <div id='PatternListWrapper' className={this.state.showForm ? 'with-form' : ''}>
             <PatternList
               actions={this.props.actions}
+              popups={this.props.popups}
               trackTempo={this.props.data.tempo}
               patterns={this.props.data.patterns}
               onPatternMove={this.props.onPatternMove}
