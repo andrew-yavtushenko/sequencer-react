@@ -92,7 +92,7 @@ module.exports = React.createClass({
           onPatternInsert={this.handlePatternInsert}
           onPatternRemove={this.handlePatternRemove}
           onPatternMove={this.handlePatternMove}
-          data={this.props.data.beats}/>
+          beats={this.props.data.beats}/>
       </div>
     );
   },

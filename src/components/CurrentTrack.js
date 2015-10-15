@@ -76,6 +76,10 @@ var CurrentTrack = React.createClass({
   handlePatternUpdate: function (pattern) {
     this.props.onPatternUpdate(pattern);
   },
+  handleEditCancel: function (pattern) {
+    this.props.data.updatePattern(pattern);
+    this.setState(this.state);
+  },
   render: function () {
     if (this.props.data === null) {
       return (
@@ -124,6 +128,7 @@ var CurrentTrack = React.createClass({
           </div>
           <div id='PatternListWrapper' className={this.state.showForm ? 'with-form' : ''}>
             <PatternList
+              onEditCancel={this.handleEditCancel}
               trackTempo={this.props.data.tempo}
               patterns={this.props.data.patterns}
               onPatternMove={this.props.onPatternMove}

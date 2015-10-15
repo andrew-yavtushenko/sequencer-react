@@ -23,17 +23,13 @@ module.exports = React.createClass({
   handlePatternDuplicate: function (pattern, patternKey, patternId) {
     this.props.onPatternDuplicate(patternId);
   },
-  handleCancel: function (index, pattern) {
-    this.state.patterns[index] = pattern;
-    this.setState(this.state);
-  },
   renderPattern: function (pattern, patternKey) {
     return (
       <li key={patternKey} className="pattern">
         <PatternComponent
           trackTempo={this.props.trackTempo}
           newTrack={false}
-          onCancel={this.handleCancel.bind(this, patternKey)}
+          onCancel={this.props.onEditCancel}
           onPatternUpdate={this.props.onPatternUpdate}
           duplicate={this.handlePatternDuplicate.bind(this, pattern, patternKey)}
           onCounterChange={this.props.onPatternCounterChange}
@@ -45,7 +41,7 @@ module.exports = React.createClass({
   render: function () {
     return (
       <ul ref='patterns' className='PatternList'>{
-        this.state.patterns.map(this.renderPattern)
+        this.props.patterns.map(this.renderPattern)
       }</ul>
     );
   }

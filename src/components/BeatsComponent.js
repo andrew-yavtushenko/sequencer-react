@@ -16,12 +16,6 @@ module.exports = React.createClass({
       beats: this.props.data
     };
   },
-  componentDidUpdate: function (props, state) {
-    if (props.data.length !== state.beats.length) {
-      this.state.beats = props.data;
-      this.setState(this.state);
-    }
-  },
   renderLine: function (line, lineKey) {
     return (
       <li key={lineKey}>
@@ -52,7 +46,7 @@ module.exports = React.createClass({
   render: function () {
     return (
       <ul ref="beats" className="BeatsList">{
-        this.state.beats.map(this.renderBeat)
+        this.props.beats.map(this.renderBeat)
       }</ul>
     );
   }
