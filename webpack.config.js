@@ -50,7 +50,6 @@ module.exports = {
       'containers': __dirname + '/src/containers',
       'mixins': __dirname + '/src/mixins',
       'reducers': __dirname + '/src/reducers',
-      'images': __dirname + '/src/images',
       'sounds': __dirname + '/src/sounds',
       'styles': __dirname + '/src/styles'
     }
@@ -86,7 +85,10 @@ module.exports = {
     }, {
       test: /\.(png|jpg|svg)$/,
       loader: 'url-loader?limit=8192',
-      exclude: path.resolve(__dirname, 'src', 'fonts')
+      exclude: [
+        path.resolve(__dirname, 'src', 'fonts'),
+        path.resolve(__dirname, 'src', 'images')
+      ]
     }]
   },
 
