@@ -112,24 +112,24 @@ var SequencerReactApp = React.createClass({
           onPlay={this.play}
           onStop={this.stop}
           onTrackCreate={this.handleNewTrack} />
-        {this.state.data.currentTrack ?
-          <div className='track'>
-            <CurrentTrack
-              onCreateLoop={this.handleCreateLoop}
-              onNewPattern={this.handleNewPattern}
-              onPatternUpdate={this.handlePatternUpdate}
-              data={this.state.data.currentTrack}
-              onTempoChange={this.handleTempoChange}
-              onTrackNameChange={this.handleTrackNameChange}
-              onPatternCounterChange={this.handleCounterChange}
-              onPatternDuplicate={this.handlePatternDuplicate}
-              onPatternMove={this.movePattern}
-              onDeletePattern={this.deletePattern}/>
-            <NotesComponent
-              updateVolume={this.updateVolume}
-              data={this.state.data.currentTrack}/>
-          </div> :
-          <span>nope</span>
+        {this.state.data.currentTrack
+          ? <div className='track'>
+              <CurrentTrack
+                onCreateLoop={this.handleCreateLoop}
+                onNewPattern={this.handleNewPattern}
+                onPatternUpdate={this.handlePatternUpdate}
+                data={this.state.data.currentTrack}
+                onTempoChange={this.handleTempoChange}
+                onTrackNameChange={this.handleTrackNameChange}
+                onPatternCounterChange={this.handleCounterChange}
+                onPatternDuplicate={this.handlePatternDuplicate}
+                onPatternMove={this.movePattern}
+                onDeletePattern={this.deletePattern}/>
+              <NotesComponent
+                updateVolume={this.updateVolume}
+                data={this.state.data.currentTrack}/>
+            </div>
+          : void 0
         }
         <PlayButton
           play={this.play}

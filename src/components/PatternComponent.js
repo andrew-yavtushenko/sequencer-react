@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react/addons');
-var LoopsComponent = require('./LoopsComponent');
 var PatternForm = require('components/PatternForm');
 var BeatsComponent = require('./BeatsComponent');
 
@@ -36,6 +35,7 @@ module.exports = React.createClass({
   renderForm: function () {
     return (
       <PatternForm
+        onLoopsChange={this.handleLoopsChange}
         trackTempo={this.props.trackTempo}
         data={this.props.data}
         newTrack={false}
@@ -68,14 +68,16 @@ module.exports = React.createClass({
   renderPattern: function () {
     return (
       <div className="inner">
-        <LoopsComponent onValueChange={this.handleLoopsChange} data={this.props.data.counter}/>
-        <div className="handle">{this.props.data.name}</div>
-        <div className="custom">
-          { this.props.data.tempoIsCustom
-            ? <span>custom</span>
-            : <span>general</span> }
-        </div>
-        <div className="tempo">{this.props.data.tempo}</div>
+        <div className="handle patternTitle">{this.props.data.name}</div>
+        <ul className="counters">
+          {this.props.data.counter > 1
+            ? <li><div className="loopsCounter">{this.props.data.counter} loops</div></li>
+            : void 0}
+          <li>
+            <div className="tempo">Tempo: {this.props.data.tempo}</div>
+          </li>
+          <li className="clear"></li>
+        </ul>
         <div className="duplicate">
           <a href="#" onClick={this.handleDuplicate}>duplicate</a>
         </div>

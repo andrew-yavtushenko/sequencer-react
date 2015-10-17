@@ -10,7 +10,7 @@ module.exports = React.createClass({
         min: 40,
         max: 300,
         val: this.props.data,
-        label: 'BPM:',
+        label: 'Tempo:',
         name: 'Tempo'
       }
     };

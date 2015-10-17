@@ -3,6 +3,7 @@
 var React = require('react/addons');
 var NameInput = require('components/NameInput');
 var TempoComponent = require('components/TempoComponent');
+var LoopsComponent = require('components/LoopsComponent');
 var BeatForm = require('./BeatForm');
 
 
@@ -62,13 +63,18 @@ var PatternForm = React.createClass({
       <form className='PatternForm' onSubmit={this.handleSubmit}>
         <div className="head-wrapper">
           <NameInput onNameChange={this.handleNameChange} val={this.state.data.name}/>
-          <input type="checkbox" checked={this.state.data.tempoIsCustom} ref='tempoForm' onChange={this.toggleTempoForm}/>
-          {
-            this.state.data.tempoIsCustom
-              ? <TempoComponent onValueChange={this.handleTempoChange} data={this.getTempo()}/>
-              : <span>{this.state.data.tempo}</span>
-          }
-          <div className="clear"></div>
+          <div className="counters">
+            <LoopsComponent onValueChange={this.handleLoopsChange} data={this.props.data.counter}/>
+            <div className="tempoWrapper">
+              <input type="checkbox" checked={this.state.data.tempoIsCustom} ref='tempoForm' onChange={this.toggleTempoForm}/>
+              {
+                this.state.data.tempoIsCustom
+                  ? <TempoComponent onValueChange={this.handleTempoChange} data={this.getTempo()}/>
+                  : <span>Tempo: {this.state.data.tempo}</span>
+              }
+            </div>
+            <div className="clear"></div>
+          </div>
         </div>
         <ul className="patternFormBeats">
           {this.state.data.beats.map(function (beat, beatKey) {

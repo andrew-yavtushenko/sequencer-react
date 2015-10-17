@@ -50,7 +50,6 @@ module.exports = React.createClass({
   renderBeat: function (pattern, beat, beatKey) {
     return (
       <li key={beatKey} className="beat">
-        <div className="beatIndex">Beat: {beatKey}</div>
         {<ul className="lines">{
           beat.lines.map(this.renderLine.bind(this, pattern, beat))
         }</ul>
@@ -60,7 +59,7 @@ module.exports = React.createClass({
   renderPattern: function (pattern, patternKey) {
     return (
       <li key={patternKey} className="pattern">
-        {pattern.name}
+        <div className="pattern-name">{pattern.name}</div>
         <ul className="beats">{
           pattern.beats.map(this.renderBeat.bind(this, pattern))
         }</ul>
