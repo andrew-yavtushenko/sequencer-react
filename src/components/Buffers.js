@@ -2,6 +2,8 @@ var reduce = require('lodash/collection/reduce');
 var size = require('lodash/collection/size');
 var forOwn = require('lodash/object/forOwn');
 
+var OfflineContext = OfflineAudioContext || webkitOfflineAudioContext;
+
 var availableSamples = {
   'hat': require('sounds/hat.wav'),
   'mutedhat': require('sounds/mutedhat.wav'),
@@ -70,7 +72,7 @@ function decodeArrayBuffer (arrayBuffer, callback, errCallback) {
   var sampleRate = view.getUint32(24, true);
   var numberOfChannels = view.getUint16(22, true);
 
-  var offlineCtx = new OfflineAudioContext(numberOfChannels, 1, sampleRate);
+  var offlineCtx = new OfflineContext(numberOfChannels, 1, sampleRate);
 
   offlineCtx.decodeAudioData(arrayBuffer, callback, errCallback);
 }
