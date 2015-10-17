@@ -28,12 +28,20 @@ function areLoaded () {
   return size(buffers) === size(availableSamples);
 }
 
-function resample (buffer, callback) {
+function recompileBufferGain (buffer, receivedGain, callback) {
   var channels = buffer.numberOfChannels;
   var durationInSamples = buffer.length;
+  var sampleRate = buffer.sampleRate;
 
-  var offlineContext = new OfflineAudioContext(channels, durationInSamples, 48000);
-  var emptyBuffer = offlineContext.createBuffer(channels, durationInSamples, buffer.sampleRate);
+  var offlineContext = new OfflineAudioContext(channels, durationInSamples, sampleRate);
+  var emptyBuffer = offlineContext.createBuffer(channels, durationInSamples, sampleRate);
+
+  var source = offlineContext.createBufferSource();
+  var gainNode = offlineContext.createGain();
+
+  var gain = !receivedGain
+    ? 1
+    : receivedGain;
 
   for (var channel = 0; channel < channels; channel++) {
     var channelData = emptyBuffer.getChannelData(channel);
@@ -41,12 +49,12 @@ function resample (buffer, callback) {
       channelData[i] = buffer.getChannelData(channel)[i];
     }
   }
-  var source = offlineContext.createBufferSource();
 
   source.buffer = emptyBuffer;
+  gainNode.gain.value = gain;
 
-  source.connect(offlineContext.destination);
-
+  source.connect(gainNode);
+  gainNode.connect(offlineContext.destination);
   source.start(0);
 
   offlineContext.oncomplete = function() {
@@ -126,7 +134,10 @@ function getBuffers (bufferName, volume) {
   }
 }
 
+window.getRaw = function () { return buffers; };
+
 module.exports = {
+  recompileBufferGain: recompileBufferGain,
   get: getBuffers,
   getRaw: function () { return buffers; },
   loadAll: loadBuffers,
