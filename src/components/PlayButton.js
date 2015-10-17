@@ -33,7 +33,7 @@ module.exports = React.createClass({
   },
   render: function () {
     return (
-      <div className="PlayButton">
+      <div className="PlayButton" style={{display: this.props.canPlay() ? 'block' : 'none'}}>
         <a href="#" onClick={this.handleCall}>{
           this.state.isPlaying
             ? <span>stop</span>

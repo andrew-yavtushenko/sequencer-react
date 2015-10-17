@@ -139,7 +139,7 @@ html, body {
   vertical-align: middle;
   font-weight: normal;
   font-size: 18px;
-  padding-left: 20px;
+  padding: 0 20px;
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 

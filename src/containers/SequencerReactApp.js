@@ -21,7 +21,7 @@ var SequencerReactApp = React.createClass({
   loadBuffers: function () {
     Context.unlock(function () {
       Buffers.loadAll(function () {
-        this.state.data.initilized = true;
+        this.state.data.initialized = true;
         this.setState(this.state);
       }.bind(this));
     }.bind(this));
@@ -33,7 +33,7 @@ var SequencerReactApp = React.createClass({
   getInitialState: function () {
     return {data: {
       tracks: [],
-      initilized: false
+      initialized: false
     }};
   },
   componentDidMount: function() {
@@ -98,6 +98,13 @@ var SequencerReactApp = React.createClass({
   handleCounterChange: function (patternId, counter) {
     TrackWrapper.changePatternCounter(patternId, counter, this.updateCurrentTrack);
   },
+  canPlay: function () {
+    return this.state.data.initialized
+        && this.state.data.currentTrack
+        && this.state.data.currentTrack.patterns.length
+        && this.state.data.currentTrack.patterns[0].beats.length
+        && this.state.data.currentTrack.patterns[0].beats[0].lines.length;
+  },
   render: function() {
     return (
       <ReactTransitionGroup transitionName="fade" component="div" className="main">
@@ -126,7 +133,8 @@ var SequencerReactApp = React.createClass({
         }
         <PlayButton
           play={this.play}
-          stop={this.stop}/>
+          stop={this.stop}
+          canPlay={this.canPlay}/>
       </ReactTransitionGroup>
     );
   }
