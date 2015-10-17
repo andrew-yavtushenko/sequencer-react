@@ -11,13 +11,13 @@ Line.prototype.setNoteVolume = function(noteIdx, volume) {
 
 Line.prototype.start = function() {
   this._noteTime = 0;
-  this._isStoped = false;
+  this._isStopped = false;
 };
 
 Line.prototype.stop = function() {
   this._noteTime = 0;
   this._rhythmIndex = 0;
-  this._isStoped = true;
+  this._isStopped = true;
 };
 
 Line.prototype._scheduleNextNote = function (tempo) {
@@ -36,10 +36,10 @@ Line.prototype.check = function (currentTime, tempo, patternId, lineId) {
   if (this._noteTime <= currentTime + this._threshold) {
     var currentNoteIndex = this._rhythmIndex;
     this._scheduleNextNote(tempo);
-    if (!this._isStoped) {
+    if (!this._isStopped) {
       emitNote(this.notes[currentNoteIndex].bufferIdx, this.notes[currentNoteIndex].volume, patternId, lineId, currentNoteIndex, this._noteDuration);
     }
   }
-  return this._isStoped;
+  return this._isStopped;
 };
 

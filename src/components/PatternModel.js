@@ -13,24 +13,24 @@ function Pattern (properties) {
   this.availableSubDivisions = properties.availableSubDivisions;
   this.id = properties.id;
   this.tempo = properties.tempo;
-  this.customTempo = false;
+  this.tempoIsCustom = false;
   this.isStopped = true;
   return this;
 }
 
 Pattern.prototype.releaseCustomTempo = function(tempo) {
-  this.customTempo = false;
+  this.tempoIsCustom = false;
   this.tempo = tempo;
 };
 
 Pattern.prototype.setCustomTempo = function(tempo) {
-  this.customTempo = true;
+  this.tempoIsCustom = true;
   this.tempo = tempo;
 };
 
 Pattern.prototype.setTempo = function(tempo) {
   var isSet = true;
-  if (this.customTempo === false) {
+  if (this.tempoIsCustom === false) {
     this.tempo = tempo;
   } else {
     isSet = false;

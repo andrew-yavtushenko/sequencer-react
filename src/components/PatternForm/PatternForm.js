@@ -154,24 +154,24 @@ var PatternForm = React.createClass({
     var checked = this.refs.tempoForm.getDOMNode().checked;
     if (checked) {
       this.state.customTempoVal = this.props.trackTempo;
-      this.state.data.customTempo = true;
+      this.state.data.tempoIsCustom = true;
     } else {
       this.state.data.tempo = this.props.trackTempo;
-      this.state.data.customTempo = false;
+      this.state.data.tempoIsCustom = false;
     }
     this.setState(this.state);
   },
   getTempo: function () {
-    return this.state.data.customTempo ? this.state.customTempoVal : this.props.data.tempo;
+    return this.state.data.tempoIsCustom ? this.state.customTempoVal : this.props.data.tempo;
   },
   render: function () {
     return (
       <form className='PatternForm' onSubmit={this.handleSubmit}>
         <div className="head-wrapper">
           <NameInput onNameChange={this.handleNameChange} val={this.state.data.name}/>
-          <input type="checkbox" checked={this.state.data.customTempo} ref='tempoForm' onChange={this.toggleTempoForm}/>
+          <input type="checkbox" checked={this.state.data.tempoIsCustom} ref='tempoForm' onChange={this.toggleTempoForm}/>
           {
-            this.state.data.customTempo
+            this.state.data.tempoIsCustom
               ? <TempoComponent onValueChange={this.handleTempoChange} data={this.getTempo()}/>
               : <span>{this.state.data.tempo}</span>
           }

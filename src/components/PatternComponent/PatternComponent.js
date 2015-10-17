@@ -44,7 +44,7 @@ var PatternComponent = React.createClass({
           <div className="inner">
             {this.props.data.name}&nbsp;&nbsp;{this.props.data.beat}/{this.props.data.noteValue}
             <div className="custom">
-              { this.props.data.customTempo
+              { this.props.data.tempoIsCustom
                 ? <span>custom</span>
                 : <span>general</span> }
             </div>

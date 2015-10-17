@@ -5,7 +5,7 @@ function Line (notes, bufferIdx, subDivision) {
   this.notes = notes;
   this._noteTime = 0.0;
   this._rhythmIndex = 0;
-  this._isStoped = true;
+  this._isStopped = true;
 }
 
 Line.prototype.updateVolume = function(noteIdx) {
@@ -27,13 +27,13 @@ Line.prototype.updateVolume = function(noteIdx) {
 
 Line.prototype.start = function () {
   this._noteTime = 0;
-  this._isStoped = false;
+  this._isStopped = false;
 };
 
 Line.prototype.stop = function () {
   this._noteTime = 0;
   this._rhythmIndex = 0;
-  this._isStoped = true;
+  this._isStopped = true;
 };
 
 module.exports = Line;

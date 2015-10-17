@@ -4,7 +4,7 @@ importScripts(
   './settings.js',
   './emitNote.js',
   './line.js',
-  './pattern.js',
+  './beat.js',
   './track.js',
   './ticker.js',
   './player.js',

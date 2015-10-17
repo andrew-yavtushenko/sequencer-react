@@ -11,12 +11,12 @@ function Pattern (patternData) {
 }
 
 Pattern.prototype.releaseCustomTempo = function(tempo) {
-  this.customTempo = false;
+  this.tempoIsCustom = false;
   this.tempo = tempo;
 };
 
 Pattern.prototype.setCustomTempo = function(tempo) {
-  this.customTempo = true;
+  this.tempoIsCustom = true;
   this.tempo = tempo;
 };
 
