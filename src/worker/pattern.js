@@ -49,6 +49,34 @@ Pattern.prototype.advancePattern = function () {
   }
 };
 
+Pattern.prototype.releaseCustomTempo = function (tempo) {
+  this.tempoIsCustom = false;
+  this.tempo = tempo;
+  for (var i = 0; i < this.beats.length; i++) {
+    this.beats[i].releaseCustomTempo(tempo);
+  }
+};
+
+Pattern.prototype.setCustomTempo = function (tempo) {
+  this.tempoIsCustom = true;
+  this.tempo = tempo;
+  for (var i = 0; i < this.beats.length; i++) {
+    this.beats[i].setCustomTempo(tempo);
+  }
+};
+
+Pattern.prototype.setGeneralTempo = function(tempo) {
+
+  if (this.tempoIsCustom) {
+    return false;
+  }
+
+  this.tempo = tempo;
+  for (var i = 0; i < this.beats.length; i++) {
+    this.beats[i].setGeneralTempo(tempo);
+  }
+};
+
 Pattern.prototype.check = function (currentTime) {
   var currentBeat = this.beats[this.beatsIndex];
 

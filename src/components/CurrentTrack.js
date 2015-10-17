@@ -6,6 +6,7 @@ var PatternList = require('./PatternList/');
 var NameInput = require('./NameInput');
 var TempoComponent = require('./TempoComponent');
 var TrackWrapper = require('./TrackWrapper');
+var compileTrack = require('./BufferCompiler');
 
 var CurrentTrack = React.createClass({
   getInitialState: function () {
@@ -111,6 +112,9 @@ var CurrentTrack = React.createClass({
       </div>
     );
   },
+  compileTrack: function () {
+    compileTrack(this.props.data);
+  },
   render: function () {
     if (this.props.data === null) {
       return (
@@ -123,6 +127,9 @@ var CurrentTrack = React.createClass({
             <span className='title-label'>Track Title:</span>
             <NameInput onNameChange={this.props.onTrackNameChange} val={this.props.data.name}/>
             <ul className='controls'>
+              <li style={{display: 'none'}}>
+                <a href="#" onClick={this.compileTrack}>compile</a>
+              </li>
               <li>
                 <TempoComponent onValueChange={this.handleTempoChange} data={this.props.data.tempo}/>
               </li>

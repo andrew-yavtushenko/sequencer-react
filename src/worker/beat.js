@@ -20,8 +20,10 @@ Beat.prototype.setCustomTempo = function(tempo) {
   this.tempo = tempo;
 };
 
-Beat.prototype.setTempo = function(tempo) {
-  this.tempo = tempo;
+Beat.prototype.setGeneralTempo = function(tempo) {
+  if (!this.tempoIsCustom) {
+    this.tempo = tempo;
+  }
 };
 
 Beat.prototype.check = function(currentTime, patternId) {

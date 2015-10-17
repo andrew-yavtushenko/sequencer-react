@@ -20,8 +20,7 @@ function initPlayer () { //eslint-disable-line no-unused-vars
   }
 
   function setTrackTempo (data) {
-    console.log('setTrackTempo', data);
-    //currentTrack.setTempo(data.tempo);
+    currentTrack.setTempo(data.tempo);
   }
 
   function setPatternCustomTempo (data) {

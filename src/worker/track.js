@@ -30,7 +30,7 @@ Track.prototype.setTempo = function(tempo) {
   this.tempo = tempo;
   for (var i = 0; i < this.patterns.length; i++) {
     if (this.patterns[i].tempoIsCustom === false) {
-      this.patterns[i].setTempo(tempo);
+      this.patterns[i].setGeneralTempo(tempo);
     }
   }
 };
