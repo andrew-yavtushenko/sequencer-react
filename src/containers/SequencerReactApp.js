@@ -4,6 +4,7 @@ var React = require('react/addons');
 var ReactTransitionGroup = React.addons.TransitionGroup;
 var Context = require('components/Context');
 var Buffers = require('components/Buffers');
+var PlayButton = require('components/PlayButton');
 var TrackWrapper = require('components/TrackWrapper');
 var CurrentTrack = require('components/CurrentTrack');
 var SequencerHeader = require('components/SequencerHeader');
@@ -123,6 +124,9 @@ var SequencerReactApp = React.createClass({
           </div> :
           <span>nope</span>
         }
+        <PlayButton
+          play={this.play}
+          stop={this.stop}/>
       </ReactTransitionGroup>
     );
   }
