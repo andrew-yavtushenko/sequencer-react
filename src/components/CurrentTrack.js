@@ -124,7 +124,6 @@ var CurrentTrack = React.createClass({
       return (
         <div className='CurrentTrack'>
           <div className='TrackTitle'>
-            <span className='title-label'>Track Title:</span>
             <NameInput onNameChange={this.props.onTrackNameChange} val={this.props.data.name}/>
             <ul className='controls'>
               <li style={{display: 'none'}}>
@@ -134,7 +133,7 @@ var CurrentTrack = React.createClass({
                 <TempoComponent onValueChange={this.handleTempoChange} data={this.props.data.tempo}/>
               </li>
               <li>
-                <a href="#" onClick={this.showForm} className='create-pattern'>Add new pattern</a>
+                <a href="#" onClick={this.showForm} className='create-pattern'>Add pattern</a>
               </li>
             </ul>
             <div className="clear"></div>
