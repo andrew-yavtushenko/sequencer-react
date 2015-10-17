@@ -36,6 +36,7 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx'],
     alias: {
+      'images': __dirname + '/src/images',
       'styles': __dirname + '/src/styles',
       'mixins': __dirname + '/src/mixins',
       'components': __dirname + '/src/components/',
