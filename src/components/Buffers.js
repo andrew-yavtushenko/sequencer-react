@@ -67,9 +67,7 @@ function decodeArrayBuffer (arrayBuffer, callback, errCallback) {
   offlineCtx.decodeAudioData(arrayBuffer, callback, errCallback);
 }
 
-window.resample = resample;
-
-  function loadSample (url, callback) {
+function loadSample (url, callback) {
 
   var request = new XMLHttpRequest();
   request.open('GET', url, true);
@@ -127,8 +125,6 @@ function getBuffers (bufferName, volume) {
     return loadedBuffers[bufferName];
   }
 }
-
-window.getRaw = function () { return buffers; };
 
 module.exports = {
   get: getBuffers,
