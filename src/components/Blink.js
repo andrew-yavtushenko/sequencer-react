@@ -1,9 +1,10 @@
 'use strict';
 
-function blink (patternId, lineId, noteId, duration) {
+function blink (patternId, beatId, lineId, noteId, duration) {
   var event = new CustomEvent('blink', {
     'detail': {
       patternId: patternId,
+      beatId: beatId,
       lineId: lineId,
       noteId: noteId,
       duration: duration

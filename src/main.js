@@ -10,7 +10,7 @@ var store = configureStore();
 
 React.render(
   <Provider store={store}>
-      {() => <SequencerReactApp />}
+    {() => <SequencerReactApp />}
   </Provider>,
   document.getElementById('content')
 );

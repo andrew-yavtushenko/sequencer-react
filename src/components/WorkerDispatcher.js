@@ -72,9 +72,10 @@ function setTrack (track, callback) {
   }, callback);
 }
 
-function setNoteVolume (patternId, lineId, noteId, volume, callback) {
+function setNoteVolume (patternId, beatId, lineId, noteId, volume, callback) {
   stringCall('setNoteVolume', {
     patternId: patternId,
+    beatId: beatId,
     lineId: lineId,
     noteId: noteId,
     volume: volume

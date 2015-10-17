@@ -1,14 +1,15 @@
 'use strict';
 
 var React = require('react/addons');
-var SortableMixin = require('react-sortable-mixin');
+var SortableMixin = require('../SortableMixin');
 var PatternComponent = require('components/PatternComponent');
 
-var PatternList = React.createClass({
+module.exports = React.createClass({
   mixins: [SortableMixin],
   sortableOptions: {
     model: 'patterns',
-    ref: 'pattern'
+    ref: 'pattern',
+    handle: '.handle'
   },
   getInitialState: function () {
     return {
@@ -19,32 +20,30 @@ var PatternList = React.createClass({
   handleSort: function (event) {
     this.props.onPatternMove(event.oldIndex, event.newIndex);
   },
-  handlePatternDuplicate: function (pattern) {
-    this.props.onPatternDuplicate(pattern);
+  handlePatternDuplicate: function (pattern, patternKey, patternId) {
+    this.props.onPatternDuplicate(patternId);
   },
-  handleCancel: function (index, pattern) {
-    this.state.patterns[index] = pattern;
-    this.setState(this.state);
+  renderPattern: function (pattern, patternKey) {
+    return (
+      <li key={patternKey} className="pattern">
+        <PatternComponent
+          trackTempo={this.props.trackTempo}
+          newTrack={false}
+          onCancel={this.props.onEditCancel}
+          onPatternUpdate={this.props.onPatternUpdate}
+          duplicate={this.handlePatternDuplicate.bind(this, pattern, patternKey)}
+          onCounterChange={this.props.onPatternCounterChange}
+          onDeletePattern={this.props.onDeletePattern}
+          data={pattern}/>
+      </li>
+    );
   },
   render: function () {
     return (
       <ul ref='patterns' className='PatternList'>{
-        this.state.patterns.map(function (pattern, patternKey) {
-          return (
-            <PatternComponent
-              trackTempo={this.props.trackTempo}
-              key={patternKey}
-              newTrack={false}
-              onCancel={this.handleCancel.bind(this, patternKey)}
-              onPatternUpdate={this.props.onPatternUpdate}
-              duplicate={this.handlePatternDuplicate.bind(this, pattern)}
-              onDeletePattern={this.props.onDeletePattern}
-              data={pattern}/>
-          );
-        }.bind(this))
+        this.props.patterns.map(this.renderPattern)
       }</ul>
     );
   }
 });
 
-module.exports = PatternList;

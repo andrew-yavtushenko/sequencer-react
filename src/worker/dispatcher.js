@@ -1,10 +1,10 @@
 var ab2obj = function(buffer) {
-    var str = '';
-    var bytes = new Uint16Array(buffer);
-    for (var i = 0, buffLen = (bytes.byteLength / 2); i < buffLen; i++) {
-        str += String.fromCharCode(bytes[i]);
-    }
-    return JSON.parse(str);
+  var str = '';
+  var bytes = new Uint16Array(buffer);
+  for (var i = 0, buffLen = (bytes.byteLength / 2); i < buffLen; i++) {
+    str += String.fromCharCode(bytes[i]);
+  }
+  return JSON.parse(str);
 };
 
 function parseMessage (event) {

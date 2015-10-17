@@ -1,17 +1,15 @@
+'use strict';
+
 var Pattern = require('./PatternModel');
 var uuid = require('./uuid');
-var settings = require('./Settings');
-//var utils = require('./Utils');
 
 var defaultTrackName = 'New track';
 var defaultPatternName = 'Untitled Pattern';
 var duplicateRegex = /^(.*)+\s+copy\s*(\d+)?$/i;
 var trackCounter = 0;
-//var _ = require('lodash');
 
 function Track (name) {
   this.tempo = 120;
-  this.counter = 0;
   this.isPlaying = false;
   this.id = uuid.create().hex;
   this.patterns = [];
@@ -20,15 +18,35 @@ function Track (name) {
   return this;
 }
 
-Track.prototype.movePattern = function (oldIndex, newIndex) {
-  if (newIndex >= this.patterns.length) {
-    var k = newIndex - this.patterns.length;
-    while ((k--) + 1) {
-      this.patterns.push(undefined);
-    }
+Track.prototype.createPattern = function (name) {
+  if (this.isPlaying) {
+    console.error('you can\'t modify track while playing');
+    return false;
+  } else {
+    var newName = name || this.generateUniqueName(defaultPatternName);
+    var newPattern = new Pattern({
+      name: newName,
+      counter: 1,
+      tempo: this.tempo
+    });
+    newPattern.setGeneralTempo(this.tempo);
+    return newPattern;
   }
-  this.patterns.splice(newIndex, 0, this.patterns.splice(oldIndex, 1)[0]);
-  return this; // for testing purposes
+};
+
+Track.prototype.savePattern = function (newPattern) {
+  var index = this.patterns.indexOf(newPattern);
+  if (index !== -1) {
+    this.patterns[index] = newPattern;
+  } else {
+    this.patterns.push(newPattern);
+  }
+  return this;
+};
+
+Track.prototype.movePattern = function (oldIndex, newIndex) {
+  this.patterns.move(oldIndex, newIndex);
+  return this;
 };
 
 Track.prototype.editName = function (newName) {
@@ -46,15 +64,16 @@ Track.prototype.setCustomTempo = function (tempo, patternId) {
 Track.prototype.setTempo = function(tempo) {
   this.tempo = tempo;
   for (var i = 0; i < this.patterns.length; i++) {
-    if (this.patterns[i].customTempo === false) {
-      this.patterns[i].setTempo(tempo);
-    }
+    this.patterns[i].setGeneralTempo(tempo);
   }
 };
 
 Track.prototype.generateUniqueName = function (defaultName) {
   var regex = new RegExp('^' + defaultName + '\\s*(\\d+)?$', 'i');
   var collisions = this.patterns.reduce(function (numbers, p) {
+    if (p.isLoop) {
+      return numbers;
+    }
     var match = p.name.trim().match(regex);
     if (match) { numbers[match[1] | 0] = true; }
     return numbers;
@@ -75,55 +94,17 @@ Track.prototype.updatePattern = function (updatedPattern) {
   return this;
 };
 
-Track.prototype.duplicatePattern = function (pattern) {
+Track.prototype.duplicatePattern = function (patternId) {
+  var pattern = this.getPattern(patternId);
   var position = this.patterns.indexOf(pattern);
   var newPattern = pattern.clone(true);
   var match = newPattern.name.match(duplicateRegex);
   var newName = match && match[1] || pattern.name;
   newPattern.name = this.generateUniqueName(newName + ' copy');
+  newPattern.setGeneralTempo(this.tempo);
 
   this.patterns.splice(position + 1, 0, newPattern);
-  return this;
-};
-
-Track.prototype.savePattern = function (newPattern) {
-  var index = this.patterns.indexOf(newPattern);
-  if (index !== -1) {
-    this.patterns[index] = newPattern;
-  } else {
-    this.patterns.push(newPattern);
-  }
-  return this;
-};
-
-Track.prototype.createPattern = function (beat, noteValue, name, customTempo) {
-  if (this.isPlaying) {
-    console.error('you can\'t modify track while playing');
-    return false;
-  } else {
-    var availableSubDivisions = settings.subDivision.reduce(function (result, subDivision) {
-      if (subDivision >= noteValue) {
-        result.push(subDivision);
-      }
-      return result;
-    }, []);
-
-    var newPattern = new Pattern({
-      availableSubDivisions: availableSubDivisions,
-      currentSubDivision: availableSubDivisions[0],
-      beat: beat,
-      noteValue: noteValue,
-      id: uuid.create().hex,
-      tempo: this.tempo,
-      name: name || this.generateUniqueName(defaultPatternName)
-    });
-
-    if (customTempo) {
-      newPattern.setCustomTempo(customTempo);
-    }
-
-    return newPattern;
-  }
+  return newPattern;
 };
 
 Track.prototype.deletePattern = function(patternId) {

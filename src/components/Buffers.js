@@ -1,7 +1,6 @@
 var reduce = require('lodash/collection/reduce');
 var size = require('lodash/collection/size');
 var forOwn = require('lodash/object/forOwn');
-var Context = require('./Context');
 
 var availableSamples = {
   'hat': require('sounds/hat.wav'),
@@ -9,8 +8,10 @@ var availableSamples = {
   'openhat': require('sounds/openhat.wav'),
   'snare': require('sounds/snare.wav'),
   'kick': require('sounds/kick.wav'),
+  'mutedride': require('sounds/mutedride.wav'),
   'ride': require('sounds/ride.wav'),
   'ridebell': require('sounds/ridebell.wav'),
+  'mutedcrash': require('sounds/mutedcrash.wav'),
   'crash': require('sounds/crash.wav'),
   'tom1': require('sounds/tom1.wav'),
   'tom2': require('sounds/tom2.wav'),
@@ -27,20 +28,57 @@ function areLoaded () {
   return size(buffers) === size(availableSamples);
 }
 
-function loadSample (url, callback) {
+function resample (buffer, callback) {
+  var channels = buffer.numberOfChannels;
+  var durationInSamples = buffer.length;
+
+  var offlineContext = new OfflineAudioContext(channels, durationInSamples, 48000);
+  var emptyBuffer = offlineContext.createBuffer(channels, durationInSamples, buffer.sampleRate);
+
+  for (var channel = 0; channel < channels; channel++) {
+    var channelData = emptyBuffer.getChannelData(channel);
+    for (var i = 0; i < durationInSamples; i++) {
+      channelData[i] = buffer.getChannelData(channel)[i];
+    }
+  }
+  var source = offlineContext.createBufferSource();
+
+  source.buffer = emptyBuffer;
+
+  source.connect(offlineContext.destination);
+
+  source.start(0);
+
+  offlineContext.oncomplete = function() {
+    callback(event.renderedBuffer);
+  };
+
+
+  offlineContext.startRendering();
+}
+
+function decodeArrayBuffer (arrayBuffer, callback, errCallback) {
+  var view = new DataView(arrayBuffer);
+  var sampleRate = view.getUint32(24, true);
+  var numberOfChannels = view.getUint16(22, true);
+
+  var offlineCtx = new OfflineAudioContext(numberOfChannels, 1, sampleRate);
+
+  offlineCtx.decodeAudioData(arrayBuffer, callback, errCallback);
+}
+
+window.resample = resample;
+
+  function loadSample (url, callback) {
 
   var request = new XMLHttpRequest();
   request.open('GET', url, true);
   request.responseType = 'arraybuffer';
 
   request.onload = function() {
-    Context.context.decodeAudioData(
-      request.response,
-      callback,
-      function(buffer) {
-          console.log('Error decoding drum samples!', buffer);
-      }
-    );
+    decodeArrayBuffer(request.response, callback, function (buffer) {
+      console.log('Error decoding drum samples!', buffer);
+    });
   };
 
   request.send();
@@ -70,8 +108,30 @@ function loadBuffers (callback) {
   });
 }
 
+function getBuffers (bufferName, volume) {
+  if (!bufferName) {
+    return loadedBuffers;
+  }
+  if (bufferName === 'metronome') {
+    switch (volume) {
+      case 0.33:
+        return buffers['metronome-low'];
+      case 0.66:
+        return buffers['metronome-med'];
+      case 1:
+        return buffers['metronome-high'];
+      default:
+        return buffers['metronome-low'];
+    }
+  } else {
+    return loadedBuffers[bufferName];
+  }
+}
+
+window.getRaw = function () { return buffers; };
+
 module.exports = {
-  get: function () { return loadedBuffers; },
+  get: getBuffers,
   getRaw: function () { return buffers; },
   loadAll: loadBuffers,
   areLoaded: areLoaded

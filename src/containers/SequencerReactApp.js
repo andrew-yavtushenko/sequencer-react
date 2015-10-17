@@ -59,14 +59,14 @@ var SequencerReactApp = React.createClass({
     this.state.data.currentTrack.name = newName;
     this.setState(this.state);
   },
-  handlePatternDuplicate: function (pattern) {
-    TrackWrapper.duplicatePattern(pattern, this.updateCurrentTrack);
+  handlePatternDuplicate: function (patternId) {
+    TrackWrapper.duplicatePattern(patternId, this.updateCurrentTrack);
   },
   movePattern: function (oldIndex, newIndex) {
     TrackWrapper.movePattern(oldIndex, newIndex, this.updateCurrentTrack);
   },
-  updateVolume: function (patternId, lineId, noteId, volume) {
-    TrackWrapper.updateNoteVolume(patternId, lineId, noteId, volume);
+  updateVolume: function (patternId, beatId, lineId, noteId, volume) {
+    TrackWrapper.updateNoteVolume(patternId, beatId, lineId, noteId, volume);
   },
   play: function () {
     console.profile('react');
@@ -91,8 +91,11 @@ var SequencerReactApp = React.createClass({
       this.setState(this.state);
     }.bind(this));
   },
-  handleFormCancel: function () {
-    console.log(arguments);
+  handleCreateLoop: function (patterns) {
+    TrackWrapper.createLoop(patterns, this.updateCurrentTrack);
+  },
+  handleCounterChange: function (patternId, counter) {
+    TrackWrapper.changePatternCounter(patternId, counter, this.updateCurrentTrack);
   },
   render: function() {
     return (
@@ -104,12 +107,13 @@ var SequencerReactApp = React.createClass({
         {this.state.data.currentTrack ?
           <div className='track'>
             <CurrentTrack
-              onFormCancel={this.handleFormCancel}
+              onCreateLoop={this.handleCreateLoop}
               onNewPattern={this.handleNewPattern}
               onPatternUpdate={this.handlePatternUpdate}
               data={this.state.data.currentTrack}
               onTempoChange={this.handleTempoChange}
               onTrackNameChange={this.handleTrackNameChange}
+              onPatternCounterChange={this.handleCounterChange}
               onPatternDuplicate={this.handlePatternDuplicate}
               onPatternMove={this.movePattern}
               onDeletePattern={this.deletePattern}/>
