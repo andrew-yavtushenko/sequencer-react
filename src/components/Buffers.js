@@ -2,7 +2,7 @@ var reduce = require('lodash/collection/reduce');
 var size = require('lodash/collection/size');
 var forOwn = require('lodash/object/forOwn');
 
-var OfflineContext = OfflineAudioContext || webkitOfflineAudioContext;
+var OfflineContext = window.OfflineAudioContext || window.webkitOfflineAudioContext;
 
 var availableSamples = {
   'hat': require('sounds/hat.wav'),
