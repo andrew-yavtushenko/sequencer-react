@@ -1,6 +1,7 @@
 var reduce = require('lodash/collection/reduce');
 var size = require('lodash/collection/size');
 var forOwn = require('lodash/object/forOwn');
+var context = require('./Context').context;
 
 var OfflineContext = window.OfflineAudioContext || window.webkitOfflineAudioContext;
 
@@ -67,7 +68,7 @@ function recompileBufferGain (buffer, receivedGain, callback) {
   offlineContext.startRendering();
 }
 
-function decodeArrayBuffer (arrayBuffer, callback, errCallback) {
+function decodeArrayBufferOffline (arrayBuffer, callback, errCallback) {
   var view = new DataView(arrayBuffer);
   var sampleRate = view.getUint32(24, true);
   var numberOfChannels = view.getUint16(22, true);
@@ -75,6 +76,13 @@ function decodeArrayBuffer (arrayBuffer, callback, errCallback) {
   var offlineCtx = new OfflineContext(numberOfChannels, 1, sampleRate);
 
   offlineCtx.decodeAudioData(arrayBuffer, callback, errCallback);
+}
+
+window.decodeArrayBufferOffline = decodeArrayBufferOffline;
+
+function decodeArrayBuffer (arrayBuffer, callback, errCallback) {
+
+  context.decodeAudioData(arrayBuffer, callback, errCallback);
 }
 
 function loadSample (url, callback) {
