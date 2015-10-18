@@ -12,7 +12,8 @@ function Track (trackData) {
 
   for (var i = 0; i < this.patterns.length; i++) {
     var patternData = this.patterns[i];
-    this.patterns[i] = patternData.isLoop ? new Loop(patternData) : new Pattern(patternData);
+    this.patterns[i] = new Pattern(patternData);
+
   }
 
   return this;
