@@ -3,6 +3,7 @@
 var React = require('react/addons');
 var PatternForm = require('components/PatternForm');
 var BeatsComponent = require('./BeatsComponent');
+var detectFeature = require('./FeatureDetection');
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -63,11 +64,9 @@ module.exports = React.createClass({
       this.deletePattern();
     }
     this.props.onPatternUpdate(this.props.data);
-    this.setState(this.state);
   },
   handlePatternMove: function (newIndex, oldIndex) {
     this.props.data.moveBeat(newIndex, oldIndex);
-    this.setState(this.state);
     this.props.onPatternUpdate(this.props.data);
   },
   handleDuplicate: function () {
@@ -78,10 +77,17 @@ module.exports = React.createClass({
     this.setState(this.state);
     window.removeEventListener('click', this.hideDropDown);
   },
-  showDropDown: function () {
+  showDropDown: function (e) {
+    e.preventDefault();
+    e.stopPropagation();
     this.state.showDropDown = true;
     this.setState(this.state);
     window.addEventListener('click', this.hideDropDown);
+  },
+  getDropDownTrigger: function () {
+    return detectFeature().isTouchDevice
+      ? (<a href="#" className="dropdownTrigger" onTouchStart={this.showDropDown}></a>)
+      : (<a href="#" className="dropdownTrigger" onMouseEnter={this.showDropDown}></a>);
   },
   renderPattern: function () {
     return (
@@ -97,7 +103,7 @@ module.exports = React.createClass({
           <li className="clear"></li>
         </ul>
         <div className="dropDownWrapper">
-          <a href="#" className="dropdownTrigger" onMouseEnter={this.showDropDown}></a>
+          {this.getDropDownTrigger()}
           <div className="dropdownListWrapper" style={{display: this.state.showDropDown ? 'block' : 'none'}}>
             <ul className="dropdown">
               <li className="edit">

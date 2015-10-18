@@ -28,9 +28,11 @@ module.exports = React.createClass({
     return (
       <li key={beatKey} id={beat.id}>
         <span className="time-signature">{beat.beat}/{beat.noteValue}</span>
-        <table>{
-          beat.lines.map(this.renderLine)
-        }</table>
+        <table>
+          <tbody>{
+            beat.lines.map(this.renderLine)
+          }</tbody>
+        </table>
       </li>
     );
   },
@@ -39,7 +41,6 @@ module.exports = React.createClass({
   },
   handleRemove: function (event) {
     this.props.onPatternRemove(event.item.id);
-    this.setState(this.state);
   },
   handleUpdate: function (event) {
     this.props.onPatternMove(event.newIndex, event.oldIndex);
