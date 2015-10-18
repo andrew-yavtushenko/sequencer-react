@@ -43,6 +43,7 @@ var PatternForm = React.createClass({
   handleTempoChange: function (newTempo) {
     this.state.data.tempo = newTempo;
     this.setState(this.state);
+    this.props.onTempoChange(newTempo);
   },
   toggleTempoForm: function () {
     var checked = this.refs.tempoForm.getDOMNode().checked;
@@ -52,6 +53,7 @@ var PatternForm = React.createClass({
     } else {
       this.state.data.tempo = this.props.trackTempo;
       this.state.data.tempoIsCustom = false;
+      this.props.onTempoRelease();
     }
     this.setState(this.state);
   },

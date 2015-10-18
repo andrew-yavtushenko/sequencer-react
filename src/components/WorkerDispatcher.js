@@ -89,7 +89,7 @@ function setTrackTempo (tempo, callback) {
 }
 
 function setPatternCustomTempo (tempo, patternId, callback) {
-  stringCall('setTrackTempo', {
+  stringCall('setPatternCustomTempo', {
     tempo: tempo,
     patternId: patternId
   }, callback);
@@ -97,7 +97,7 @@ function setPatternCustomTempo (tempo, patternId, callback) {
 
 function releasePatternCustomTempo (patternId, callback) {
   stringCall('releasePatternCustomTempo', {
-    tempo: tempo
+    patternId: patternId
   }, callback);
 }
 

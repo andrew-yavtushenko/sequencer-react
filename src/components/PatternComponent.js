@@ -33,9 +33,16 @@ module.exports = React.createClass({
   deletePattern: function () {
     this.props.onDeletePattern(this.props.data.id);
   },
+  handleTempoChange: function (newTempo) {
+    this.props.data.setCustomTempo(newTempo);
+    this.setState(this.state);
+    this.props.onTempoChange(newTempo);
+  },
   renderForm: function () {
     return (
       <PatternForm
+        onTempoRelease={this.props.onTempoRelease}
+        onTempoChange={this.handleTempoChange}
         onLoopsChange={this.handleLoopsChange}
         trackTempo={this.props.trackTempo}
         data={this.props.data}

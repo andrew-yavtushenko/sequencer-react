@@ -23,10 +23,18 @@ module.exports = React.createClass({
   handlePatternDuplicate: function (pattern, patternKey, patternId) {
     this.props.onPatternDuplicate(patternId);
   },
+  handlePatternTempoChange: function (pattern, tempo) {
+    this.props.onPatternTempoChange(tempo, pattern.id);
+  },
+  handlePatternTempoRelease: function (pattern) {
+    this.props.onPatternTempoRelease(pattern.id);
+  },
   renderPattern: function (pattern, patternKey) {
     return (
       <li key={patternKey} className="pattern">
         <PatternComponent
+          onTempoRelease={this.handlePatternTempoRelease.bind(this, pattern)}
+          onTempoChange={this.handlePatternTempoChange.bind(this, pattern)}
           trackTempo={this.props.trackTempo}
           newTrack={false}
           onCancel={this.props.onEditCancel}

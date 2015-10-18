@@ -92,6 +92,12 @@ var SequencerReactApp = React.createClass({
       this.setState(this.state);
     }.bind(this));
   },
+  handlePatternTempoChange: function (tempo, patternId) {
+    TrackWrapper.setPatternCustomTempo(tempo, patternId);
+  },
+  releasePatternCustomTempo: function (patternId) {
+    TrackWrapper.releasePatternCustomTempo(patternId);
+  },
   handleCreateLoop: function (patterns) {
     TrackWrapper.createLoop(patterns, this.updateCurrentTrack);
   },
@@ -115,6 +121,8 @@ var SequencerReactApp = React.createClass({
         {this.state.data.currentTrack
           ? <div className='track'>
               <CurrentTrack
+                onPatternTempoRelease={this.releasePatternCustomTempo}
+                onPatternTempoChange={this.handlePatternTempoChange}
                 onCreateLoop={this.handleCreateLoop}
                 onNewPattern={this.handleNewPattern}
                 onPatternUpdate={this.handlePatternUpdate}

@@ -115,6 +115,10 @@ var CurrentTrack = React.createClass({
   compileTrack: function () {
     compileTrack(this.props.data);
   },
+  handlePatternTempoRelease: function (patternId) {
+    this.props.data.releaseCustomTempo(patternId);
+    this.props.onPatternTempoRelease(patternId);
+  },
   render: function () {
     if (this.props.data === null) {
       return (
@@ -140,6 +144,8 @@ var CurrentTrack = React.createClass({
           </div>
           <div id='PatternListWrapper' className={this.state.showForm ? 'with-form' : ''}>
             <PatternList
+              onPatternTempoRelease={this.handlePatternTempoRelease}
+              onPatternTempoChange={this.props.onPatternTempoChange}
               onEditCancel={this.handleEditCancel}
               trackTempo={this.props.data.tempo}
               patterns={this.props.data.patterns}

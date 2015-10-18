@@ -95,18 +95,15 @@ function trackWrapper () {
       callback(tempo);
     });
   }
-  function setPatternCustomTempo (tempo, patternId, callback) {
+  function setPatternCustomTempo (tempo, patternId) {
     dispatcher.setPatternCustomTempo(tempo, patternId, function () {
       currentTrack.setCustomTempo(tempo, patternId);
-      if (callback) {
-        callback(currentTrack);
-      }
     });
 
   }
-  function releasePatternCustomTempo (tempo) {
-    dispatcher.releasePatternCustomTempo(tempo, function () {
-      currentTrack.releaseCustomTempo(tempo);
+  function releasePatternCustomTempo (patternId) {
+    dispatcher.releasePatternCustomTempo(patternId, function () {
+      currentTrack.releaseCustomTempo(patternId);
     });
   }
 
