@@ -78,12 +78,12 @@ function decodeArrayBufferOffline (arrayBuffer, callback, errCallback) {
   offlineCtx.decodeAudioData(arrayBuffer, callback, errCallback);
 }
 
-window.decodeArrayBufferOffline = decodeArrayBufferOffline;
-
 function decodeArrayBuffer (arrayBuffer, callback, errCallback) {
 
   context.decodeAudioData(arrayBuffer, callback, errCallback);
 }
+
+window.decodeArrayBuffer = decodeArrayBuffer;
 
 function loadSample (url, callback) {
 
@@ -92,7 +92,7 @@ function loadSample (url, callback) {
   request.responseType = 'arraybuffer';
 
   request.onload = function() {
-    decodeArrayBuffer(request.response, callback, function (buffer) {
+    decodeArrayBufferOffline(request.response, callback, function (buffer) {
       console.log('Error decoding drum samples!', buffer);
     });
   };
