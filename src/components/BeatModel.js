@@ -17,6 +17,16 @@ function Beat (properties) {
   return this;
 }
 
+Beat.restore = function (beatData) {
+  var restored = new this.prototype.constructor(beatData);
+
+  for (var i = 0; i < beatData.lines.length; i++) {
+    restored.lines.push(beatData.lines[i]);
+  }
+
+  return restored;
+};
+
 Beat.prototype.releaseCustomTempo = function(tempo) {
   this.tempoIsCustom = false;
   this.tempo = tempo;

@@ -1,3 +1,7 @@
+'use strict';
+
+var cloneDeep = require('lodash/lang/cloneDeep');
+
 function Line (notes, bufferIdx, subDivision) {
   this.bufferIdx = bufferIdx;
   this.subDivision = subDivision;
@@ -7,6 +11,16 @@ function Line (notes, bufferIdx, subDivision) {
   this._rhythmIndex = 0;
   this._isStopped = true;
 }
+
+Line.restore = function (lineData) {
+  var restored = new this.prototype.constructor([], lineData.bufferIdx, lineData.subDivision);
+
+  for (var i = 0; i < lineData.notes.length; i++) {
+    restored.notes.push(cloneDeep(lineData.notes[i]));
+  }
+
+  return restored;
+};
 
 Line.prototype.changeBuffer = function (bufferIdx) {
   this.bufferIdx = bufferIdx;

@@ -22,6 +22,15 @@ function Pattern (props) {
   return this;
 }
 
+Pattern.restore = function (patternData) {
+  var restored = new this.prototype.constructor(patternData);
+
+  for (var i = 0; i < patternData.beats.length; i++) {
+    restored.beats.push(Beat.restore(patternData.beats[i]));
+  }
+  return restored;
+};
+
 Pattern.prototype.setCounter = function (counter) {
   this.counter = counter;
 };

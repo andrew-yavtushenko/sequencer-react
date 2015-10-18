@@ -18,6 +18,16 @@ function Track (name) {
   return this;
 }
 
+Track.restore = function (trackData) {
+  var restored = new this.prototype.constructor(trackData.name);
+  restored.setTempo(trackData.tempo);
+
+  for (var i = 0; i < trackData.patterns.length; i++) {
+    restored.patterns.push(Pattern.restore(trackData.patterns[i]));
+  }
+  return restored;
+};
+
 Track.prototype.createPattern = function (name) {
   if (this.isPlaying) {
     console.error('you can\'t modify track while playing');
