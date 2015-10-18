@@ -49,6 +49,7 @@ html, body, #content{
   margin: 0;
   padding: 0;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 html, body {
@@ -625,6 +626,8 @@ ul.notes:before {
   padding-bottom: 20px;
   padding-left: 20px;
   overflow-y: auto;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .pattern-name {
