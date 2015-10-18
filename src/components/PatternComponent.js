@@ -7,7 +7,8 @@ var BeatsComponent = require('./BeatsComponent');
 module.exports = React.createClass({
   getInitialState: function () {
     return {
-      showForm: false
+      showForm: false,
+      showDropDown: false
     };
   },
   showEditForm: function () {
@@ -65,6 +66,16 @@ module.exports = React.createClass({
   handleDuplicate: function () {
     this.props.duplicate(this.props.data.id);
   },
+  hideDropDown: function () {
+    this.state.showDropDown = false;
+    this.setState(this.state);
+    window.removeEventListener('click', this.hideDropDown);
+  },
+  showDropDown: function () {
+    this.state.showDropDown = true;
+    this.setState(this.state);
+    window.addEventListener('click', this.hideDropDown);
+  },
   renderPattern: function () {
     return (
       <div className="inner">
@@ -78,14 +89,21 @@ module.exports = React.createClass({
           </li>
           <li className="clear"></li>
         </ul>
-        <div className="duplicate">
-          <a href="#" onClick={this.handleDuplicate}>duplicate</a>
-        </div>
-        <div className="edit">
-          <a href="#" onClick={this.showEditForm}>edit</a>
-        </div>
-        <div className="delete">
-          <a href="#" onClick={this.deletePattern}>delete</a>
+        <div className="dropDownWrapper">
+          <a href="#" className="dropdownTrigger" onMouseEnter={this.showDropDown}></a>
+          <div className="dropdownListWrapper" style={{display: this.state.showDropDown ? 'block' : 'none'}}>
+            <ul className="dropdown">
+              <li className="edit">
+                <a href="#" onClick={this.showEditForm}>Edit pattern</a>
+              </li>
+              <li className="duplicate">
+                <a href="#" onClick={this.handleDuplicate}>Duplicate pattern</a>
+              </li>
+              <li className="delete">
+                <a href="#" onClick={this.deletePattern}>Delete pattern</a>
+              </li>
+            </ul>
+          </div>
         </div>
         <BeatsComponent
           patternId={this.props.data.id}

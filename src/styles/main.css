@@ -120,6 +120,7 @@ html, body {
 }
 
 .PatternList >li .inner {
+  position: relative;
   padding: 12px;
 }
 
@@ -476,6 +477,8 @@ ul.counters li {
   font-size: 14px;
   margin-right: 20px;
   color: #999999;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .time-signature .divider {
@@ -483,6 +486,17 @@ ul.counters li {
   display: inline-block;
   vertical-align: middle;
   margin: 0 5px;
+}
+
+.timeSignatureSelect,
+.timeSignatureData,
+.timeSignatureData span{
+  display: inline-block;
+  vertical-align: middle;
+}
+.timeSignatureData span {
+  color: #999;
+  font-size: 14px;
 }
 
 .PatternForm .lines li {
@@ -657,25 +671,43 @@ ul.notes:before {
 
 ul.BeatsList,
 ul.patternFormBeats {
-  padding: 5px !important;
   display: inline-block;
   white-space: nowrap;
-  background-color: #efefef;
 }
 
 ul.BeatsList >li,
 ul.patternFormBeats >li {
   display: inline-block;
   vertical-align: top;
-  padding: 5px;
+  padding: 5px 10px;
   border-radius: 3px;
   background-color: #fff;
-  margin-right: 5px;
+  margin-right: 10px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
 }
 
 ul.BeatsList >li:last-child,
 ul.patternFormBeats >li:last-child {
   margin-right: 0px;
+}
+
+ul.BeatsList >li td {
+  font-size: 12px;
+  font-weight: normal;
+  text-transform: uppercase;
+  color: #999999;
+  padding: 2px 15px 2px 0;
+}
+
+ul.BeatsList >li td:last-child {
+  padding-right: 0;
+}
+
+.BeatsList li .time-signature {
+  font-size: 12px;
+  font-weight: normal;
+  text-transform: uppercase;
+  color: #999999;
 }
 
 .PlayButton {
@@ -706,4 +738,69 @@ ul.patternFormBeats >li:last-child {
     text-align: center;
     bottom: 8px;
     font-size: 14px;
+}
+
+.dropdownTrigger {
+  content: " ";
+  display: block;
+  background-color: #000;
+  width: 22px;
+  height: 22px;
+}
+
+.dropDownWrapper {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.dropdownListWrapper {
+  position: absolute;
+  top: 0;
+  padding-top: 30px;
+  right: -15px;
+}
+.PatternList li ul.dropdown {
+  background-color: #fff;
+  padding: 8px 14px 10px;
+  border-radius: 3px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+.dropdown li {
+  white-space: nowrap;
+  height: 30px;
+  line-height: 30px;
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.dropdown li a:hover {
+  color: #ff5722;
+}
+.dropdown li a {
+  text-decoration: none;
+  color: #000;
+}
+
+.dropdownListWrapper:before,
+.dropdownListWrapper:after {
+  position: absolute;
+  right: 19px;
+  top: 14px;
+  content: ' ';
+  text-indent: -9999px;
+  width: 0;
+  height: 0;
+  border-bottom: 8px solid rgba(0, 0, 0, 0.2);
+  border-top: 8px solid transparent;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  z-index: 100;
+}
+
+.dropdownListWrapper:after {
+  border-bottom: 8px solid #fff;
+  top: 15px;
+  z-index: 150;
 }

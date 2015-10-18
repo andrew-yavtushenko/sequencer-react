@@ -98,13 +98,23 @@ module.exports = React.createClass({
       <div className="beatData">
         <div className="time-signature">
           <label>Time signature</label>
-          <select ref='beat' value={this.state.data.beat} onChange={this.updateBeat}>
-            {this.getBeats()}
-          </select>
-          <span className="divider">/</span>
-          <select ref='noteValue' value={this.state.data.noteValue} onChange={this.updateSubDivisions}>
-            {this.getNoteValues()}
-          </select>
+          {this.props.newTrack
+            ? <div className="timeSignatureSelect">
+                <select ref='beat' value={this.state.data.beat} onChange={this.updateBeat}>
+                  {this.getBeats()}
+                </select>
+                <span className="divider">/</span>
+                <select ref='noteValue' value={this.state.data.noteValue} onChange={this.updateSubDivisions}>
+                  {this.getNoteValues()}
+                </select>
+              </div>
+            : <div className="timeSignatureData">
+                {this.state.data.beat}
+                <span className="divider">/</span>
+                {this.state.data.noteValue}
+              </div>
+
+          }
         </div>
         <ul className='lines'>
           {this.state.data.lines.map(this.renderLine)}

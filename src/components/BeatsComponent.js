@@ -18,18 +18,19 @@ module.exports = React.createClass({
   },
   renderLine: function (line, lineKey) {
     return (
-      <li key={lineKey}>
-        {line.bufferIdx + ' ' + Settings.subDivisionNames[line.subDivision]}
-      </li>
+      <tr key={lineKey}>
+        <td>{line.bufferIdx}</td>
+        <td>{Settings.subDivisionNames[line.subDivision]}</td>
+      </tr>
     );
   },
   renderBeat: function (beat, beatKey) {
     return (
       <li key={beatKey} id={beat.id}>
-        {beat.beat}/{beat.noteValue}
-        <ul>{
+        <span className="time-signature">{beat.beat}/{beat.noteValue}</span>
+        <table>{
           beat.lines.map(this.renderLine)
-        }</ul>
+        }</table>
       </li>
     );
   },
