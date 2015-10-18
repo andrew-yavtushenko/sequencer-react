@@ -25,8 +25,12 @@ function Pattern (props) {
 Pattern.restore = function (patternData) {
   var restored = new this.prototype.constructor(patternData);
 
+  if (patternData.tempoIsCustom) {
+    restored.setCustomTempo(patternData.tempo);
+  }
+
   for (var i = 0; i < patternData.beats.length; i++) {
-    restored.beats.push(Beat.restore(patternData.beats[i]));
+    restored.beats.push(Beat.restore());
   }
   return restored;
 };

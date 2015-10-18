@@ -20,6 +20,10 @@ function Beat (properties) {
 Beat.restore = function (beatData) {
   var restored = new this.prototype.constructor(beatData);
 
+  if (beatData.tempoIsCustom) {
+    restored.setCustomTempo(beatData.tempo);
+  }
+
   for (var i = 0; i < beatData.lines.length; i++) {
     restored.lines.push(beatData.lines[i]);
   }
