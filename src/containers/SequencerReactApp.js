@@ -112,7 +112,9 @@ var SequencerReactApp = React.createClass({
         && this.state.data.currentTrack.patterns[0].beats.length
         && this.state.data.currentTrack.patterns[0].beats[0].lines.length;
   },
-  compileTrack: function () {
+  compileTrack: function (event) {
+    event.preventDefault();
+    event.stopPropagation();
     compileTrack(this.state.data.currentTrack);
   },
   render: function() {

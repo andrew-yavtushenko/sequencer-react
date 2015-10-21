@@ -1,6 +1,7 @@
 var buffers = require('./Buffers');
 var each = require('lodash/collection/each');
 var size = require('lodash/collection/size');
+var featureDetection = require('./FeatureDetection')();
 var buffersCache;
 var now;
 
@@ -282,14 +283,25 @@ function precompileTrack (currentTrack) {
 
   function forceDownload (blob, filename){
     var url = (window.URL || window.webkitURL).createObjectURL(blob);
-    var link = window.document.createElement('a');
-    link.href = url;
-    link.download = filename || 'output.wav';
-    var click = document.createEvent('Event');
-    click.initEvent('click', true, true);
-    link.dispatchEvent(click);
-    recorder.terminate();
-    console.log(Date.now() - now);
+
+    if (featureDetection.isTouchDevice) {
+      var player = new Audio();
+      var source = window.document.createElement('source');
+      source.type = 'audio/vnd.wave';
+      source.src = url;
+      player.appendChild(source);
+      player.load();
+      player.play();
+    } else {
+      var link = window.document.createElement('a');
+      link.href = url;
+      link.download = filename || 'output.wav';
+      var click = document.createEvent('Event');
+      click.initEvent('click', true, true);
+      link.dispatchEvent(click);
+      recorder.terminate();
+      console.log(Date.now() - now);
+    }
   }
 
   recorder.onmessage = function( e ) {

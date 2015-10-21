@@ -26,7 +26,9 @@ module.exports = React.createClass({
     this.props.stop();
     this.setState(this.state);
   },
-  handleCall: function () {
+  handleCall: function (event) {
+    event.preventDefault();
+    event.stopPropagation();
     this.state.isPlaying
       ? this.stop()
       : this.play();
