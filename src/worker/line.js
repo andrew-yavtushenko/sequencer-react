@@ -36,12 +36,12 @@ Line.prototype._scheduleNextNote = function (tempo) {
   this._rhythmIndex++;
 };
 
-Line.prototype.check = function (currentTime, tempo, patternId, beatId, lineId) {
+Line.prototype.check = function (currentTime, props) {
   if (this._noteTime <= currentTime + this._threshold) {
     var currentNoteIndex = this._rhythmIndex;
-    this._scheduleNextNote(tempo);
+    this._scheduleNextNote(props.tempo);
     if (!this._isStopped) {
-      emitNote(this.notes[currentNoteIndex].bufferIdx, this.notes[currentNoteIndex].volume, patternId, beatId, lineId, currentNoteIndex, this._noteDuration);
+      emitNote(this.notes[currentNoteIndex].bufferIdx, this.notes[currentNoteIndex].volume, props.patternId, props.beatId, props.lineId, currentNoteIndex, this._noteDuration);
     }
   }
   return this._isStopped;

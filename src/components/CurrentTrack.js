@@ -6,7 +6,6 @@ var PatternList = require('./PatternList/');
 var NameInput = require('./NameInput');
 var TempoComponent = require('./TempoComponent');
 var TrackWrapper = require('./TrackWrapper');
-var compileTrack = require('./BufferCompiler');
 
 var CurrentTrack = React.createClass({
   getInitialState: function () {
@@ -112,9 +111,6 @@ var CurrentTrack = React.createClass({
       </div>
     );
   },
-  compileTrack: function () {
-    compileTrack(this.props.data);
-  },
   handlePatternTempoRelease: function (patternId) {
     this.props.data.releaseCustomTempo(patternId);
     this.props.onPatternTempoRelease(patternId);
@@ -130,9 +126,6 @@ var CurrentTrack = React.createClass({
           <div className='TrackTitle'>
             <NameInput onNameChange={this.props.onTrackNameChange} val={this.props.data.name}/>
             <ul className='controls'>
-              <li style={{display: 'none'}}>
-                <a href="#" onClick={this.compileTrack}>compile</a>
-              </li>
               <li>
                 <TempoComponent onValueChange={this.handleTempoChange} data={this.props.data.tempo}/>
               </li>

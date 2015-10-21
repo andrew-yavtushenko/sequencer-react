@@ -717,7 +717,7 @@ ul.BeatsList >li td:last-child {
 }
 
 .PlayButton a {
-  display: block;
+  display: inline-block;
   color: #fff;
   background: linear-gradient(to bottom, #ff632d 0%,#ff4d1d 100%);
   text-decoration: none;
@@ -729,6 +729,18 @@ ul.BeatsList >li td:last-child {
   height: 46px;
   line-height: 46px;
   vertical-align: middle;
+}
+
+.PlayButton a:first-child {
+  margin-right: 0;
+}
+.PlayButton a.play-pause {
+  width: calc(75% - 10px);
+}
+
+.PlayButton a.compile {
+  min-width: 65px;
+  width: calc(25% - 20px);
 }
 
 .PlayButton p {

@@ -27,6 +27,7 @@ function play (buffer, gain, duration, mute) {
   }
 }
 
+window.play = play;
 
 module.exports = function playNote (bufferId, gain, patternId, beatId, lineId, noteId, duration) {
   blink(patternId, beatId, lineId, noteId, duration);

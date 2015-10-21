@@ -34,11 +34,12 @@ module.exports = React.createClass({
   render: function () {
     return (
       <div className="PlayButton" style={{display: this.props.canPlay() ? 'block' : 'none'}}>
-        <a href="#" onClick={this.handleCall}>{
+        <a href="#" onClick={this.handleCall} className='play-pause'>{
           this.state.isPlaying
             ? <span>stop</span>
             : <span>play</span>
         }</a>
+        <a href="#" onClick={this.props.compile} className='compile'>.wav</a>
         <p>YOU CAN ALSO PRESS THE SPACEBAR TO PLAY AND STOP TRACK</p>
       </div>
     );

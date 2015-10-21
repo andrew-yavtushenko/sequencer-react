@@ -11,6 +11,7 @@ var SequencerHeader = require('components/SequencerHeader');
 var NotesComponent = require('components/NotesComponent');
 var mapValues = require('lodash/object/mapValues');
 var actions = require('actions');
+var compileTrack = require('components/BufferCompiler');
 var { bindActionCreators } = require('redux');
 var { connect } = require('react-redux');
 
@@ -111,6 +112,9 @@ var SequencerReactApp = React.createClass({
         && this.state.data.currentTrack.patterns[0].beats.length
         && this.state.data.currentTrack.patterns[0].beats[0].lines.length;
   },
+  compileTrack: function () {
+    compileTrack(this.state.data.currentTrack);
+  },
   render: function() {
     return (
       <ReactTransitionGroup transitionName="fade" component="div" className="main">
@@ -142,6 +146,7 @@ var SequencerReactApp = React.createClass({
         <PlayButton
           play={this.play}
           stop={this.stop}
+          compile={this.compileTrack}
           canPlay={this.canPlay}/>
       </ReactTransitionGroup>
     );

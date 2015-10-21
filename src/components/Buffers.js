@@ -36,7 +36,7 @@ function recompileBufferGain (buffer, receivedGain, callback) {
   var durationInSamples = buffer.length;
   var sampleRate = buffer.sampleRate;
 
-  var offlineContext = new OfflineAudioContext(channels, durationInSamples, sampleRate);
+  var offlineContext = new OfflineContext(channels, durationInSamples, sampleRate);
   var emptyBuffer = offlineContext.createBuffer(channels, durationInSamples, sampleRate);
 
   var source = offlineContext.createBufferSource();

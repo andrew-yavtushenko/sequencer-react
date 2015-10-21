@@ -27,12 +27,21 @@ Beat.prototype.setGeneralTempo = function(tempo) {
 };
 
 Beat.prototype.check = function(currentTime, patternId) {
-  var result = this.lines[0].check(currentTime, this.tempo, patternId, this.id, 0);
+
+  var props = {
+    tempo: this.tempo,
+    patternId: patternId,
+    beatId: this.id,
+    lineId: 0
+  };
+
+  var result = this.lines[0].check(currentTime, props);
   if (result) {
     this.stop();
   } else {
     for (var i = 1, il = this.lines.length; i < il; i++) {
-      this.lines[i].check(currentTime, this.tempo, patternId, this.id, i);
+      props.lineId = i;
+      this.lines[i].check(currentTime, props);
     }
   }
   return this.isStopped;
