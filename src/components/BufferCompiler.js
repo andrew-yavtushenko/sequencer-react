@@ -285,11 +285,15 @@ function precompileTrack (currentTrack) {
     var url = (window.URL || window.webkitURL).createObjectURL(blob);
 
     if (featureDetection.isTouchDevice) {
+      window.audioSrc = url;
       var player = new Audio();
+      player.src = url;
       var source = window.document.createElement('source');
-      source.type = 'audio/vnd.wave';
+      source.type = 'audio/wav';
       source.src = url;
       player.appendChild(source);
+      window.document.body.appendChild(player);
+      window.audioTag = player;
       player.load();
       player.play();
     } else {
