@@ -1,3 +1,5 @@
+importScripts('./compileTrackData.js');
+
 var recLength = 0,
   recBuffers = [],
   sampleRate,
@@ -5,6 +7,12 @@ var recLength = 0,
 
 this.onmessage = function(e){
   switch(e.data.command){
+    case 'test':
+      test(e);
+      break;
+    case 'compileTrack':
+      compile(e.data.trackData);
+      break;
     case 'init':
       init(e.data.config);
       break;
@@ -23,6 +31,23 @@ this.onmessage = function(e){
   }
 };
 
+function test (e) {
+  console.log(e);
+}
+
+function record(inputBuffer){
+  console.profileEnd('compile');
+  for (var channel = 0; channel < numChannels; channel++){
+    recBuffers[channel].push(inputBuffer[channel]);
+  }
+  recLength += inputBuffer[0].length;
+}
+
+function compile (trackData) {
+  console.profile('compile');
+  record(compileTrack(trackData).channels);
+}
+
 function initBuffers(){
   for (var channel = 0; channel < numChannels; channel++){
     recBuffers[channel] = [];
@@ -33,13 +58,6 @@ function init(config){
   sampleRate = config.sampleRate;
   numChannels = config.numChannels;
   initBuffers();
-}
-
-function record(inputBuffer){
-  for (var channel = 0; channel < numChannels; channel++){
-    recBuffers[channel].push(inputBuffer[channel]);
-  }
-  recLength += inputBuffer[0].length;
 }
 
 function getBuffer(){
@@ -132,6 +150,7 @@ function encodeWAV(samples){
 }
 
 function exportWAV(type){
+  console.profile('export');
   var buffers = [];
   var interleaved;
   for (var channel = 0; channel < numChannels; channel++){
@@ -144,7 +163,7 @@ function exportWAV(type){
   }
   var dataview = encodeWAV(interleaved);
   var audioBlob = new Blob([dataview], { type: type });
-
+  console.profileEnd('export');
   this.postMessage(audioBlob);
 }
 
