@@ -283,19 +283,19 @@ function precompileTrack (currentTrack) {
 
   function forceDownload (blob, filename){
     var url = (window.URL || window.webkitURL).createObjectURL(blob);
-
     if (featureDetection.isTouchDevice) {
-      window.audioSrc = url;
       var player = new Audio();
-      player.src = url;
       var source = window.document.createElement('source');
-      source.type = 'audio/wav';
+      source.type = blob.type;
       source.src = url;
       player.appendChild(source);
-      window.document.body.appendChild(player);
-      window.audioTag = player;
       player.load();
-      player.play();
+      player.addEventListener('onstalled', function() {
+        player.load();
+      }, false);
+      player.addEventListener('loadeddata', function() {
+        player.play();
+      }, false);
     } else {
       var link = window.document.createElement('a');
       link.href = url;
