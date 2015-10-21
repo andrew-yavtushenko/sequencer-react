@@ -11,7 +11,7 @@ module.exports = React.createClass({
       data: this.props.data
     };
   },
-  updateVolume: function (event, pattern, beat, lineId, note, noteId) {
+  updateVolume: function (pattern, beat, lineId, note, noteId, event) {
     event.preventDefault();
     var volume = beat.lines[lineId].updateVolume(noteId);
     this.props.updateVolume(pattern.id, beat.id, lineId, noteId, volume);
