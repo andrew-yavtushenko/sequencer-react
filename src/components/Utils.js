@@ -9,6 +9,19 @@ Array.prototype.move = function (oldIndex, newIndex) {
   return this; // for testing purposes
 };
 
+function getParameterByName (searchString, name) {
+  var regex, results;
+
+  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+  regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+  results = regex.exec(searchString);
+
+  if (!results) {
+    return '';
+  }
+  return decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
 function buildLineNotes (pattern, bufferIdx, subDivision) {
   var arrLength = Math.ceil(pattern.beat * subDivision / pattern.noteValue);
 
@@ -56,5 +69,6 @@ function clone (obj) {
 
 module.exports = {
   buildLineNotes: buildLineNotes,
-  clone: clone
+  clone: clone,
+  getParameterByName: getParameterByName
 };

@@ -282,18 +282,26 @@ function precompileTrack (currentTrack) {
   });
 
   function forceDownload (blob, filename){
+    window.audioBlob = blob;
     var url = (window.URL || window.webkitURL).createObjectURL(blob);
     if (featureDetection.isTouchDevice) {
-      var player = new Audio();
+      var player = new Audio(url);
+      player.id = 'audio-tag';
+      window.document.body.appendChild(player);
       var source = window.document.createElement('source');
       source.type = blob.type;
       source.src = url;
       player.appendChild(source);
       player.load();
-      player.addEventListener('onstalled', function() {
+      player.addEventListener('error', function (e) {
+        console.log(e);
+      }, false);
+      player.addEventListener('stalled', function(e) {
+        console.log(e);
         player.load();
       }, false);
-      player.addEventListener('loadeddata', function() {
+      player.addEventListener('loadeddata', function(e) {
+        console.log(e);
         player.play();
       }, false);
     } else {
