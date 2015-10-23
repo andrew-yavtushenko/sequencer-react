@@ -2,13 +2,19 @@ var _player;
 var currentTrack;
 
 function initPlayer () { //eslint-disable-line no-unused-vars
-
+  var autoplay = true;
   function start () {
-    Ticker.start(currentTrack);
+    currentTrack.whenFinished(function () {
+      console.profileEnd('track');
+      if (autoplay) {
+        currentTrack.start();
+      }
+    });
+    currentTrack.start();
   }
 
   function stop () {
-    Ticker.stop(currentTrack);
+    currentTrack.stop();
   }
 
   function setTrack (data) {

@@ -16,37 +16,15 @@ function Pattern (properties) {
 
   this.beatsIndex = 0;
   this.loopIndex = 0;
-  this.isStopped = true;
+  this.onFinishCallback = function () {};
+  this.hasReachedFinish = false;
+
+  return this;
 }
+
 
 Pattern.prototype.getBeat = function(beatId) {
   return this.beats.find(findBeat.bind(this, beatId));
-};
-
-Pattern.prototype.start = function () {
-  if (this.isStopped === false) { return; }
-  this.isStopped = false;
-};
-
-Pattern.prototype.stop = function () {
-  this.isStopped = true;
-  this.loopIndex = 0;
-  this.beatsIndex = 0;
-};
-
-Pattern.prototype.advanceBeat = function() {
-  this.beatsIndex++;
-  if (this.beatsIndex === this.beats.length) {
-    this.advancePattern();
-    this.beatsIndex = 0;
-  }
-};
-
-Pattern.prototype.advancePattern = function () {
-  this.loopIndex++;
-  if (this.loopIndex === this.counter) {
-    this.stop();
-  }
 };
 
 Pattern.prototype.releaseCustomTempo = function (tempo) {
@@ -77,20 +55,48 @@ Pattern.prototype.setGeneralTempo = function(tempo) {
   }
 };
 
-Pattern.prototype.check = function (currentTime) {
-  var currentBeat = this.beats[this.beatsIndex];
-
-  currentBeat.start();
-
-  currentBeat.check(currentTime, this.id);
-
-  if (currentBeat.isStopped) {
-    this.advanceBeat();
+Pattern.prototype.advanceBeat = function() {
+  this.beatsIndex++;
+  if (this.beatsIndex === this.beats.length) {
+    this.advancePattern();
+    this.beatsIndex = 0;
   }
-
-  return {
-    isStopped: this.isStopped,
-    timeToDrop: currentBeat.isStopped
-  };
 };
 
+Pattern.prototype.advancePattern = function () {
+  this.loopIndex++;
+  if (this.loopIndex === this.counter) {
+    this.hasReachedFinish = true;
+  }
+};
+
+Pattern.prototype.start = function () {
+  this.hasReachedFinish = false;
+  this.loopIndex = 0;
+  this.beatsIndex = 0;
+  this.process();
+};
+
+Pattern.prototype.process = function () {
+  var currentBeat = this.beats[this.beatsIndex];
+  currentBeat.whenFinished(this.processBeat.bind(this));
+  currentBeat.start(this.id);
+};
+
+Pattern.prototype.processBeat = function () {
+  this.advanceBeat();
+  this.hasReachedFinish
+    ? this.onFinishCallback()
+    : this.process();
+};
+
+Pattern.prototype.stop = function () {
+  this.hasReachedFinish = true;
+  for (var i = 0; i < this.beats.length; i++) {
+    this.beats[i].stop();
+  }
+};
+
+Pattern.prototype.whenFinished = function (fn) {
+  this.onFinishCallback = fn;
+};

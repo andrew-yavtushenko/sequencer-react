@@ -12,7 +12,7 @@ module.exports = React.createClass({
     window.addEventListener('keyup', function (e) {
       e.preventDefault();
       if (e.keyCode === 32) {
-        this.handleCall();
+        this.handleCall(event);
       }
     }.bind(this), false);
   },
