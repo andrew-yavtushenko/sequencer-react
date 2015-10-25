@@ -25,13 +25,13 @@ function initTicker () { //eslint-disable-line no-unused-vars
     currentTrack.stop();
     currentTrack.isPlaying = false;
     inProgress = false;
-    console.profileEnd('worker');
+    console.profileEnd('track');
   }
 
   function start (track) {
     if (inProgress) { return; }
 
-    console.profile('worker');
+    console.profile('track');
     currentTrack = track;
     currentTrack.isPlaying = true;
     inProgress = true;
