@@ -100,6 +100,10 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'index.html')
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'success.html',
+      template: path.resolve(__dirname, 'src', 'success.html')
     })
   ]
 
