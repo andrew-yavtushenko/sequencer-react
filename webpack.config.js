@@ -73,7 +73,6 @@ module.exports = {
       include: [
         path.resolve(__dirname, 'src', 'worker'),
         path.resolve(__dirname, 'src', 'fonts'),
-        path.resolve(__dirname, 'src', 'images'),
         path.resolve(__dirname, 'src', 'sounds')
       ]
     }, {
@@ -86,8 +85,7 @@ module.exports = {
       test: /\.(png|jpg|svg)$/,
       loader: 'url-loader?limit=8192',
       exclude: [
-        path.resolve(__dirname, 'src', 'fonts'),
-        path.resolve(__dirname, 'src', 'images')
+        path.resolve(__dirname, 'src', 'fonts')
       ]
     }]
   },

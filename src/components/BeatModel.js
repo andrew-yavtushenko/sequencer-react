@@ -4,6 +4,7 @@ var cloneDeep = require('lodash/lang/cloneDeep');
 var uuid = require('./uuid');
 
 function Beat (properties) {
+  console.log(properties);
   this.beat = properties.beat;
   this.noteValue = properties.noteValue;
   this.lines = [];

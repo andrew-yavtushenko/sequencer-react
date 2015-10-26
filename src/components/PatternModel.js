@@ -30,7 +30,7 @@ Pattern.restore = function (patternData) {
   }
 
   for (var i = 0; i < patternData.beats.length; i++) {
-    restored.beats.push(Beat.restore());
+    restored.beats.push(Beat.restore(patternData.beats[i]));
   }
   return restored;
 };

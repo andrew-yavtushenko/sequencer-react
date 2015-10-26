@@ -115,6 +115,28 @@ var CurrentTrack = React.createClass({
     this.props.data.releaseCustomTempo(patternId);
     this.props.onPatternTempoRelease(patternId);
   },
+  saveItem: function () {
+    var str = JSON.stringify(this.props.data);
+    var item = JSON.parse(str);
+    var payload = {
+      title: item.name,
+      data: JSON.stringify(item),
+      type: 'track',
+      shared: true
+    }
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.addEventListener('load', function (e) {
+      var resp = JSON.parse(e.target.response);
+      var item = JSON.parse(resp.data);
+      this.props.onTrackRestore(item);
+    }.bind(this), false);
+
+    xhr.open('POST', '/items');
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.send(JSON.stringify(payload));
+  },
   render: function () {
     if (this.props.data === null) {
       return (
@@ -131,6 +153,9 @@ var CurrentTrack = React.createClass({
               </li>
               <li>
                 <a href="#" onClick={this.showForm} className='create-pattern'>Add pattern</a>
+              </li>
+              <li>
+                <a href="#" onClick={this.saveItem}>save track</a>
               </li>
             </ul>
             <div className="clear"></div>

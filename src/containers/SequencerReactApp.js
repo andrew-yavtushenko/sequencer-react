@@ -18,6 +18,8 @@ var { connect } = require('react-redux');
 require('normalize.css');
 require('../styles/main.css');
 
+require('components/getFavicons');
+
 var SequencerReactApp = React.createClass({
   loadBuffers: function () {
     Context.unlock(function () {
@@ -117,6 +119,9 @@ var SequencerReactApp = React.createClass({
     event.stopPropagation();
     compileTrack(this.state.data.currentTrack);
   },
+  restore: function (data) {
+    TrackWrapper.restore(data, this.updateCurrentTrack);
+  },
   render: function() {
     return (
       <ReactTransitionGroup transitionName="fade" component="div" className="main">
@@ -127,6 +132,7 @@ var SequencerReactApp = React.createClass({
         {this.state.data.currentTrack
           ? <div className='track'>
               <CurrentTrack
+                onTrackRestore={this.restore}
                 onPatternTempoRelease={this.releasePatternCustomTempo}
                 onPatternTempoChange={this.handlePatternTempoChange}
                 onCreateLoop={this.handleCreateLoop}

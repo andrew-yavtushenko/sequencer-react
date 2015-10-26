@@ -53,9 +53,25 @@ module.exports = React.createClass({
       }</ul>
     );
   },
+  getItems: function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'text';
+    xhr.addEventListener('load', function (e) {
+      console.log(e.target.status);
+      console.log(JSON.parse(e.target.response));
+    }, false);
+
+    xhr.open('GET', '/items');
+    xhr.send(null);
+  },
   renderUserData: function () {
     return (
       <ul className="user-data">
+        <li>
+          <a href="#" onClick={this.getItems}>Library</a>
+        </li>
         <li className="user">
           <img src={this.state.userData.image_url} alt={this.state.userData.name}/>
           {this.state.userData.name}

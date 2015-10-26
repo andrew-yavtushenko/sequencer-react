@@ -7,6 +7,15 @@ function trackWrapper () {
   var currentTrack;
   var tracks = [];
 
+  function restore (data, callback) {
+    var currentTrack = Track.restore(data);
+    console.log(currentTrack);
+    dispatcher.setTrack(currentTrack, function () {
+      console.log('track updated successfully');
+      callback(currentTrack);
+    });
+  }
+
   function createTrack (name) {
     currentTrack = new Track(name);
     tracks.push(currentTrack);
@@ -147,6 +156,7 @@ function trackWrapper () {
   }
 
   return {
+    restore: restore,
     changePatternCounter: changePatternCounter,
     createLoop: createLoop,
     updatePattern: updatePattern,
