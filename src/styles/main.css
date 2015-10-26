@@ -816,3 +816,17 @@ ul.BeatsList >li td:last-child {
   top: 15px;
   z-index: 150;
 }
+
+.auth.nav img {
+  width: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 9px;
+  border: 1px solid #555;
+}
+
+.auth.nav .user {
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  font-size: 12px;
+}

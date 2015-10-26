@@ -2,6 +2,7 @@
 
 var React = require('react/addons');
 var Context = require('components/Context');
+var Auth = require('components/AuthComponent');
 
 var SequencerHeader = React.createClass({
   getInitialState: function () {
@@ -31,6 +32,7 @@ var SequencerHeader = React.createClass({
           <li><a href='#' className='settings'>Settings</a></li>
           <li><a href='#' className='logout'>logout</a></li>
         </ul>
+        <Auth />
         <div className="clear"></div>
       </div>
     );
