@@ -10,7 +10,7 @@ function checkAuth (successCallback, unauthenticatedCallback) {
     if (e.target.status === 404) {
       unauthenticatedCallback(JSON.parse(e.target.response));
     } else {
-      successCallback(JSON.parse(e.target.response))
+      successCallback(JSON.parse(e.target.response));
     }
   }, false);
 
@@ -23,7 +23,7 @@ module.exports = React.createClass({
     return {
       checked: false,
       authenticated: false
-    }
+    };
   },
   componentDidMount: function () {
     checkAuth(this.authenticated, this.unauthenticated);
@@ -58,9 +58,9 @@ module.exports = React.createClass({
     e.stopPropagation();
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'text';
-    xhr.addEventListener('load', function (e) {
-      console.log(e.target.status);
-      console.log(JSON.parse(e.target.response));
+    xhr.addEventListener('load', function (event) {
+      console.log(event.target.status);
+      console.log(JSON.parse(event.target.response));
     }, false);
 
     xhr.open('GET', '/items');

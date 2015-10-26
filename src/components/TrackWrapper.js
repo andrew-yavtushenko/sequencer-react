@@ -8,7 +8,7 @@ function trackWrapper () {
   var tracks = [];
 
   function restore (data, callback) {
-    var currentTrack = Track.restore(data);
+    currentTrack = Track.restore(data);
     console.log(currentTrack);
     dispatcher.setTrack(currentTrack, function () {
       console.log('track updated successfully');

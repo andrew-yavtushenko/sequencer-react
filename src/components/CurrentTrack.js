@@ -123,18 +123,17 @@ var CurrentTrack = React.createClass({
       data: JSON.stringify(item),
       type: 'track',
       shared: true
-    }
+    };
 
     var xhr = new XMLHttpRequest();
 
     xhr.addEventListener('load', function (e) {
       var resp = JSON.parse(e.target.response);
-      var item = JSON.parse(resp.data);
-      this.props.onTrackRestore(item);
+      this.props.onTrackRestore(JSON.parse(resp.data));
     }.bind(this), false);
 
     xhr.open('POST', '/items');
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     xhr.send(JSON.stringify(payload));
   },
   render: function () {
