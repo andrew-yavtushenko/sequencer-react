@@ -11,8 +11,9 @@ module.exports = React.createClass({
   componentDidMount: function () {
     window.addEventListener('keyup', function (e) {
       e.preventDefault();
+      e.stopPropagation();
       if (e.keyCode === 32) {
-        this.handleCall(event);
+        this.performAction(event);
       }
     }.bind(this), false);
   },
@@ -26,7 +27,7 @@ module.exports = React.createClass({
     this.props.stop();
     this.setState(this.state);
   },
-  handleCall: function (event) {
+  performAction: function (event) {
     event.preventDefault();
     event.stopPropagation();
     this.state.isPlaying
@@ -36,7 +37,7 @@ module.exports = React.createClass({
   render: function () {
     return (
       <div className="PlayButton" style={{display: this.props.canPlay() ? 'block' : 'none'}}>
-        <a href="#" onClick={this.handleCall} className='play-pause'>{
+        <a href="#" onClick={this.performAction} className='play-pause'>{
           this.state.isPlaying
             ? <span>stop</span>
             : <span>play</span>

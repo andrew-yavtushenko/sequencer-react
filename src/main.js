@@ -2,15 +2,10 @@
 
 require.context('./worker/', true, /\.js$/);
 
-var SequencerReactApp = require('./containers/SequencerReactApp');
 var React = require('react');
-var { Provider } = require('react-redux');
-var configureStore = require('./store/configureStore');
-var store = configureStore();
+var App = require('./containers/App');
 
 React.render(
-  <Provider store={store}>
-    {() => <SequencerReactApp />}
-  </Provider>,
+  <App />,
   document.getElementById('content')
 );

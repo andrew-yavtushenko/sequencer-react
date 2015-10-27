@@ -12,6 +12,7 @@ var SequencerHeader = React.createClass({
   },
   handleSubmit: function(e) {
     e.preventDefault();
+    e.stopPropagation();
     Context.unlock(function () {
       console.log('context unlocked');
       this.state.unlocked = true;
@@ -21,10 +22,10 @@ var SequencerHeader = React.createClass({
   },
   render: function () {
     return (
-      <div id='SequencerHeader'>
+      <div id='header'>
         <h1>sequencer</h1>
         <ul className='nav nav-left'>
-          <li><a href='#' onClick={this.handleSubmit} className='new-track'>New Track</a></li>
+          <li><a href='#/new-track' onClick={this.handleSubmit} className='new-track'>New Track</a></li>
           <li style={{display: 'none'}}><a href='#' className='catalogue'>Catalogue</a></li>
         </ul>
         <ul style={{display: 'none'}} className='nav nav-right'>

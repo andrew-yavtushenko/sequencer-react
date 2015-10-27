@@ -14,7 +14,6 @@ function Line (notes, bufferIdx, subDivision) {
 
 Line.restore = function (lineData) {
   var restored = new this.prototype.constructor([], lineData.bufferIdx, lineData.subDivision);
-
   for (var i = 0; i < lineData.notes.length; i++) {
     restored.notes.push(cloneDeep(lineData.notes[i]));
   }
@@ -27,6 +26,10 @@ Line.prototype.changeBuffer = function (bufferIdx) {
   for (var i = 0; i < this.notes.length; i++) {
     this.notes[i].bufferIdx = bufferIdx;
   }
+};
+
+Line.prototype.setNoteVolume = function(noteIdx, volume) {
+  this.notes[noteIdx].volume = volume;
 };
 
 Line.prototype.updateVolume = function(noteIdx) {

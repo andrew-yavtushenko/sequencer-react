@@ -58,7 +58,7 @@ html, body {
 }
 
 /* main */
-.main {
+.App {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -139,14 +139,14 @@ html, body {
     width: auto;
 }
 
-#SequencerHeader {
+#header {
   order: 1;
   height: 40px;
   background-color: #000;
   color: #fff;
 }
 
-#SequencerHeader h1 {
+#header h1 {
   display: inline-block;
   margin: 0;
   line-height: 40px;
@@ -156,41 +156,74 @@ html, body {
   padding: 0 20px;
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
-
-#SequencerHeader .nav li,
-#SequencerHeader .nav {
+#header h1 a {
+  color: #fff;
+  text-decoration: none;
+}
+#header .nav li,
+#header .nav {
   display: inline-block;
   height: 40px;
   vertical-align: middle;
 }
 
-#SequencerHeader .nav li a {
+#header .nav li a {
   color: white;
   text-decoration: none;
   text-transform: uppercase;
   font-size: 14px;
 }
 
-#SequencerHeader .nav li a {
+#header .nav li a {
   display: block;
   height: 40px;
   line-height: 40px;
   vertical-align: middle;
 }
 
-#SequencerHeader .nav-right {
+#header .nav-right {
   float: right;
   margin-right: 10px;
 }
-#SequencerHeader .nav-left li a{
+
+#header .nav-left li a{
   padding: 0 20px;
 }
-#SequencerHeader .nav-left li a:hover {
+
+#header .nav-left li a:hover {
   background-color: #ff5722;
 }
-#SequencerHeader .nav-right li a{
+
+#header .nav-right li a{
   padding: 0 10px;
 }
+
+#header li {
+  position: relative;
+}
+
+#header .nav li .library li {
+  display: block;
+  text-transform: none;
+}
+
+#header .nav li .library li a {
+  color: #333;
+  display: inline-block;
+}
+
+#header .list-wrapper {
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  background-color: #efefef;
+  width: 360px;
+  max-height: 320px;
+  overflow-y: auto;
+  position: absolute;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: #757575;
+}
+
 .clear {
   clear: both;
 }

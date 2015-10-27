@@ -1,22 +1,22 @@
 'use strict';
 
 var React = require('react/addons');
-var Track = require('./Track');
+var Router = require('react-router').Router
+var Route = require('react-router').Route
+var Link = require('react-router').Link
 
-
-var TrackList = React.createClass({
-  render: function() {
-    var trackNodes = this.props.data.tracks.map(function(track) {
-      return (
-        <Track id={track.id} name={track.name} onClick={this.props.onTrackSelect}/>
-      );
-    }.bind(this));
+module.exports = React.createClass({
+  render: function () {
     return (
-      <ul className='TrackList'>
-        {trackNodes}
-      </ul>
+      <ul>{
+        this.state.data.items.map(function (item, key) {
+          return (
+            <li key={key}>
+              <Link to={'item/${item.id}'}>{item.title}</Link>
+            </li>
+          );
+        })
+      }</ul>
     );
   }
 });
-
-module.exports = TrackList;

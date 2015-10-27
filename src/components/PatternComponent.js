@@ -72,7 +72,8 @@ module.exports = React.createClass({
   handleDuplicate: function () {
     this.props.duplicate(this.props.data.id);
   },
-  hideDropDown: function () {
+  hideDropDown: function (e) {
+    e.preventDefault();
     this.state.showDropDown = false;
     this.setState(this.state);
     window.removeEventListener('click', this.hideDropDown);

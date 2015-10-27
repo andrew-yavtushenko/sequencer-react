@@ -1,25 +1,29 @@
 'use strict';
 
+var Promise = require('bluebird');
 var utils = require('./Utils');
 
-window.connectService = function (data) {
-  var token, status;
-
-  token = utils.getParameterByName(data, getParameterName());
-  status = utils.getParameterByName(data, 'status');
-
-  if (token && (!status || status !== 'FAIL')) {
-    resolve(token);
-  } else {
-    reject('Not Authorized');
-  }
-};
-
-function connect (serviceName) {
+module.exports = function (serviceUrl, serviceName) {
+  var promise;
 
   window.open(
-    '/auth/' + serviceName,
+    serviceUrl,
     'connector',
     'width=950,height=550');
 
+  promise = new Promise(function (resolve) {
+    window.connectService = function (data) {
+      var provider, username;
+
+      provider = utils.getParameterByName(data, 'provider');
+      username = utils.getParameterByName(data, 'username');
+
+      resolve({
+        provider: provider,
+        username: username
+      });
+    };
+  });
+
+  return promise;
 }

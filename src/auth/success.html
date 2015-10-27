@@ -7,6 +7,7 @@
 <body>
 <p>Finishing authentication...</p>
 <script>
+  debugger;
   // hack. IE9 has empty event.data
   try {
     // parent have original domain
@@ -20,7 +21,6 @@
   try {
     window.opener.postMessage(document.location.search, "*");
     window.opener.connectService(document.location.search); // hack. IE9, 10 do not support postMessages fully
-    window.opener.console.log(document.location.search);
   }
   catch(e){}
   window.close();

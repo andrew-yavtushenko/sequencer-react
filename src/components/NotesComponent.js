@@ -6,16 +6,10 @@ module.exports = React.createClass({
   componentDidMount: function () {
     window.addEventListener('blink', this.blink);
   },
-  getInitialState: function () {
-    return {
-      data: this.props.data
-    };
-  },
   updateVolume: function (pattern, beat, lineId, note, noteId, event) {
     event.preventDefault();
     var volume = beat.lines[lineId].updateVolume(noteId);
     this.props.updateVolume(pattern.id, beat.id, lineId, noteId, volume);
-    this.setState(this.state);
   },
   stopNote: function (note) {
     note.setAttribute('data-is-on', false);
@@ -70,7 +64,7 @@ module.exports = React.createClass({
     return (
       <ul className="patterns">
         {
-          this.state.data.patterns.map(this.renderPattern)
+          this.props.data.patterns.map(this.renderPattern)
         }
       </ul>
     );

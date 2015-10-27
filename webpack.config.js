@@ -100,8 +100,8 @@ module.exports = {
       template: path.resolve(__dirname, 'src', 'index.html')
     }),
     new HtmlWebpackPlugin({
-      filename: 'success.html',
-      template: path.resolve(__dirname, 'src', 'success.html')
+      filename: 'auth/success.html',
+      template: path.resolve(__dirname, 'src/auth', 'success.html')
     })
   ]
 

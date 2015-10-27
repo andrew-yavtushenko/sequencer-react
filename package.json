@@ -12,11 +12,13 @@
     "prod-rails": "ENV='production' webpack -p --output-path '../public'"
   },
   "dependencies": {
+    "bluebird": "^2.10.2",
+    "history": "^1.12.6",
     "lodash": "^3.10.1",
     "normalize.css": "~3.0.3",
     "react": "0.13.x",
     "react-redux": "^3.1.0",
-    "react-router": "0.13.x",
+    "react-router": "^1.0.0-rc3",
     "react-sortable-mixin": "0.0.1",
     "redux": "^3.0.2",
     "redux-logger": "^2.0.3",
