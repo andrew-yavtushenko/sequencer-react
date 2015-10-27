@@ -13,6 +13,8 @@ function getTrack (id) {
     }.bind(this), false);
 
     xhr.open('GET', '/items/' + id);
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+
     xhr.send();
   });
 }

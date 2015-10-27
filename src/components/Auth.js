@@ -17,6 +17,8 @@ function checkAuth () {
     }, false);
 
     xhr.open('GET', '/users/current');
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+
     xhr.send(null);
   });
 }
@@ -29,6 +31,8 @@ function logout () {
     xhr.addEventListener('load', resolve, false);
 
     xhr.open('GET', '/logout');
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+
     xhr.send(null);
   });
 }
