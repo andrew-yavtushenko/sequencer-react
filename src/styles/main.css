@@ -230,7 +230,6 @@ html, body {
 
 .track {
   order: 2;
-  flex: 1;
   display: flex;
   flex-direction: column;
 }
