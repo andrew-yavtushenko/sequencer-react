@@ -36,7 +36,7 @@ module.exports = React.createClass({
     }.bind(this));
   },
   componentDidMount: function () {
-    if (!this.state.initialized) {
+    if (!Context.isUnlocked) {
       window.addEventListener('click', this.initSequence, false);
     }
     this.checkAuthState();
