@@ -36,7 +36,7 @@ module.exports = React.createClass({
     }.bind(this));
   },
   componentDidMount: function () {
-    window.addEventListener('click', this.initSequence, false)
+    window.addEventListener('click', this.initSequence, false);
     this.checkAuthState();
     this.parseUrl(window.location.hash.split('/'));
   },
