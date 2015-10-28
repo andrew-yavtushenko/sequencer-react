@@ -40,11 +40,11 @@ function logout () {
 function login (serviceName, url) {
   return new Promise(function (resolve) {
     connector(url, serviceName.toLowerCase()).then(resolve);
-  })
+  });
 }
 
 module.exports = {
   check: checkAuth,
   logout: logout,
   login: login
-}
+};

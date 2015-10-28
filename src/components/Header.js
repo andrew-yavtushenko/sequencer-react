@@ -6,7 +6,7 @@ module.exports = React.createClass({
   getInitialState: function () {
     return {
       showLibrary: false
-    }
+    };
   },
   hideLibrary: function (e) {
     e.preventDefault();
@@ -33,7 +33,7 @@ module.exports = React.createClass({
           <li key={key}>{
             <a href="#" onClick={this.login.bind(this, option)}>{option.name}</a>
           }</li>
-        )
+        );
       }.bind(this))
     }</ul>
     );
@@ -57,7 +57,7 @@ module.exports = React.createClass({
                 <a href="#" onClick={this.loadTrack.bind(this, track)}>{track.title}</a>
                 <a href="#" onClick={this.deleteTrack.bind(this, track)}><small>delete</small></a>
               </li>
-            )
+            );
           }.bind(this))
         }</ul>
       </div>

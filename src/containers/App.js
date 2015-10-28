@@ -28,7 +28,7 @@ module.exports = React.createClass({
       currentTrack: null,
       userTracks: [],
       trackId: null
-    }
+    };
   },
   componentDidMount: function () {
     this.unlockContext().then(this.loadBuffers).then(this.initializeApp);
@@ -85,7 +85,7 @@ module.exports = React.createClass({
   parseUrl: function (params) {
     if (params.length > 1) {
       if (params[1] === 'user') {
-        console.log('user')
+        console.log('user');
       } else {
         this.loadTrack(params[2]);
       }

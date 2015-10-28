@@ -10,7 +10,7 @@ function getTrack (id) {
       var resp = JSON.parse(event.target.response);
       var track = JSON.parse(resp.data);
       resolve(track);
-    }.bind(this), false);
+    }, false);
 
     xhr.open('GET', '/items/' + id);
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
@@ -48,15 +48,15 @@ function saveTrack (track, existingID) {
 
     xhr.addEventListener('load', function (event) {
       var response = JSON.parse(event.target.response);
-      var track = JSON.parse(response.data);
+      var trackData = JSON.parse(response.data);
       var id = response.id;
       resolve({
         id: id,
-        track: track
+        track: trackData
       });
     }, false);
 
-    if (!!existingID) {
+    if (existingID) {
       xhr.open('PUT', '/items/' + existingID);
     } else {
       xhr.open('POST', '/items');
@@ -66,7 +66,7 @@ function saveTrack (track, existingID) {
 
     var payload = JSON.stringify(data);
     xhr.send(payload);
-  })
+  });
 }
 
 module.exports = {

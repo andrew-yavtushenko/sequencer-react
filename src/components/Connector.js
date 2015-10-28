@@ -3,7 +3,7 @@
 var Promise = require('bluebird');
 var utils = require('./Utils');
 
-module.exports = function (serviceUrl, serviceName) {
+module.exports = function (serviceUrl) {
   var promise;
 
   window.open(
@@ -26,4 +26,4 @@ module.exports = function (serviceUrl, serviceName) {
   });
 
   return promise;
-}
+};
