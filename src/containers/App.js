@@ -30,8 +30,13 @@ module.exports = React.createClass({
       trackId: null
     };
   },
+  initSequence: function () {
+    this.unlockContext().then(this.loadBuffers).then(this.initializeApp).then(function () {
+      window.removeEventListener('click', this.initSequence);
+    }.bind(this));
+  },
   componentDidMount: function () {
-    this.unlockContext().then(this.loadBuffers).then(this.initializeApp);
+    window.addEventListener('click', this.initSequence, false)
     this.checkAuthState();
     this.parseUrl(window.location.hash.split('/'));
   },
