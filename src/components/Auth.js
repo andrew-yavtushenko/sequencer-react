@@ -9,7 +9,6 @@ function checkAuth () {
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function (e) {
-      console.log(e.target.response);
       if (e.target.status === 404) {
         reject(e.target.response);
       } else {

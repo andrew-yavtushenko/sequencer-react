@@ -5,15 +5,17 @@ var Promise = require('bluebird');
 function getTrack (id) {
   return new Promise(function (resolve) {
     var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json'
 
     xhr.addEventListener('load', function (event) {
-      var resp = JSON.parse(event.target.response);
+      var resp = event.target.response;
       var track = JSON.parse(resp.data);
       resolve(track);
     }, false);
 
     xhr.open('GET', '/items/' + id);
-    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Accept', 'application/json');
 
     xhr.send();
   });
@@ -45,9 +47,10 @@ function saveTrack (track, existingID) {
     };
 
     var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
 
     xhr.addEventListener('load', function (event) {
-      var response = JSON.parse(event.target.response);
+      var response = event.target.response;
       var trackData = JSON.parse(response.data);
       var id = response.id;
       resolve({
@@ -62,7 +65,8 @@ function saveTrack (track, existingID) {
       xhr.open('POST', '/items');
     }
 
-    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Accept', 'application/json');
 
     var payload = JSON.stringify(data);
     xhr.send(payload);
