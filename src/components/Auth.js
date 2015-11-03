@@ -6,18 +6,20 @@ var connector = require('./Connector');
 function checkAuth () {
   return new Promise(function (resolve, reject) {
     var xhr = new XMLHttpRequest();
-    xhr.responseType = 'text';
+    xhr.responseType = 'json';
 
     xhr.addEventListener('load', function (e) {
+      console.log(e.target.response);
       if (e.target.status === 404) {
-        reject(JSON.parse(e.target.response));
+        reject(e.target.response);
       } else {
-        resolve(JSON.parse(e.target.response));
+        resolve(e.target.response);
       }
     }, false);
 
     xhr.open('GET', '/users/current');
-    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Accept', 'application/json');
 
     xhr.send(null);
   });
@@ -31,7 +33,7 @@ function logout () {
     xhr.addEventListener('load', resolve, false);
 
     xhr.open('GET', '/logout');
-    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.setRequestHeader('Content-Type', 'application/javascript');
 
     xhr.send(null);
   });
