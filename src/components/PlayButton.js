@@ -15,6 +15,7 @@ module.exports = React.createClass({
       e.stopPropagation();
       if (e.keyCode === 32 && e.target.tagName !== 'INPUT') {
         this.performAction(event);
+        return false;
       }
     }.bind(this), false);
   },
