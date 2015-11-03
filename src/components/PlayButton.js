@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react/addons');
+var Context = require('./Context');
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -12,15 +13,22 @@ module.exports = React.createClass({
     window.addEventListener('keyup', function (e) {
       e.preventDefault();
       e.stopPropagation();
-      if (e.keyCode === 32) {
+      if (e.keyCode === 32 && e.target.tagName !== 'INPUT') {
         this.performAction(event);
       }
     }.bind(this), false);
   },
-  play: function () {
+  performPlay: function () {
     this.state.isPlaying = true;
     this.props.play();
     this.setState(this.state);
+  },
+  play: function () {
+    if (Context.isUnlocked()) {
+      this.performPlay();
+    } else {
+      Context.unlock(this.performPlay);
+    }
   },
   stop: function () {
     this.state.isPlaying = false;

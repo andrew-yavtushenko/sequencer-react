@@ -21,7 +21,6 @@ require('components/getFavicons');
 module.exports = React.createClass({
   getInitialState: function () {
     return {
-      initialized: false,
       authenticated: false,
       userData: null,
       loginOptions: [],
@@ -30,21 +29,11 @@ module.exports = React.createClass({
       trackId: null
     };
   },
-  initSequence: function () {
-    this.unlockContext().then(this.loadBuffers).then(this.initializeApp).then(function () {
-      window.removeEventListener('click', this.initSequence);
-    }.bind(this));
-  },
   componentDidMount: function () {
-    if (!Context.isUnlocked) {
-      window.addEventListener('click', this.initSequence, false);
-    }
+    window.addEventListener('touchstart', this.unlockContext, false);
+    this.loadBuffers();
     this.checkAuthState();
     this.parseUrl(window.location.hash.split('/'));
-  },
-  initializeApp: function () {
-    this.state.initialized = true;
-    this.setState(this.state);
   },
   loadBuffers: function () {
     return new Promise(function (resolve) {
@@ -52,9 +41,9 @@ module.exports = React.createClass({
     });
   },
   unlockContext: function () {
-    return new Promise(function (resolve) {
-      Context.unlock(resolve);
-    });
+    Context.unlock(function () {
+      window.removeEventListener('touchstart', this.unlockContext);
+    }.bind(this));
   },
   handleNewTrack: function (e) {
     e.preventDefault();
@@ -126,8 +115,7 @@ module.exports = React.createClass({
     this.setState(this.state);
   },
   canPlay: function () {
-    return this.state.initialized
-        && this.state.currentTrack
+    return this.state.currentTrack
         && this.state.currentTrack.patterns.length
         && this.state.currentTrack.patterns[0].beats.length
         && this.state.currentTrack.patterns[0].beats[0].lines.length;
