@@ -14,12 +14,10 @@ var NameInput = React.createClass({
   handleNameChange: function (e) {
     e.preventDefault();
     var newName = this.refs.name.getDOMNode().value.trim();
-    if ((/^[a-zA-Z0-9\s]+$/gi).test(newName)) {
-      this.props.onNameChange(newName);
-      //this.state.data.val = newName;
-      this.state.showInput = false;
-      this.setState(this.state);
-    }
+    this.props.onNameChange(newName);
+    //this.state.data.val = newName;
+    this.state.showInput = false;
+    this.setState(this.state);
   },
   handleNameClick: function (e) {
     e.preventDefault();
