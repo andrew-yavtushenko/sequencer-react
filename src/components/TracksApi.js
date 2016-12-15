@@ -5,7 +5,7 @@ var Promise = require('bluebird');
 function getTrack (id) {
   return new Promise(function (resolve) {
     var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json'
+    xhr.responseType = 'json';
 
     xhr.addEventListener('load', function (event) {
       var resp = event.target.response;

@@ -59,7 +59,7 @@ module.exports = {
       loader: 'style-loader!css-loader'
     }, {
       test: /\.styl/,
-      loader: 'style-loader!stylus-loader!less-loader'
+      loader: 'style-loader!less-loader'
     }, {
       test: /\.(png|jpg|woff|woff2)$/,
       loader: 'url-loader?limit=8192'

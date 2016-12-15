@@ -41,6 +41,14 @@ module.exports = {
     reasons: true
   },
 
+  externals: [
+    'canvas'
+  ],
+
+  node: {
+    fs: "empty"
+  },
+
   context: path.resolve(__dirname, 'src'),
   resolve: {
     extensions: ['', '.js', '.jsx'],
@@ -77,7 +85,7 @@ module.exports = {
       ]
     }, {
       test: /\.styl/,
-      loader: 'style-loader!css-loader!stylus-loader'
+      loader: 'style-loader!css-loader'
     }, {
       test: /\.css$/,
       loader: 'style-loader!css-loader'
