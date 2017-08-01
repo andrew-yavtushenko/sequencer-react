@@ -4,6 +4,7 @@ var size = require('lodash/collection/size');
 var featureDetection = require('./FeatureDetection')();
 var buffersCache;
 var now;
+var FileSaver = require('file-saver');
 
 var recorder = new Worker(require('../worker/recorder.js'));
 window.recorder = recorder;
@@ -305,12 +306,7 @@ function precompileTrack (currentTrack) {
         player.play();
       }, false);
     } else {
-      var link = window.document.createElement('a');
-      link.href = url;
-      link.download = filename || 'output.wav';
-      var click = document.createEvent('Event');
-      click.initEvent('click', true, true);
-      link.dispatchEvent(click);
+      FileSaver.saveAs(blob, filename || 'output.wav');
       recorder.terminate();
       console.log(Date.now() - now);
     }
