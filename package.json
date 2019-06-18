@@ -12,8 +12,8 @@
     "prod-rails": "ENV='production' webpack -p --output-path '../public'"
   },
   "dependencies": {
-    "bluebird": "^2.10.2",
     "file-loader": "^0.9.0",
+    "bluebird": "^2.10.2",
     "file-saver": "^1.3.3",
     "history": "^1.12.6",
     "lodash": "^4.17.10",
